@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <title></title>
+  <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="import" href="/web-components/wc-loader/wc-loader.html">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Adi loader demo</h2>
+    <p>The loader contains five props; you can change and try:</p>
+    <form>
+      <div class="form-group">
+        <label for="height">height</label>
+        <input type="number" name="height">px
+      </div>
+      <div class="form-group">
+        <label for="width">width</label>
+        <input type="number" name="width">px
+      </div>
+      <div class="form-group">
+        <label for="circle-radius">circle-radius</label>
+        <input type="number" name="circle-radius">
+      </div>
+      <div class="form-group">
+        <label for="color">color</label>
+        <input type="color" name="color">
+      </div>
+      <div class="form-group">
+        <label for="distance">distance</label>
+        <input type="number" name="distance">
+      </div>
+      <button class="btn btn-primary" onclick="change(event)">Change</button>
+    </form>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+    <adi-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30" style="border: solid 1px #cecece">
+
+    </adi-loader>
+  </div>
+  <h1>How To Use</h1>
+  <div style="display: flex;flex-direction: column;">
+    <code>&lt;script src="/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;</code>
+    <code>&lt;link rel="import" href="/web-components/wc-loader/wc-loader.html"&gt;</code>
+    <code id="code-adi-loader">&lt;adi-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30"&gt;&lt;/adi-loader&gt;</code>
+  </div>
+  <script type="text/javascript">
+    const adiLoader = document.getElementsByTagName('adi-loader')[0];
+    const change = (e) => {
+      e.preventDefault();
+      const height = document.getElementsByName("height")[0].value + 'px';
+      const width = document.getElementsByName("width")[0].value + 'px';
+      const circleRadius = document.getElementsByName("circle-radius")[0].value;
+      const color = document.getElementsByName("color")[0].value;
+      const distance = document.getElementsByName("distance")[0].value;
+      adiLoader.setAttribute('height', height);
+      adiLoader.setAttribute('width', width);
+      adiLoader.setAttribute('circle-radius', circleRadius);
+      adiLoader.setAttribute('color', color);
+      adiLoader.setAttribute('distance', distance);
+      document.getElementById('code-adi-loader').innerHTML = `adi-loader height="${height}" width="${width}" circle-radius="${circleRadius}" color="${color}" distance="${distance}"&gt;&lt;/adi-loader&gt;`;
+    }
+    document.getElementsByName("height")[0].value = adiLoader.getAttribute('height').replace('px', '');
+    document.getElementsByName("width")[0].value = adiLoader.getAttribute('width').replace('px', '');
+    document.getElementsByName("circle-radius")[0].value = adiLoader.getAttribute('circle-radius');
+    document.getElementsByName("color")[0].value = adiLoader.getAttribute('color');
+    document.getElementsByName("distance")[0].value = adiLoader.getAttribute('distance');
+  </script>
+</body>
+
+</html>

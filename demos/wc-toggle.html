@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="import" href="/web-components/wc-toggle/wc-toggle-btn.html">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Toggle web component button demo</h2>
+    <p>The loader contains nine props; you can change and try:</p>
+    <form>
+      <div class="form-group">
+        <label for="height">height</label>
+        <input type="number" name="height">px
+      </div>
+      <div class="form-group">
+        <label for="width">width</label>
+        <input type="number" name="width">px
+      </div>
+      <div class="form-group">
+        <label for="on-text">on-text</label>
+        <input type="text" name="on-text">
+      </div>
+      <div class="form-group">
+        <label for="off-text">off-text</label>
+        <input type="text" name="off-text">
+      </div>
+      <div class="form-group">
+        <label for="on-bg-color">on-bg-color</label>
+        <input type="color" name="on-bg-color">
+      </div>
+      <div class="form-group">
+        <label for="off-bg-color">off-bg-color</label>
+        <input type="color" name="off-bg-color">
+      </div>
+      <div class="form-group">
+        <label for="slider-color">slider-color</label>
+        <input type="color" name="slider-color">
+      </div>
+      <div class="form-group">
+        <label for="on-text-color">on-text-color</label>
+        <input type="color" name="on-text-color">
+      </div>
+      <div class="form-group">
+        <label for="off-text-color">off-text-color</label>
+        <input type="color" name="off-text-color">
+      </div>
+      <button class="btn btn-primary" onclick="change(event)">Change</button>
+    </form>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+    <wc-toggle-btn on-text="yes" off-text="no" on-text-color="#ffffff" off-text-color="#ffffff" height="34px" width="90px" on-bg-color="#41b883"
+      off-bg-color="#cccccc" slider-color="#ffffff" ontoggle="toggle(event)">
+    </wc-toggle-btn>
+    <span id="toggle-val" style="margin-left: 50px;">unchecked</span>
+    <script>
+      const toggle = (event) => {
+        document.getElementById('toggle-val').innerHTML = event.detail.isChecked ? 'checked' : 'unchecked';
+      };
+      // document.getElementsByTagName('wc-toggle-btn')[0].addEventListener('toggle', function (event) {
+      //     console.log(event.detail.isChecked);
+      //   });
+    </script>
+  </div>
+  <h1>How To Use</h1>
+  <div style="display: flex;flex-direction: column;">
+    <code>&lt;script src="/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;</code>
+    <code>&lt;link rel="import" href="/web-components/wc-toogle/wc-toggle-btn.html"&gt;</code>
+    <code id="wc-toggle-btn">
+      &lt;wc-toggle-btn on-text="yes" off-text="no" on-text-color="#fff" off-text-color="#fff" height="34px" width="90px" on-bg-color="#41b883" off-bg-color="#ccc" slider-color="#fff" ontoggle="toggle(event)"&gt;
+      &lt;/wc-toggle-btn&gt;
+    </code>
+    <h1>toggle callback</h1>
+    <code>
+       const toggle = (event) => { document.getElementById('toggle-val').innerHTML = event.detail.isChecked ? 'checked' : 'unchecked';
+      };
+    </code>
+    <span>Or</span>
+    <code>document.getElementsByTagName('wc-toggle-btn')[0].addEventListener('toggle', function (event) { console.log(event.detail.isChecked);
+    });</code>
+  </div>
+  <script type="text/javascript">
+    const toggleBtn = document.getElementsByTagName('wc-toggle-btn')[0];
+    const change = (e) => {
+      e.preventDefault();
+      const height = document.getElementsByName("height")[0].value + 'px';
+      const width = document.getElementsByName("width")[0].value + 'px';
+      const onText = document.getElementsByName("on-text")[0].value;
+      const offText = document.getElementsByName("off-text")[0].value;
+      const onColor = document.getElementsByName("on-bg-color")[0].value;
+      const offColor = document.getElementsByName("off-bg-color")[0].value;
+      const onTextColor = document.getElementsByName("on-text-color")[0].value;
+      const offTextColor = document.getElementsByName("off-text-color")[0].value;
+      const sliderColor = document.getElementsByName("slider-color")[0].value;
+      toggleBtn.setAttribute('height', height);
+      toggleBtn.setAttribute('width', width);
+      toggleBtn.setAttribute('on-text', onText);
+      toggleBtn.setAttribute('off-text', offText);
+      toggleBtn.setAttribute('on-bg-color', onColor);
+      toggleBtn.setAttribute('off-bg-color', offColor);
+      toggleBtn.setAttribute('on-text-color', onTextColor);
+      toggleBtn.setAttribute('off-text-color', offTextColor);
+      toggleBtn.setAttribute('slider-color', sliderColor);
+      document.getElementById('wc-toggle-btn').innerHTML = `&lt;wc-toggle-btn on-text-color="${onTextColor}" off-text-color="${offTextColor}" height="${height}" width="${width}" on-text="${onText}" off-text="${offText}" on-bg-color="${onColor}" off-bg-color="${offColor}" slider-color="${sliderColor}" ontoggle="toogle(event)"&gt;&lt;/wc-toggle-btn&gt;`;
+    }
+    document.getElementsByName("height")[0].value = toggleBtn.getAttribute('height').replace('px', '');
+    document.getElementsByName("width")[0].value = toggleBtn.getAttribute('width').replace('px', '');
+    document.getElementsByName("on-text")[0].value = toggleBtn.getAttribute('on-text');
+    document.getElementsByName("off-text")[0].value = toggleBtn.getAttribute('off-text');
+    document.getElementsByName("on-bg-color")[0].value = toggleBtn.getAttribute('on-bg-color');
+    document.getElementsByName("off-bg-color")[0].value = toggleBtn.getAttribute('off-bg-color');
+    document.getElementsByName("on-text-color")[0].value = toggleBtn.getAttribute('on-text-color');
+    document.getElementsByName("off-text-color")[0].value = toggleBtn.getAttribute('off-text-color');
+    document.getElementsByName("slider-color")[0].value = toggleBtn.getAttribute('slider-color');
+  </script>
+</body>
+
+</html>

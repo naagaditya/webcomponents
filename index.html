@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    .content {
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 300px;
+      padding: 10px;
+      margin: 10px;
+      background: #e8e8e8;
+    }
+    .sidebar > ul li {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="sidebar">
+      <ul onclick="loadDemo(event)">
+        <li data-link="wc-loader.html">loader</li>
+        <li data-link="wc-toggle.html">toggle</li>
+      </ul>
+    </div>
+    <iframe
+      id="demo-content"
+      src="./demos/wc-toggle.html"
+      style="width:100%; height:100%; margin-top: 10px; border: 0;">
+    </iframe>
+  </div>
+  <script>
+  const loadDemo = (event) => {
+    let url = event.target.getAttribute('data-link');
+    document.getElementById('demo-content').setAttribute('src', `./demos/${url}`);
+  }
+  </script>
+</body>
+</html>
