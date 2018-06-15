@@ -1,12 +1,72 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="import" href="/web-components/wc-multiselect/wc-multiselect.html">
-  </head>
-  <body>
-    <wc-multiselect></wc-multiselect>
-  </body>
+
+<head>
+  <title></title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="import" href="/web-components/wc-multiselect/wc-multiselect.html">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Multiselect web component demo</h2>
+    <p>The Multiselect contains 2 props; you can change and try:</p>
+    <form>
+      <div class="form-group">
+        <label for="options">options</label>
+        <textarea name="options"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="label">label</label>
+        <input type="text" name="label">
+      </div>
+      <button class="btn btn-primary" onclick="change(event)">Change</button>
+    </form>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center; flex-direction: column;">
+    <div id="selected-items">Selected Items: []</div>
+    <wc-multiselect options='[{"name":"aditya","id":1},{"name":"rahul","id":2}]' label="name">
+    </wc-multiselect>
+    <script>
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('add-item', (e) => {
+         document.getElementById('selected-items').innerHTML = `Selected Items: ${JSON.stringify(e.detail.selectedItems)}`;
+      });
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('remove-item', (e) => {
+        document.getElementById('selected-items').innerHTML = `Selected Items: ${JSON.stringify(e.detail.selectedItems)}`;
+      });
+    </script>
+  </div>
+  <h1>How To Use</h1>
+  <div style="display: flex;flex-direction: column;">
+    <code>&lt;link rel="import" href="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/wc-multiselect/wc-multiselect.html"&gt;</code>
+    <code id="wc-multiselect">
+      &lt;wc-multiselect options='[{"name":"aditya","id":1},{"name":"rahul","id":2}]' label="name" &gt;&lt;/wc-multiselect&gt;
+    </code>
+    <h1>callback</h1>
+    <code>
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('add-item', (e) => { console.log(e.detail.selectedItems);});
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('remove-item', (e) => { console.log(e.detail.selectedItems);});
+    </code>
+    <h3>polyfill link</h3>
+    <code>
+      &lt;script src="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;
+    </code>
+  </div>
+  <script type="text/javascript">
+    const multiselect = document.getElementsByTagName('wc-multiselect')[0];
+    const change = (e) => {
+      e.preventDefault();
+      const options = document.getElementsByName("options")[0].value;
+      const label = document.getElementsByName("label")[0].value;
+      multiselect.setAttribute('options', options);
+      multiselect.setAttribute('label', label);
+      document.getElementById('wc-multiselect').innerHTML = `&lt;wc-multiselect options= '${options}' label="${label}" &gt;&lt;/wc-multiselect&gt;`;
+    }
+    document.getElementsByName("options")[0].value = multiselect.getAttribute('options');
+    document.getElementsByName("label")[0].value = multiselect.getAttribute('label');
+  </script>
+</body>
+
 </html>

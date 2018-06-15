@@ -1,5 +1,5 @@
 
-class AdiLoader extends HTMLElement {
+class WcLoader extends HTMLElement {
   
   static get observedAttributes() {
     return ['height', 'width', 'circle-radius', 'color', 'distance'];
@@ -85,4 +85,4 @@ class AdiLoader extends HTMLElement {
 
 }
 
-window.customElements.define('adi-loader', AdiLoader);
+window.customElements.define('wc-loader', WcLoader);

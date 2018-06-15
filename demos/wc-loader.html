@@ -11,7 +11,7 @@
 
 <body>
   <div class="container">
-    <h2>Adi loader demo</h2>
+    <h2>loader demo</h2>
     <p>The loader contains five props; you can change and try:</p>
     <form>
       <div class="form-group">
@@ -38,18 +38,18 @@
     </form>
   </div>
   <div style="display: flex;align-items: center;justify-content: center;">
-    <adi-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30" style="border: solid 1px #cecece">
+    <wc-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30" style="border: solid 1px #cecece">
 
-    </adi-loader>
+    </wc-loader>
   </div>
   <h1>How To Use</h1>
   <div style="display: flex;flex-direction: column;">
-    <code>&lt;script src="/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;</code>
-    <code>&lt;link rel="import" href="/web-components/wc-loader/wc-loader.html"&gt;</code>
-    <code id="code-adi-loader">&lt;adi-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30"&gt;&lt;/adi-loader&gt;</code>
+    <code>&lt;script src="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;</code>
+    <code>&lt;link rel="import" href="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com//web-components/wc-loader/wc-loader.html"&gt;</code>
+    <code id="code-wc-loader">&lt;wc-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30"&gt;&lt;/wc-loader&gt;</code>
   </div>
   <script type="text/javascript">
-    const adiLoader = document.getElementsByTagName('adi-loader')[0];
+    const adiLoader = document.getElementsByTagName('wc-loader')[0];
     const change = (e) => {
       e.preventDefault();
       const height = document.getElementsByName("height")[0].value + 'px';
@@ -62,7 +62,7 @@
       adiLoader.setAttribute('circle-radius', circleRadius);
       adiLoader.setAttribute('color', color);
       adiLoader.setAttribute('distance', distance);
-      document.getElementById('code-adi-loader').innerHTML = `adi-loader height="${height}" width="${width}" circle-radius="${circleRadius}" color="${color}" distance="${distance}"&gt;&lt;/adi-loader&gt;`;
+      document.getElementById('code-wc-loader').innerHTML = `wc-loader height="${height}" width="${width}" circle-radius="${circleRadius}" color="${color}" distance="${distance}"&gt;&lt;/wc-loader&gt;`;
     }
     document.getElementsByName("height")[0].value = adiLoader.getAttribute('height').replace('px', '');
     document.getElementsByName("width")[0].value = adiLoader.getAttribute('width').replace('px', '');
