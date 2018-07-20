@@ -20,6 +20,28 @@ class ZcuiJobApplicationForm extends HTMLElement {
 
     return `
     <style>
+    .uk-cover {
+    max-width: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+    .uk-icon {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    padding: 0;
+    background-color: transparent;
+    display: inline-block;
+    fill: currentcolor;
+    line-height: 0;
+}
     .uk-button-primary {
     background-color: #0F1214;
     color: #fff;
@@ -220,15 +242,15 @@ h5, .uk-h5 {
 }
 </style>
 <div id="apply">
-<form class="uk-cover-container">
+<form class="uk-cover-container" id="application-form">
 <a href="#" id="close-btn" class="close uk-icon" uk-icon="close"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path></svg></a>
 <header>
 <div class="uk-article-meta">Applying for...</div>
 <h5 class="uk-margin-remove" id="role-name">${this.role}</h5>
 </header>
-<div id="error">
+<div id="error" class="uk-margin" style="display:none">
 </div>
-<div id="success">
+<div id="success" class="uk-margin" style="display:none">
 </div>
 <div class="uk-margin uk-margin-remove-top">
 <label for="full-name" class="uk-form-label">Full Name</label>
@@ -258,14 +280,16 @@ h5, .uk-h5 {
 </div>
 <div uk-form-custom="" class="uk-form-custom">
 <input type="file" id="file">
-<span class="uk-link">selecting one</span>
+<span class="uk-link" id="upload-file">selecting one</span>
 </div>
 </div>
 <div class="uk-margin-medium-top">
 <button class="uk-button uk-button-primary" id="apply-btn">Apply</button>
 </div>
-<div class="uk-cover">
-<div uk-spinner="" class="uk-spinner uk-icon"><svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" cx="15" cy="15" r="14"></circle></svg></div>
+<div class="uk-cover" id="loader">
+<div uk-spinner="" class="uk-spinner uk-icon">
+  <wc-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30"></wc-loader>
+</div>
 </div>
 </form>
 </div>`;
@@ -302,24 +326,87 @@ h5, .uk-h5 {
     });
   }
 
+  validateEmail(emailField) {
+    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    if (reg.test(emailField.value) == false) {
+      emailField.style.borderColor = '#f0506e';
+      return false;
+    }
+    emailField.style.borderColor = '#c4c7ca';
+    return true;
+
+  }
+
+  validatePhone(phoneField) {
+    {
+      var phoneno = /^\d{10}$/;
+      if (phoneField.value.match(phoneno)) {
+        phoneField.style.borderColor = '#c4c7ca';
+        return true;
+      }
+      else {
+        phoneField.style.borderColor = '#f0506e';
+        return false;
+      }
+    }
+  }
+
+  mendatoryFieldsFilled(fields) {
+    let allFilled = true;
+    fields.forEach(field => {
+      if (!field.value) {
+        allFilled = false;
+        if (field.id == 'file') {
+          field = field.parentElement.parentElement;
+        }
+        field.style.borderColor = '#f0506e';
+      }
+      else {
+        allFilled = allFilled && true;
+        if (field.id == 'file') {
+          field = field.parentElement.parentElement;
+        }
+        field.style.borderColor = '#c4c7ca';
+      }
+    });
+    return allFilled;
+  }
+
   postForm() {
+    if(!this.mendatoryFieldsFilled([
+      this._emailInput,
+      this._fullNameInput,
+      this._fileInput,
+      this._phoneInput
+    ])) return;
     
+    if (!this.validateEmail(this._emailInput)) return;
+    if (!this.validatePhone(this._phoneInput)) return;
+
+
     const data = {
       email: this._emailInput.value,
       file: this.resumeFile,
       fullName: this._fullNameInput.value,
       jd: this.jd,
       name: this._fullNameInput.value,
-      phone: this._emailInput.value,
+      phone: this._phoneInput.value,
       role: this.role
     };
-    this._errorDiv.innerText = '';
-    this._successDiv.innerText = '';
+    this._errorDiv.style.display = 'none';
+    this._successDiv.style.display = 'none';
+
+    this._loader.style.display = 'flex';
+
     this.postData(this.postUrl, data).then(data => {
+      this._loader.style.display = 'none';
       if (data.errorMessage) {
+        this._errorDiv.style.display = 'block';
         this._errorDiv.innerText = data.errorMessage || 'Something Went wrong. Please try again';
       }
       if (data.ok) {
+        this._successDiv.style.display = 'block';
         this._successDiv.innerText = data.Message || 'Success';
         this.dispatchEvent(new CustomEvent('postform', {
           detail: {
@@ -330,6 +417,8 @@ h5, .uk-h5 {
       }
 
     }).catch(error => {
+      this._loader.style.display = 'none';
+      this._errorDiv.style.display = 'block';
       this._errorDiv.innerText = error.errorMessage || 'Something Went wrong. Please try again';
     });
   }
@@ -341,12 +430,16 @@ h5, .uk-h5 {
   }
 
   uploadFile() {
+    this.resumeFile = null;
+    this._fileNameDiv.innerText = 'Attach resume by dropping here or';
+    this._uploadFileDiv.innerText = 'selecting one';
     if (this._fileInput.files && this._fileInput.files[0]) {
       var reader = new FileReader();
 
       reader.onload = e => {
         this.resumeFile = e.target.result;
         this._fileNameDiv.innerText = this._fileInput.files[0].name;
+        this._uploadFileDiv.innerText = 'change';
       }
       reader.readAsDataURL(this._fileInput.files[0]);
     }
@@ -369,9 +462,13 @@ h5, .uk-h5 {
     this._roleName = templateContent.getElementById('role-name');
     this._closeBtn = templateContent.getElementById('close-btn');
     this._fileNameDiv = templateContent.getElementById('file-name');
+    this._uploadFileDiv = templateContent.getElementById('upload-file');
+    this._loader = templateContent.getElementById('loader');
+    this._applicationForm = templateContent.getElementById('application-form');
     this._fileInput.onchange = this.uploadFile
     this._applyBtn.onclick = this.postForm;
     this._closeBtn.onclick = this.close;
+    this._applicationForm.onsubmit = (e) => { e.preventDefault(); };
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(templateContent);
   }
