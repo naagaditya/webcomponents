@@ -10,5 +10,13 @@
       jd="/jobs/sse-frontend"
       role="Senior Software Engineer - Frontend Development"
     ></zcui-job-application-form>
+    <script>
+      document.getElementsByTagName('zcui-job-application-form')[0].addEventListener('closeform', function (event) {
+        event.target.style.display = "none";
+      });
+      document.getElementsByTagName('zcui-job-application-form')[0].addEventListener('postform', function (event) {
+        console.log(event.details);
+      });
+    </script>
   </body>
 </html>

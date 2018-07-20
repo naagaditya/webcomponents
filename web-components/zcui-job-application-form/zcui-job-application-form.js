@@ -8,15 +8,72 @@ class ZcuiJobApplicationForm extends HTMLElement {
   }
   constructor() {
     super();
-    this.setProps();
+    this.createShadowDom = this.createShadowDom.bind(this);
     this.updateShadowDom = this.updateShadowDom.bind(this);
     this.postForm = this.postForm.bind(this);
+    this.setProps = this.setProps.bind(this);
+    this.close = this.close.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
     this.template = document.createElement('template');
   }
   get htmlTemplate() {
 
     return `
     <style>
+    .uk-button-primary {
+    background-color: #0F1214;
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+.uk-button {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    font-size: 14px;
+    text-transform: none;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 30px;
+    vertical-align: middle;
+    line-height: 38px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+    .uk-margin-medium-top {
+    margin-top: 40px !important;
+}
+    .uk-text-center {
+    text-align: center !important;
+}
+    .uk-link {
+    color: #7a838a;
+    text-decoration: none;
+    cursor: pointer;
+}
+    .uk-form-custom {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+    vertical-align: middle;
+}
+.uk-form-custom input[type="file"] {
+    font-size: 500px;
+    overflow: hidden;
+}
+.uk-form-custom select, .uk-form-custom input[type="file"] {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    -webkit-appearance: none;
+    opacity: 0;
+    cursor: pointer;
+}
     .uk-margin {
     margin-bottom: 20px;
 }
@@ -155,14 +212,24 @@ h5, .uk-h5 {
 #apply form.loading .uk-cover {
   display: flex;
 }
+#error {
+  color: #cc0000;
+}
+#success {
+  color: #00cc00;
+}
 </style>
 <div id="apply">
 <form class="uk-cover-container">
-<a href="#" class="close uk-icon" uk-icon="close"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path></svg></a>
+<a href="#" id="close-btn" class="close uk-icon" uk-icon="close"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path></svg></a>
 <header>
 <div class="uk-article-meta">Applying for...</div>
-<h5 class="uk-margin-remove">${this.role}</h5>
+<h5 class="uk-margin-remove" id="role-name">${this.role}</h5>
 </header>
+<div id="error">
+</div>
+<div id="success">
+</div>
 <div class="uk-margin uk-margin-remove-top">
 <label for="full-name" class="uk-form-label">Full Name</label>
 <div class="uk-form-controls uk-inline">
@@ -187,10 +254,10 @@ h5, .uk-h5 {
 <div class="js-upload uk-placeholder uk-text-center">
 <div style="display: flex; align-items: center;justify-content: center;">
 <span uk-icon="icon: cloud-upload" style="margin-right: 5px;" class="uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <path fill="none" stroke="#000" stroke-width="1.1" d="M6.5,14.61 L3.75,14.61 C1.96,14.61 0.5,13.17 0.5,11.39 C0.5,9.76 1.72,8.41 3.31,8.2 C3.38,5.31 5.75,3 8.68,3 C11.19,3 13.31,4.71 13.89,7.02 C14.39,6.8 14.93,6.68 15.5,6.68 C17.71,6.68 19.5,8.45 19.5,10.64 C19.5,12.83 17.71,14.6 15.5,14.6 L12.5,14.6"></path> <polyline fill="none" stroke="#000" points="7.25 11.75 9.5 9.5 11.75 11.75"></polyline> <path fill="none" stroke="#000" d="M9.5,18 L9.5,9.5"></path></svg></span>
-<span class="uk-text-middle" style="text-overflow: ellipsis;overflow: hidden;">Attach resume by dropping here or</span>
+<span id="file-name" class="uk-text-middle" style="text-overflow: ellipsis;overflow: hidden;">Attach resume by dropping here or</span>
 </div>
 <div uk-form-custom="" class="uk-form-custom">
-<input type="file">
+<input type="file" id="file">
 <span class="uk-link">selecting one</span>
 </div>
 </div>
@@ -208,7 +275,11 @@ h5, .uk-h5 {
     this.jd = this.getAttribute('jd');
     this.role = this.getAttribute('role');
   }
-
+  updateShadowDom() {
+    if (this._roleName) {
+      this._roleName.innerText = this.getAttribute('role');
+    }
+  }
   postData(url, data) {
     return fetch(url, {
       method: 'POST',
@@ -235,40 +306,74 @@ h5, .uk-h5 {
     
     const data = {
       email: this._emailInput.value,
-      file: '',
+      file: this.resumeFile,
       fullName: this._fullNameInput.value,
       jd: this.jd,
       name: this._fullNameInput.value,
       phone: this._emailInput.value,
       role: this.role
     };
+    this._errorDiv.innerText = '';
+    this._successDiv.innerText = '';
     this.postData(this.postUrl, data).then(data => {
+      if (data.errorMessage) {
+        this._errorDiv.innerText = data.errorMessage || 'Something Went wrong. Please try again';
+      }
+      if (data.ok) {
+        this._successDiv.innerText = data.Message || 'Success';
+        this.dispatchEvent(new CustomEvent('postform', {
+          detail: {
+            message: data.Message || 'Success'
+          },
+          bubbles: true
+        }));
+      }
 
     }).catch(error => {
-
+      this._errorDiv.innerText = error.errorMessage || 'Something Went wrong. Please try again';
     });
   }
 
-  connectedCallback() {
-    this.updateShadowDom();
+  close() {
+    this.dispatchEvent(new CustomEvent('closeform', {
+      bubbles: true
+    }));
   }
 
-  updateShadowDom() {
+  uploadFile() {
+    if (this._fileInput.files && this._fileInput.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = e => {
+        this.resumeFile = e.target.result;
+        this._fileNameDiv.innerText = this._fileInput.files[0].name;
+      }
+      reader.readAsDataURL(this._fileInput.files[0]);
+    }
+  }
+
+  connectedCallback() {
+    this.createShadowDom();
+  }
+
+  createShadowDom() {
     this.template.innerHTML = this.htmlTemplate;
     const templateContent = this.template.content.cloneNode(true);
     this._applyBtn = templateContent.getElementById('apply-btn');
     this._emailInput = templateContent.getElementById('email');
     this._fullNameInput = templateContent.getElementById('full-name');
     this._phoneInput = templateContent.getElementById('phone');
+    this._fileInput = templateContent.getElementById('file');
+    this._errorDiv = templateContent.getElementById('error');
+    this._successDiv = templateContent.getElementById('success');
+    this._roleName = templateContent.getElementById('role-name');
+    this._closeBtn = templateContent.getElementById('close-btn');
+    this._fileNameDiv = templateContent.getElementById('file-name');
+    this._fileInput.onchange = this.uploadFile
     this._applyBtn.onclick = this.postForm;
-    if (this.shadowRoot) {
-      this.shadowRoot.replaceChild(templateContent, this.shadowRoot.firstElementChild);
-      this.shadowRoot.appendChild(templateContent);
-    }
-    else {
-      this.attachShadow({ mode: 'open' });
-      this.shadowRoot.appendChild(templateContent);
-    }
+    this._closeBtn.onclick = this.close;
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(templateContent);
   }
   attributeChangedCallback(attr, oldVal, newVal) {
     if (oldVal != newVal) {
