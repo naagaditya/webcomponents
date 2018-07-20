@@ -44,6 +44,18 @@
     <code id="code-form">&lt;zcui-job-application-form post-url="https://11uzkgdlnl.execute-api.ap-south-1.amazonaws.com/prod/apply" jd="/jobs/sse-frontend"
       role="Senior Software Engineer - Frontend Development"&gt;&lt;/zcui-job-application-form&gt;</code>
   </div>
+  <div>
+    <h1>adding event listeners</h1>
+    <code>
+       document.getElementsByTagName('zcui-job-application-form')[0].addEventListener('postform', () => {
+        alert('submitted');
+        applicationForm.style.display = 'none';
+      });
+      document.getElementsByTagName('zcui-job-application-form')[0].addEventListener('closeform', () => {
+         applicationForm.style.display = 'none';
+      });
+    </code>
+  </div>
   <script type="text/javascript">
     const applicationForm = document.getElementsByTagName('zcui-job-application-form')[0];
     
