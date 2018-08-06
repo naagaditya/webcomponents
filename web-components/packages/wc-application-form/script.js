@@ -60,7 +60,7 @@ class WcApplicationForm extends HTMLElement {
 
   connectedCallback() {
     const loaderScriptTag = document.createElement('script');
-    loaderScriptTag.src = "http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/web-components/wc-loader/wc-loader.js";
+    loaderScriptTag.src = "https://unpkg.com/@zoomcarindia/wc-loader@1.0.5/wc-loader.js";
     this.appendChild(loaderScriptTag);
     this.createShadowDom();
   }
