@@ -1,6 +1,6 @@
 {
   "name": "@zoomcarindia/wc-toggle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "toggle",
   "unpkg": "wc-toggle.js",
   "files": [
@@ -9,5 +9,8 @@
   "keywords": [],
   "author": "Aditya Naag",
   "license": "ISC",
-  "gitHead": "fa91df26105671fa79452b3f944bd95f7dc83f0b"
+  "gitHead": "fa91df26105671fa79452b3f944bd95f7dc83f0b",
+  "publishConfig": {
+    "access": "public"
+  }
 }
