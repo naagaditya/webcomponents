@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <title></title>
+  <!-- <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="import" href="/web-components/wc-application-form/wc-application-form.html"> -->
+  <script type="module" src="./dist/bundle.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="container">
+    <h2>job application form demo</h2>
+    <p>The loader contains three props; you can change and try:</p>
+    <form>
+      <div class="form-group">
+        <label for="post-url">post-url</label>
+        <input type="text" style="width: 500px" name="post-url">
+      </div>
+      <div class="form-group">
+        <label for="jd">jd</label>
+        <input type="text" style="width: 500px" name="jd">
+      </div>
+      <div class="form-group">
+        <label for="role">role</label>
+        <input type="text" style="width: 500px" name="role">
+      </div>
+      <button class="btn btn-primary" onclick="change(event)">Change</button>
+    </form>
+  </div>
+  <div style="display: flex;align-items: center;justify-content: center;">
+    <button class="btn btn-primary" onclick="openForm(event)">Open Form</button>
+    <wc-application-form style="display: none;" post-url="https://11uzkgdlnl.execute-api.ap-south-1.amazonaws.com/prod/apply"
+      jd="/jobs/sse-frontend" role="Senior Software Engineer - Frontend Development"></wc-application-form>
+  </div>
+  <h1>How To Use</h1>
+  <div style="display: flex;flex-direction: column;">
+    <code>&lt;script src="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/polyfills/webcomponentsjs/webcomponents-loader.js"&gt;&lt;/script&gt;</code>
+    <code>&lt;link rel="import" href="http://zcui-web-components.s3-website.ap-south-1.amazonaws.com/web-components/wc-application-form/wc-application-form.html"&gt;</code>
+    <code id="code-form">&lt;wc-application-form post-url="https://11uzkgdlnl.execute-api.ap-south-1.amazonaws.com/prod/apply" jd="/jobs/sse-frontend"
+      role="Senior Software Engineer - Frontend Development"&gt;&lt;/wc-application-form&gt;</code>
+  </div>
+  <div>
+    <h1>adding event listeners</h1>
+    <code>
+       document.getElementsByTagName('wc-application-form')[0].addEventListener('submitsuccess', () => {
+        alert('submitted');
+        applicationForm.style.display = 'none';
+      });
+      document.getElementsByTagName('wc-application-form')[0].addEventListener('closeform', () => {
+         applicationForm.style.display = 'none';
+      });
+    </code>
+  </div>
+  <script type="text/javascript">
+    const applicationForm = document.getElementsByTagName('wc-application-form')[0];
+
+    applicationForm.addEventListener('submitsuccess', () => {
+      alert('submitted');
+      applicationForm.style.display = 'none';
+    });
+    applicationForm.addEventListener('closeform', () => {
+      applicationForm.style.display = 'none';
+    });
+
+    const openForm = (e) => {
+      applicationForm.style.display = 'block';
+    };
+
+    const change = (e) => {
+      e.preventDefault();
+      const postUrl = document.getElementsByName("post-url")[0].value;
+      const jd = document.getElementsByName("jd")[0].value;
+      const role = document.getElementsByName("role")[0].value;
+      applicationForm.setAttribute('post-url', postUrl);
+      applicationForm.setAttribute('jd', jd);
+      applicationForm.setAttribute('role', role);
+      document.getElementById('code-form').innerHTML = `wc-application-form post-url="${postUrl}" jd="${jd}" role="${role}"&gt;&lt;/wc-application-form&gt;`;
+    }
+    document.getElementsByName("post-url")[0].value = applicationForm.getAttribute('post-url');
+    document.getElementsByName("jd")[0].value = applicationForm.getAttribute('jd');
+    document.getElementsByName("role")[0].value = applicationForm.getAttribute('role');
+  </script>
+</body>
+
+</html>
