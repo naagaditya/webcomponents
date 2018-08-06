@@ -1,8 +1,8 @@
 {
-  "name": "@zoomcarindia/wc-toggle",
-  "version": "1.0.5",
-  "description": "toggle",
-  "unpkg": "wc-toggle.js",
+  "name": "@zoomcarindia/wc-multiselect",
+  "version": "1.0.6",
+  "description": "multi select",
+  "unpkg": "wc-multiselect.js",
   "files": [
     "/"
   ],
