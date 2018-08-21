@@ -118,7 +118,7 @@ class WcApplicationForm extends HTMLElement {
   }
   changeName(e) {
     this.name = e.target.value;
-    this.invalidName = !this.name;
+    this.invalidName = !(this.name && this.name.trim());
     this.updateShadowDom();
   }
   changePhone(e) {
@@ -128,7 +128,7 @@ class WcApplicationForm extends HTMLElement {
   }
   _validateAll() {
     this.invalidEmail = !this._validateEmail(this.email);
-    this.invalidName = !this.name;
+    this.invalidName = !(this.name && this.name.trim());
     this.invalidPhone = !this._validatePhone(this.phone);
     this.invalidFile = !this.fileName;
     this.animateFeilds = true;

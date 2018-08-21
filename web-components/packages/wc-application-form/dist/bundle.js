@@ -129,7 +129,7 @@ class WcApplicationForm extends HTMLElement {
       <div class="file-upload-msg">
         ${this.fileName
           ? html `<p>${this.fileName}</p><p>Change File</p>`
-          : html `<p>Drag and drop your cv here or browser for a document to upload</p>`
+          : html `<p>Drag and drop your cv here or browse for a document to upload</p>`
         }
       </div>
     </div>
@@ -226,7 +226,7 @@ class WcApplicationForm extends HTMLElement {
   }
   changeName(e) {
     this.name = e.target.value;
-    this.invalidName = !this.name;
+    this.invalidName = !(this.name && this.name.trim());
     this.updateShadowDom();
   }
   changePhone(e) {
@@ -236,7 +236,7 @@ class WcApplicationForm extends HTMLElement {
   }
   _validateAll() {
     this.invalidEmail = !this._validateEmail(this.email);
-    this.invalidName = !this.name;
+    this.invalidName = !(this.name && this.name.trim());
     this.invalidPhone = !this._validatePhone(this.phone);
     this.invalidFile = !this.fileName;
     this.animateFeilds = true;
