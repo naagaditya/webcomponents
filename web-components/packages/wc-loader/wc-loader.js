@@ -64,7 +64,7 @@ class WcLoader extends HTMLElement {
   }
   
   updateShadowDom () {
-    const templateContent = this.template.content.cloneNode(true);
+    var templateContent = this.template.content.cloneNode(true);
     this._content = templateContent.getElementById('loader');
     if (this.shadowRoot) {
       this.shadowRoot.replaceChild(templateContent, this.shadowRoot.firstElementChild);

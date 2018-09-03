@@ -20,7 +20,7 @@ class WcToggleBtn extends HTMLElement {
     this.template = document.createElement('template');
   }
   get htmlTemplate() {
-    const checkbox = this._checkbox || {};
+    var checkbox = this._checkbox || {};
     
     return `<div><style>
       .switch {
@@ -129,7 +129,7 @@ class WcToggleBtn extends HTMLElement {
 
   updateShadowDom() {
     this.template.innerHTML = this.htmlTemplate;
-    const templateContent = this.template.content.cloneNode(true);
+    var templateContent = this.template.content.cloneNode(true);
     this._content = templateContent.getElementById('switch');
     this._checkbox = templateContent.getElementById('checkbox');
     this._toggleText = templateContent.getElementById('toggle-text');
