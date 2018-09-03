@@ -30,10 +30,10 @@
     <wc-multiselect options='[{"name":"aditya","id":1},{"name":"rahul","id":2}]' label="name">
     </wc-multiselect>
     <script>
-      document.getElementsByTagName('wc-multiselect')[0].addEventListener('add-item', (e) => {
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('add-item', function(e) {
          document.getElementById('selected-items').innerHTML = `Selected Items: ${JSON.stringify(e.detail.selectedItems)}`;
       });
-      document.getElementsByTagName('wc-multiselect')[0].addEventListener('remove-item', (e) => {
+      document.getElementsByTagName('wc-multiselect')[0].addEventListener('remove-item', function(e) {
         document.getElementById('selected-items').innerHTML = `Selected Items: ${JSON.stringify(e.detail.selectedItems)}`;
       });
     </script>

@@ -59,7 +59,7 @@
     </wc-toggle-btn>
     <span id="toggle-val" style="margin-left: 50px;">unchecked</span>
     <script>
-      const toggle = (event) => {
+      const toggle = function(event) {
         document.getElementById('toggle-val').innerHTML = event.detail.isChecked ? 'checked' : 'unchecked';
       };
       // document.getElementsByTagName('wc-toggle-btn')[0].addEventListener('toggle', function (event) {
@@ -77,7 +77,7 @@
     </code>
     <h1>toggle callback</h1>
     <code>
-       const toggle = (event) => { document.getElementById('toggle-val').innerHTML = event.detail.isChecked ? 'checked' : 'unchecked';
+       const toggle = function(event) { document.getElementById('toggle-val').innerHTML = event.detail.isChecked ? 'checked' : 'unchecked';
       };
     </code>
     <span>Or</span>
@@ -86,7 +86,7 @@
   </div>
   <script type="text/javascript">
     const toggleBtn = document.getElementsByTagName('wc-toggle-btn')[0];
-    const change = (e) => {
+    const change = function(e) {
       e.preventDefault();
       const height = document.getElementsByName("height")[0].value + 'px';
       const width = document.getElementsByName("width")[0].value + 'px';
