@@ -1,0 +1,24 @@
+{
+  "name": "zcui-wc-search-widget",
+  "version": "1.0.0",
+  "description": "zoomcar search widget web component",
+  "main": "src/zcui-wc-search-widget.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./build.js"
+  },
+  "unpkg": "dist/bundle.js",
+  "files": [
+    "/dist/"
+  ],
+  "keywords": [],
+  "author": "Aditya Naag",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "node-sass": "^4.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,35 @@
+.zcui-wc-search-widget {
+  display: flex;
+  padding: 10px;
+  font-size: 12px;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  img {
+    width: 100%;
+    max-width: 500px;
+  }
+  label {
+    color: green;
+    letter-spacing: .5px;
+
+  }
+  .search-input {
+    display: flex;
+    margin-top: 10px;
+    flex-direction: column;
+    .input-box {
+      display: inline;
+      border: solid 1px #cecece3d;
+      box-shadow: 3px 5px 5px #8888882e;
+      padding: 5px;
+      margin: 7px 0;
+    }
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+
+
