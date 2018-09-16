@@ -96,13 +96,13 @@ class ZcuiWcSearchWidget extends HTMLElement {
   get htmlTemplate() {
     return html`
       <style>
-        .zcui-wc-search-widget{display:flex;padding:20px;font-size:12px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("../img/bg.svg");background-size:contain;max-width:1000px;margin:auto}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;font-size:13px}.zcui-wc-search-widget header{display:flex;margin:auto}.zcui-wc-search-widget header .logo-container{padding:0 20px;margin:10px 0;border-right:solid 1px #cecece}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 20px;font-size:13px;width:125px}.zcui-wc-search-widget label{letter-spacing:.5px;font-size:13px;margin:0 10px}.zcui-wc-search-widget .search-input{display:flex;margin-top:10px;flex-direction:column;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 20px;display:flex;color:#595656;background:#fff;letter-spacing:.5px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area{flex:1;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:13px}.zcui-wc-search-widget .search-input .input-box .area .location-list{position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #000;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px;flex:1}.zcui-wc-search-widget button{font-size:12px;font-weight:bold;padding:14px;width:100%;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
+        .zcui-wc-search-widget{display:flex;padding:20px;font-size:12px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;max-width:1000px;margin:auto}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;font-size:13px}.zcui-wc-search-widget header{display:flex;margin:auto}.zcui-wc-search-widget header .logo-container{padding:0 20px;margin:10px 0;border-right:solid 1px #cecece}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 20px;font-size:13px;width:125px}.zcui-wc-search-widget label{letter-spacing:.5px;font-size:13px;margin:0 10px}.zcui-wc-search-widget .search-input{display:flex;margin-top:10px;flex-direction:column;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 20px;display:flex;color:#595656;background:#fff;letter-spacing:.5px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area{flex:1;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:13px}.zcui-wc-search-widget .search-input .input-box .area .location-list{position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #000;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px;flex:1}.zcui-wc-search-widget button{font-size:12px;font-weight:bold;padding:14px;width:100%;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
 
       </style>
       <div class="zcui-wc-search-widget">
   <header>
     <div class="logo-container">
-      <img alt="logo" src="../img/logo.svg" class="logo"/>
+      <img alt="logo" src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/logo.svg" class="logo"/>
     </div>
     <i class="title">
        Enjoy Self Drive Cars Starting <b>Rs 60/Hr*</b>
@@ -115,11 +115,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
       <label>Pick-up Location</label>
       <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
         <div class="input city">
-          <img src="../img/location.svg" alt="">
+          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
           <span>
             ${this.searchParams.city ? this.searchParams.city : 'Select City'}
           </span>
-          <img src="../img/arrow.svg" alt="">
+          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
           <select on-change=${this.changeCity}>
             <option></option>
              ${repeat( this.cities,
@@ -145,7 +145,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
           <div class="input date">
             <span>${this.searchParams.starts.date ? this.searchParams.starts.date : 'Date'}</span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
@@ -160,7 +160,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
                 'Month'
               }
             </span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
@@ -170,7 +170,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
           </div>
           <div class="input time">
             <span>${this.searchParams.starts.time ? this.searchParams.starts.time : 'Time'}</span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat(this.timeList, time => html `
@@ -186,7 +186,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
           <div class="input date">
             <span>${this.searchParams.ends.date ? this.searchParams.ends.date : 'Date'}</span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
@@ -199,7 +199,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
               ${this.searchParams.ends.monthYearIndex ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
                 'Month' }
             </span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
@@ -209,7 +209,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
           </div>
           <div class="input time">
             <span>${this.searchParams.ends.time ? this.searchParams.ends.time : 'Time'}</span>
-            <img src="../img/arrow.svg" alt="">
+            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat(this.timeList, time => html `
