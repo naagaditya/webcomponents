@@ -8,15 +8,19 @@
     </i>
     
   </header>
+  <div class="error">${this.errorMessages[this.selectedErrorMessage]}</div>
   <div class="search-input">
     <div class="input-wrapper">
       <label>Pick-up Location</label>
-      <div class="input-box">
+      <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
         <div class="input city">
           <img src="../img/location.svg" alt="">
-          <span>${this.searchParams.city}</span>
+          <span>
+            ${this.searchParams.city ? this.searchParams.city : 'Select City'}
+          </span>
           <img src="../img/arrow.svg" alt="">
           <select on-change=${this.changeCity}>
+            <option></option>
              ${repeat( this.cities,
               city => html`
               <option value="${city}">${city}</option>
@@ -32,29 +36,37 @@
 
       <div class="input-wrapper">
         <label>Start Date & Time</label>
-        <div class="input-box">
+        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
           <div class="input date">
-            <span>${this.searchParams.starts.date}</span>
+            <span>${this.searchParams.starts.date ? this.searchParams.starts.date : 'Date'}</span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
+              <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
               <option value="${day}">${day}</option>
               ` )}
             </select>
           </div>
           <div class="input month">
-            <span>${this.monthsYears[this.searchParams.starts.monthYearIndex].displayName}</span>
+            <span>
+              ${this.searchParams.starts.monthYearIndex ?
+                this.monthsYears[this.searchParams.starts.monthYearIndex].displayName :
+                'Month'
+              }
+            </span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
+              <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
               <option value=${i}>${month.displayName}</option>
               `)}
             </select>
           </div>
           <div class="input time">
-            <span>${this.searchParams.starts.time}</span>
+            <span>${this.searchParams.starts.time ? this.searchParams.starts.time : 'Time'}</span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
+              <option></option>
               ${repeat(this.timeList, time => html `
               <option value=${time}>${time}</option>
               `)}
@@ -65,29 +77,35 @@
 
       <div class="input-wrapper">
         <label>End Date & Time</label>
-        <div class="input-box">
+        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
           <div class="input date">
-            <span>${this.searchParams.ends.date}</span>
+            <span>${this.searchParams.ends.date ? this.searchParams.ends.date : 'Date'}</span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
+              <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
               <option value="${day}">${day}</option>
               ` )}
             </select>
           </div>
           <div class="input month">
-            <span>${this.monthsYears[this.searchParams.ends.monthYearIndex].displayName}</span>
+            <span>
+              ${this.searchParams.ends.monthYearIndex ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
+                'Month' }
+            </span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
+              <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
               <option value=${i}>${month.displayName}</option>
               `)}
             </select>
           </div>
           <div class="input time">
-            <span>${this.searchParams.ends.time}</span>
+            <span>${this.searchParams.ends.time ? this.searchParams.ends.time : 'Time'}</span>
             <img src="../img/arrow.svg" alt="">
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
+              <option></option>
               ${repeat(this.timeList, time => html `
               <option value=${time}>${time}</option>
               `)}

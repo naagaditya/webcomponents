@@ -14,6 +14,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.changeMonth = this.changeMonth.bind(this);
     this.changeTime = this.changeTime.bind(this);
     this.searchCar = this.searchCar.bind(this);
+    this._validateParams = this._validateParams.bind(this);
     
     this.cities = ['Bangalore', 'Pune', 'Delhi', 'Lucknow', 'Hydrabad', 'Patna'];
 
@@ -40,21 +41,33 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
 
     this.searchParams = {
-      city: 'Bangalore',
       lat: 12.9718915,
       lng: 77.6411545,
-      starts: {
-        date: today.getDate(),
-        monthYearIndex: 0,
-        time: '12:30 PM'
-      },
-      ends: {
-        date: today.getDate(),
-        monthYearIndex: 0,
-        time: '12:30 PM'
-      }
+      starts: {},
+      ends: {}
 
     };
+
+    // index 0 means no error
+    this.errorMessages = [
+      '',
+      'Please select city',
+      'Please select starting point',
+      'Please select start date',
+      'Please select start month',
+      'Please select start time',
+      'Please select end date',
+      'Please select end month',
+      'Please select end time',
+      'Starts Can\'t be in past',
+      'ends Can\'t be in past',
+      'Wrong start date selected',
+      'Wrong end date selected',
+      'Start date cannot be greater than end date'
+    ];
+    this.pickupErrors = [1,2];
+    this.startsErrors = [3,4,5,9,11,13];
+    this.endsErrors = [6,7,8,10,12,13];
   }
 
   get htmlTemplate() {
@@ -109,8 +122,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.updateShadowDom();
   }
   
-  daysInMonth(mon, year) {
-    return new Date(year, month, 0).getDate();
+  daysInMonth(type) {
+    const monthYearIndex = this.searchParams[type].monthYearIndex;
+    const selectMonthYear = this.monthsYears[monthYearIndex];
+    return new Date(selectMonthYear.year, selectMonthYear.month, 0).getDate();
   }
 
   _get24HrTime(time) {
@@ -118,7 +133,44 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return timeArr[1] == 'PM' ? `${parseInt(timeArr[0].split(':')[0]) + 12}:${timeArr[0].split(':')[1]}` : timeArr[0];
   }
 
+  _dateInPast(type) {
+    const monthYearIndex = this.searchParams[type].monthYearIndex;
+    const selectMonthYear = this.monthsYears[monthYearIndex];
+    const date = new Date(`${selectMonthYear.month}-${this.searchParams[type].date}-${selectMonthYear.year} ${this.searchParams[type].time}`);
+    const today = new Date();
+    return today > date;
+  }
+
+  _isStartsGreaterPast() {
+    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
+    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
+    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
+    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
+    const starts = new Date(`${selectStartsMonthYear.month}-${this.searchParams.starts.date}-${selectStartsMonthYear.year} ${this.searchParams.starts.time}`);
+    const ends = new Date(`${selectEndsMonthYear.month}-${this.searchParams.ends.date}-${selectEndsMonthYear.year} ${this.searchParams.ends.time}`);
+    return starts > ends;
+  }
+  _validateParams() {
+    const params = this.searchParams;
+    if (!params.city) return 1;
+    if (!params.lat || !params.lng) return 2;
+    if (!params.starts.date) return 3;
+    if (!params.starts.monthYearIndex) return 4;
+    if (!params.starts.time) return 5;
+    if (!params.ends.date) return 6;
+    if (!params.ends.monthYearIndex) return 7;
+    if (!params.ends.time) return 8;
+    if (this._dateInPast('starts')) return 9;
+    if (this._dateInPast('ends')) return 10;
+    if (parseInt(params.starts.date) > this.daysInMonth('starts')) return 11;
+    if (parseInt(params.ends.date) > this.daysInMonth('ends')) return 12;
+    if (this._isStartsGreaterPast()) return 13;
+  }
+
   searchCar () {
+    this.selectedErrorMessage = this._validateParams();
+    this.updateShadowDom();
+    if (this.selectedErrorMessage) return;
     const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
     const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
     const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
