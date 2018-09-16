@@ -62,11 +62,26 @@
       }
       .area {
         flex: 1;
+        position: relative;
         input {
           width: 100%;
           border: none;
           outline: none;
           font-size: 13px;
+        }
+        .location-list {
+          position: absolute;
+          top: 45px;
+          width: 100%;
+          left: 0;
+          background: #fff;
+          border: solid 1px #cecece;
+          z-index: 9;
+          div {
+            border-bottom: solid 1px #000;
+            padding: 15px;
+            cursor: pointer;
+          }
         }
       }
       .date {
@@ -125,6 +140,9 @@
     text-transform: uppercase;
     margin: auto;
     outline: none;
+  }
+  .hide {
+    display: none;
   }
 }
 

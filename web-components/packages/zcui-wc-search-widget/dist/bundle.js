@@ -15,8 +15,33 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.changeTime = this.changeTime.bind(this);
     this.searchCar = this.searchCar.bind(this);
     this._validateParams = this._validateParams.bind(this);
+    this.filterLocations = this.filterLocations.bind(this);
+    this.changeLocation = this.changeLocation.bind(this);
     
     this.cities = ['Bangalore', 'Pune', 'Delhi', 'Lucknow', 'Hydrabad', 'Patna'];
+
+    this.locations = { 
+      'Bangalore': [{
+        name: 'domlur',
+        lat: 12.9718915,
+        lng: 77.6411545
+      }, {
+          name: 'indiranagar',
+          lat: 12.9718915,
+          lng: 77.6411545
+        },
+      {
+        name: 'koramangala',
+        lat: 12.9279232,
+        lng: 77.6271078
+      }],
+      'Pune':[],
+      'Delhi':[],
+      'Lucknow':[],
+      'Hydrabad':[],
+      'Patna': []
+    }
+    this.filteredLocation = [];
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const today = new Date();
@@ -41,8 +66,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
 
     this.searchParams = {
-      lat: 12.9718915,
-      lng: 77.6411545,
       starts: {},
       ends: {}
 
@@ -73,7 +96,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   get htmlTemplate() {
     return html`
       <style>
-        .zcui-wc-search-widget{display:flex;padding:20px;font-size:12px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("../img/bg.svg");background-size:contain;max-width:1000px;margin:auto}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;font-size:13px}.zcui-wc-search-widget header{display:flex;margin:auto}.zcui-wc-search-widget header .logo-container{padding:0 20px;margin:10px 0;border-right:solid 1px #cecece}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 20px;font-size:13px;width:125px}.zcui-wc-search-widget label{letter-spacing:.5px;font-size:13px;margin:0 10px}.zcui-wc-search-widget .search-input{display:flex;margin-top:10px;flex-direction:column;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 20px;display:flex;color:#595656;background:#fff;letter-spacing:.5px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area{flex:1}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px;flex:1}.zcui-wc-search-widget button{font-size:12px;font-weight:bold;padding:14px;width:100%;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto}
+        .zcui-wc-search-widget{display:flex;padding:20px;font-size:12px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("../img/bg.svg");background-size:contain;max-width:1000px;margin:auto}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;font-size:13px}.zcui-wc-search-widget header{display:flex;margin:auto}.zcui-wc-search-widget header .logo-container{padding:0 20px;margin:10px 0;border-right:solid 1px #cecece}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 20px;font-size:13px;width:125px}.zcui-wc-search-widget label{letter-spacing:.5px;font-size:13px;margin:0 10px}.zcui-wc-search-widget .search-input{display:flex;margin-top:10px;flex-direction:column;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 20px;display:flex;color:#595656;background:#fff;letter-spacing:.5px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area{flex:1;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:13px}.zcui-wc-search-widget .search-input .input-box .area .location-list{position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #000;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px;flex:1}.zcui-wc-search-widget button{font-size:12px;font-weight:bold;padding:14px;width:100%;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
 
       </style>
       <div class="zcui-wc-search-widget">
@@ -106,7 +129,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
           </select>
         </div>
         <div class="input area">
-          <input type="text" placeholder="Starting Point">
+          <input type="text" placeholder="Starting Point" on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+          <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
+            ${repeat(this.filteredLocation, loc => html`
+              <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
+            `)}
+          </div>
         </div>
       </div>
     </div>
@@ -223,6 +251,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
   changeCity(e) {
     this.searchParams.city = e.currentTarget.value;
+    delete this.searchParams.lat;
+    delete this.searchParams.lng;
+    this.searchParams.locationName = '';
     this.updateShadowDom();
   }
 
@@ -240,7 +271,22 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.searchParams[type].time = val;
     this.updateShadowDom();
   }
-  
+
+  filterLocations(e) {
+    this.filteredLocation = this.locations[this.searchParams.city].filter(loc => {
+      return loc.name.includes(e.currentTarget.value);
+    });
+    this.updateShadowDom();
+  }
+
+  changeLocation(loc) {
+    this.searchParams.locationName = loc.name;
+    this.searchParams.lat = loc.lat;
+    this.searchParams.lng = loc.lng;
+    this.filteredLocation = [];
+    this.updateShadowDom();
+  }
+
   daysInMonth(type) {
     const monthYearIndex = this.searchParams[type].monthYearIndex;
     const selectMonthYear = this.monthsYears[monthYearIndex];
@@ -294,7 +340,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
     const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
     const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const url = `https://www.zoomcar.com/${this.searchParams.city.toLowerCase()}/search/query?lat=12.9718915&lng=77.6411545&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel`;
+    const url = `https://www.zoomcar.com/${this.searchParams.city.toLowerCase()}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel`;
     window.open(url, '_blank');
   }
 }

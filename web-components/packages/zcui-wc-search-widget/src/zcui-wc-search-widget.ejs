@@ -28,7 +28,12 @@
           </select>
         </div>
         <div class="input area">
-          <input type="text" placeholder="Starting Point">
+          <input type="text" placeholder="Starting Point" on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+          <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
+            ${repeat(this.filteredLocation, loc => html`
+              <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
+            `)}
+          </div>
         </div>
       </div>
     </div>

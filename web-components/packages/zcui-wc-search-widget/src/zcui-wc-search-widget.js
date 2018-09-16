@@ -15,8 +15,33 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.changeTime = this.changeTime.bind(this);
     this.searchCar = this.searchCar.bind(this);
     this._validateParams = this._validateParams.bind(this);
+    this.filterLocations = this.filterLocations.bind(this);
+    this.changeLocation = this.changeLocation.bind(this);
     
     this.cities = ['Bangalore', 'Pune', 'Delhi', 'Lucknow', 'Hydrabad', 'Patna'];
+
+    this.locations = { 
+      'Bangalore': [{
+        name: 'domlur',
+        lat: 12.9718915,
+        lng: 77.6411545
+      }, {
+          name: 'indiranagar',
+          lat: 12.9718915,
+          lng: 77.6411545
+        },
+      {
+        name: 'koramangala',
+        lat: 12.9279232,
+        lng: 77.6271078
+      }],
+      'Pune':[],
+      'Delhi':[],
+      'Lucknow':[],
+      'Hydrabad':[],
+      'Patna': []
+    }
+    this.filteredLocation = [];
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const today = new Date();
@@ -41,8 +66,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
 
     this.searchParams = {
-      lat: 12.9718915,
-      lng: 77.6411545,
       starts: {},
       ends: {}
 
@@ -104,6 +127,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
   changeCity(e) {
     this.searchParams.city = e.currentTarget.value;
+    delete this.searchParams.lat;
+    delete this.searchParams.lng;
+    this.searchParams.locationName = '';
     this.updateShadowDom();
   }
 
@@ -121,7 +147,22 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.searchParams[type].time = val;
     this.updateShadowDom();
   }
-  
+
+  filterLocations(e) {
+    this.filteredLocation = this.locations[this.searchParams.city].filter(loc => {
+      return loc.name.includes(e.currentTarget.value);
+    });
+    this.updateShadowDom();
+  }
+
+  changeLocation(loc) {
+    this.searchParams.locationName = loc.name;
+    this.searchParams.lat = loc.lat;
+    this.searchParams.lng = loc.lng;
+    this.filteredLocation = [];
+    this.updateShadowDom();
+  }
+
   daysInMonth(type) {
     const monthYearIndex = this.searchParams[type].monthYearIndex;
     const selectMonthYear = this.monthsYears[monthYearIndex];
@@ -175,7 +216,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
     const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
     const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const url = `https://www.zoomcar.com/${this.searchParams.city.toLowerCase()}/search/query?lat=12.9718915&lng=77.6411545&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel`;
+    const url = `https://www.zoomcar.com/${this.searchParams.city.toLowerCase()}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel`;
     window.open(url, '_blank');
   }
 }
