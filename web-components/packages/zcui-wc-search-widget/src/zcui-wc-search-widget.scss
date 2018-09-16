@@ -37,9 +37,16 @@
       border: solid 1px #8ABD50;
       margin: 7px 10px 20px;
       display: flex;
+      color: #595656;
+      background: #fff;
+      letter-spacing: .5px;
       .city {
         flex: 1;
         border-right: solid 1px #8ABD50;
+        span {
+          flex: 1;
+          padding: 0 10px;
+        }
       }
       .area {
         flex: 1;
@@ -62,10 +69,14 @@
         left: 0;
         bottom: 0;
         right: 0;
+        width: 100%;
       }
       .input {
         position: relative;
-        height: 35px;
+        padding: 12px 9px;
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
       }
     }
     .input-wrapper {
