@@ -14,13 +14,13 @@
       <div class="input-box">
         <div class="input city">
           <img src="../img/location.svg" alt="">
-          <span>Bangalore</span>
+          <span>${this.searchParams.city}</span>
           <img src="../img/arrow.svg" alt="">
-          <select>
-            <option value="option1">option1</option>
-            <option value="option1">option1</option>
-            <option value="option1">option1</option>
-            <option value="option1">option1</option>
+          <select on-change=${this.changeCity}>
+             ${repeat( this.cities,
+              city => html`
+              <option value="${city}">${city}</option>
+            ` )}
           </select>
         </div>
         <div class="input area">
@@ -31,77 +31,71 @@
     <div class="date-time">
 
       <div class="input-wrapper">
-        <label>Start Date and Time</label>
+        <label>Start Date & Time</label>
         <div class="input-box">
           <div class="input date">
-            <span>10</span>
+            <span>${this.searchParams.starts.date}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
+              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
+              <option value="${day}">${day}</option>
+              ` )}
             </select>
           </div>
           <div class="input month">
-            <span>September’18</span>
+            <span>${this.monthsYears[this.searchParams.starts.monthYearIndex].displayName}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
+              ${repeat(this.monthsYears, (month, i) => html`
+              <option value=${i}>${month.displayName}</option>
+              `)}
             </select>
           </div>
           <div class="input time">
-            <span>12:30 PM</span>
+            <span>${this.searchParams.starts.time}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
+              ${repeat(this.timeList, time => html `
+              <option value=${time}>${time}</option>
+              `)}
             </select>
           </div>
         </div>
       </div>
-      
+
       <div class="input-wrapper">
-        <label>End Date and Time</label>
+        <label>End Date & Time</label>
         <div class="input-box">
           <div class="input date">
-            <span>10</span>
+            <span>${this.searchParams.ends.date}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
+              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
+              <option value="${day}">${day}</option>
+              ` )}
             </select>
           </div>
           <div class="input month">
-            <span>September’18</span>
+            <span>${this.monthsYears[this.searchParams.ends.monthYearIndex].displayName}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
+              ${repeat(this.monthsYears, (month, i) => html`
+              <option value=${i}>${month.displayName}</option>
+              `)}
             </select>
           </div>
           <div class="input time">
-            <span>12:30 PM</span>
+            <span>${this.searchParams.ends.time}</span>
             <img src="../img/arrow.svg" alt="">
-            <select>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
-              <option value="option1">option1</option>
+            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
+              ${repeat(this.timeList, time => html `
+              <option value=${time}>${time}</option>
+              `)}
             </select>
           </div>
         </div>
       </div>
     </div>
-    <button> Search Car</button>
+    <button on-click=${this.searchCar}> Search Car</button>
   </div>
 </div>
