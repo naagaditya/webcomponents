@@ -18,7 +18,20 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.filterLocations = this.filterLocations.bind(this);
     this.changeLocation = this.changeLocation.bind(this);
     
-    this.cities = ['Bangalore', 'Pune', 'Delhi', 'Lucknow', 'Hydrabad', 'Patna'];
+    this.cities = [];
+    this._loadXMLDoc({
+      method: 'GET',
+      url: 'https://api.zoomcar.com/v4/cities',
+      data: {
+        platform: 'web'
+      }
+    }, (err, data) => {
+      setTimeout(() => {
+        
+        this.cities = JSON.parse(data).cities;
+        this.updateShadowDom();
+      }, 10000);
+    });
 
     this.locations = { 
       'Bangalore': [{
@@ -121,10 +134,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
           </span>
           <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
           <select on-change=${this.changeCity}>
-            <option></option>
+            <option>${this.cities.length ? '' : 'Please wait'}</option>
              ${repeat( this.cities,
               city => html`
-              <option value="${city}">${city}</option>
+              <option value="${city.name}">${city.name}</option>
             ` )}
           </select>
         </div>
@@ -332,7 +345,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     if (this._isStartsGreaterPast()) return 13;
   }
 
-  searchCar () {
+  searchCar() {
     this.selectedErrorMessage = this._validateParams();
     this.updateShadowDom();
     if (this.selectedErrorMessage) return;
@@ -342,6 +355,32 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
     const url = `https://www.zoomcar.com/${this.searchParams.city.toLowerCase()}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel`;
     window.open(url, '_blank');
+  }
+
+  _loadXMLDoc(request, callback) {
+    const { url, method = 'GET', data = {} } = request;
+    const urlParams = this._objToUrl(data);
+    let xmlhttp;
+    if (window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          callback(null, this.responseText);
+        } else {
+          callback(this.responseText, null);
+        }
+      }
+    };
+    xmlhttp.open(method, `${request.url}?${urlParams}`, true);
+    xmlhttp.send(method == 'POST' ? urlParams : undefined);
+  }
+  
+  _objToUrl(obj) {
+    return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
 }
 
