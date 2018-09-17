@@ -26,7 +26,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
         platform: 'web'
       }
     }, (err, data) => {
-      this.cities = JSON.parse(data).cities;
+      if (data) this.cities = JSON.parse(data).cities;
+      if(err) this.apiErrorMsg = JSON.parse(err).msg;
       this.updateShadowDom();
     });
 
