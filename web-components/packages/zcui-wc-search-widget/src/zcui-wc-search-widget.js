@@ -117,6 +117,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   _updateLocations() {
+    if (this.locations[this.searchParams.city]) return;
     this._loadXMLDoc({
       method: 'GET',
       url: 'https://api.zoomcar.com/v4/hubs',
