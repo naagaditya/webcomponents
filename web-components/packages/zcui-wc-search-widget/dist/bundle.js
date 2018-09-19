@@ -327,7 +327,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
   _validateParams() {
     const params = this.searchParams;
-    if (!params.city) return 1;
+    if (!params.cityLinkName) return 1;
     if (!params.lat || !params.lng) return 2;
     if (!params.starts.date) return 3;
     if (!params.starts.monthYearIndex) return 4;
