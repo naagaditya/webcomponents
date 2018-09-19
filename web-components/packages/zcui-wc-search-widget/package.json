@@ -1,6 +1,6 @@
 {
   "name": "@zoomcarindia/zcui-wc-search-widget",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "zoomcar search widget web component",
   "main": "src/zcui-wc-search-widget.js",
   "scripts": {
