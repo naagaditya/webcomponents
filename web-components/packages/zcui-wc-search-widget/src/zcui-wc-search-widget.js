@@ -27,31 +27,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
       }
     }, (err, data) => {
       if (data) this.cities = JSON.parse(data).cities;
-      if(err) this.apiErrorMsg = JSON.parse(err).msg;
+      if (err) this.apiErrorMsg = JSON.parse(err).msg;
       this.updateShadowDom();
     });
 
-    this.locations = { 
-      'Bangalore': [{
-        name: 'domlur',
-        lat: 12.9718915,
-        lng: 77.6411545
-      }, {
-          name: 'indiranagar',
-          lat: 12.9718915,
-          lng: 77.6411545
-        },
-      {
-        name: 'koramangala',
-        lat: 12.9279232,
-        lng: 77.6271078
-      }],
-      'Pune':[],
-      'Delhi':[],
-      'Lucknow':[],
-      'Hydrabad':[],
-      'Patna': []
-    }
+    this.locations = {};
     this.filteredLocation = [];
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -136,10 +116,26 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.createShadowDom();
   }
 
+  _updateLocations() {
+    this._loadXMLDoc({
+      method: 'GET',
+      url: 'https://api.zoomcar.com/v4/hubs',
+      data: {
+        platform: 'web',
+        city: this.searchParams.city
+      }
+    }, (err, data) => {
+      if (data) this.locations[this.searchParams.city] = JSON.parse(data).hubs;
+      if (err) this.apiErrorMsg = JSON.parse(err).msg;
+      this.updateShadowDom();
+    });
+  }
+
   changeCity(e) {
     this.searchParams.city = e.currentTarget.value;
     delete this.searchParams.lat;
     delete this.searchParams.lng;
+    this._updateLocations(this.searchParams.city);
     this.searchParams.locationName = '';
     this.updateShadowDom();
   }
@@ -161,7 +157,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
   filterLocations(e) {
     this.filteredLocation = this.locations[this.searchParams.city].filter(loc => {
-      return loc.name.includes(e.currentTarget.value);
+      return loc.name.toLowerCase().includes(e.currentTarget.value.toLowerCase());
     });
     this.updateShadowDom();
   }

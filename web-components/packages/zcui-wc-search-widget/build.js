@@ -14,3 +14,4 @@ const styleString = sass.renderSync({
 const scriptString = ejs.render(script, { style: styleString, html: htmlString }, {});
 
 fs.writeFileSync('./dist/bundle.js', scriptString);
+console.log('merging files is done');
