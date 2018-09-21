@@ -17,6 +17,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this._validateParams = this._validateParams.bind(this);
     this.filterLocations = this.filterLocations.bind(this);
     this.changeLocation = this.changeLocation.bind(this);
+    this.closeLocationList = this.closeLocationList.bind(this);
     
     this.cities = [];
     this._loadXMLDoc({
@@ -26,7 +27,16 @@ class ZcuiWcSearchWidget extends HTMLElement {
         platform: 'web'
       }
     }, (err, data) => {
-      if (data) this.cities = JSON.parse(data).cities;
+      if (data) {
+        this.cities = JSON.parse(data).cities.sort((a, b) => {
+          const nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0 //default return value (no sorting)
+        })
+      }
       if (err) this.apiErrorMsg = JSON.parse(err).msg;
       this.updateShadowDom();
     });
@@ -55,12 +65,25 @@ class ZcuiWcSearchWidget extends HTMLElement {
       return temp % 2 ? `${(temp + 1) / 2}:30 ${ampm}` : `${temp / 2 + 1}:00 ${ampm}`;
     })
 
-
+    const tomorrow = new Date(today.getTime() + (60 * 60 * 1000));
+    const nextDayTomorrow = new Date(tomorrow.getTime() + (24 * 60 * 60 * 1000));
+    //default values
     this.searchParams = {
-      starts: {},
-      ends: {}
+      starts: {
+        date: tomorrow.getDate(),
+        monthYearIndex: tomorrow.getMonth() > today.getMonth() ? 1 : 0,
+        time: this._get12HrTime(tomorrow)
+      },
+      ends: {
+        date: nextDayTomorrow.getDate(),
+        monthYearIndex: nextDayTomorrow.getMonth() > tomorrow.getMonth() ? 1 : 0,
+        time: this._get12HrTime(nextDayTomorrow)
+      },
+      cityLinkName: 'mumbai',
+      cityName: 'Mumbai'
 
     };
+    this._updateLocations();
 
     // index 0 means no error
     this.errorMessages = [
@@ -126,7 +149,17 @@ class ZcuiWcSearchWidget extends HTMLElement {
         city: this.searchParams.cityLinkName
       }
     }, (err, data) => {
-      if (data) this.locations[this.searchParams.cityLinkName] = JSON.parse(data).hubs;
+      if (data) {
+        const hubs = JSON.parse(data).hubs.sort((a, b) => {
+          const nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0 //default return value (no sorting)
+        })
+        this.locations[this.searchParams.cityLinkName] = hubs;
+      }
       if (err) this.apiErrorMsg = JSON.parse(err).msg;
       this.updateShadowDom();
     });
@@ -158,6 +191,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   filterLocations(e) {
+    if (!this.searchParams.cityLinkName) return;
     this.filteredLocation = this.locations[this.searchParams.cityLinkName].filter(loc => {
       return loc.name.toLowerCase().includes(e.currentTarget.value.toLowerCase());
     });
@@ -225,7 +259,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
     const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
     const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel&ref_tag=${window.location.hostname}`;
+    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
     window.open(url, '_blank');
   }
 
@@ -253,6 +287,15 @@ class ZcuiWcSearchWidget extends HTMLElement {
   
   _objToUrl(obj) {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
+  }
+
+  closeLocationList(e) {
+    if (e.target.className == 'area-text-input') return;
+    this.filteredLocation = [];
+    this.updateShadowDom();
+  }
+  _get12HrTime(date) {
+    return date.getHours() > 12 ? `${date.getHours() - 12}:00 PM` : `${date.getHours()}:00 AM`;
   }
 }
 

@@ -1,4 +1,4 @@
-<div class="zcui-wc-search-widget">
+<div class="zcui-wc-search-widget" on-click=${this.closeLocationList}>
   <header>
     <div class="logo-container">
       <img alt="logo" src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/logo.svg" class="logo"/>
@@ -12,10 +12,9 @@
   <div class="error">${this.apiErrorMsg}</div>
   <div class="search-input">
     <div class="input-wrapper">
-      <label>Pick-up Location</label>
+      <label>Pick-up & Drop-off locations</label>
       <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
         <div class="input city">
-          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
           <span>
             ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
           </span>
@@ -24,12 +23,13 @@
             <option>${this.cities.length ? '' : 'Please wait'}</option>
              ${repeat( this.cities,
               city => html`
-              <option value="${city.link_name}">${city.name}</option>
+              <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
             ` )}
           </select>
         </div>
         <div class="input area">
-          <input type="text" placeholder="Starting Point" on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
+          <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
           <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
             ${repeat(this.filteredLocation, loc => html`
               <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
@@ -49,13 +49,13 @@
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option value="${day}">${day}</option>
+              <option value="${day}" selected="${day==this.searchParams.starts.date ? 'selected' : '' }">${day}</option>
               ` )}
             </select>
           </div>
           <div class="input month">
             <span>
-              ${this.searchParams.starts.monthYearIndex ?
+              ${this.searchParams.starts.monthYearIndex || this.searchParams.starts.monthYearIndex==0 ?
                 this.monthsYears[this.searchParams.starts.monthYearIndex].displayName :
                 'Month'
               }
@@ -64,7 +64,7 @@
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
-              <option value=${i}>${month.displayName}</option>
+              <option selected="${i==this.searchParams.starts.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
               `)}
             </select>
           </div>
@@ -74,7 +74,7 @@
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
               <option></option>
               ${repeat(this.timeList, time => html `
-              <option value=${time}>${time}</option>
+              <option selected="${ time==this.searchParams.starts.time ? 'selected' : '' }" value=${time}>${time}</option>
               `)}
             </select>
           </div>
@@ -90,20 +90,20 @@
             <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option value="${day}">${day}</option>
+              <option selected="${day==this.searchParams.ends.date ? 'selected' : '' }" value="${day}">${day}</option>
               ` )}
             </select>
           </div>
           <div class="input month">
             <span>
-              ${this.searchParams.ends.monthYearIndex ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
+              ${this.searchParams.ends.monthYearIndex || this.searchParams.ends.monthYearIndex==0 ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
                 'Month' }
             </span>
             <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
             <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat(this.monthsYears, (month, i) => html`
-              <option value=${i}>${month.displayName}</option>
+              <option selected="${i==this.searchParams.ends.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
               `)}
             </select>
           </div>
@@ -113,7 +113,7 @@
             <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
               <option></option>
               ${repeat(this.timeList, time => html `
-              <option value=${time}>${time}</option>
+              <option selected="${ time==this.searchParams.ends.time ? 'selected' : '' }" value=${time}>${time}</option>
               `)}
             </select>
           </div>
