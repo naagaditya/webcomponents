@@ -239,10 +239,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
     if (!params.cityLinkName) return 1;
     if (!params.lat || !params.lng) return 2;
     if (!params.starts.date) return 3;
-    if (!params.starts.monthYearIndex) return 4;
+    if (!params.starts.monthYearIndex && params.starts.monthYearIndex!=0) return 4;
     if (!params.starts.time) return 5;
     if (!params.ends.date) return 6;
-    if (!params.ends.monthYearIndex) return 7;
+    if (!params.ends.monthYearIndex && params.ends.monthYearIndex != 0) return 7;
     if (!params.ends.time) return 8;
     if (this._dateInPast('starts')) return 9;
     if (this._dateInPast('ends')) return 10;

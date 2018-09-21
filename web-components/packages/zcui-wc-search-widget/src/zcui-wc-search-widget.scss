@@ -8,6 +8,7 @@
   background-size: contain;
   margin: auto;
   text-align: left;
+  min-height: 333px;
   .error {
     color: #d0021b;
     text-align: center;
@@ -15,7 +16,7 @@
   }
   header {
     display: flex;
-    margin: auto;
+    margin: 0 auto;
     .logo-container {
       padding: 0 20px;
       margin: 10px 0;
@@ -47,6 +48,9 @@
       letter-spacing: .5px;
       &.error-border {
         border-color: #d0021b;
+      }
+      &.button {
+        border: none;
       }
       .city {
         flex: 1;
