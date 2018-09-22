@@ -1,5 +1,5 @@
-import { html, render } from 'https://unpkg.com/lit-html@0.10.2/lib/lit-extended.js';
-import { repeat } from 'https://unpkg.com/lit-html@0.10.2/lib/repeat.js';
+import { html, render } from '../lib/lit-extended.js';
+import { repeat } from '../lib/repeat.js';
 
 class ZcuiWcSearchWidget extends HTMLElement {
   static get observedAttributes() {
@@ -136,6 +136,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   connectedCallback() {
+    Reflect.construct(HTMLElement, [], this.constructor);
     this.createShadowDom();
   }
 
