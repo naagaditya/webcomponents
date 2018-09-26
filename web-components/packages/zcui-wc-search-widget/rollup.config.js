@@ -5,7 +5,7 @@ import babelRuntimeExternal from 'rollup-plugin-babel-runtime-external';
 
 export default {
   input: './dist/bundle.js',
-  plugin: [babel(), uglify(),
+  plugins: [babel(), uglify(),
     babelRuntimeExternal({
       helpers: false,
       polyfill: true,
