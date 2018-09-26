@@ -1,4 +1,15 @@
 .zcui-wc-search-widget {
+  .background-overlay{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.52);
+    z-index: 0;
+  }
+  position: relative;
   display: flex;
   padding: 20px;
   font-size: 16px;
@@ -13,8 +24,10 @@
     color: #d0021b;
     text-align: center;
     margin: 10px;
+    z-index: 1;
   }
   header {
+    z-index: 1;
     display: flex;
     margin: 0 auto;
     .logo-container {
@@ -27,7 +40,7 @@
     }
     .title {
       padding: 10px 20px;
-      width: 125px;
+      width: 160px;
     }
   }
   label {
@@ -35,6 +48,7 @@
     margin: 0 10px;
   }
   .search-input {
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     padding: 10px 0;
@@ -46,6 +60,7 @@
       color: #595656;
       background: #fff;
       letter-spacing: .5px;
+      border-radius: 2px;
       &.error-border {
         border-color: #d0021b;
       }
