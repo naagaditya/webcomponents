@@ -52,8 +52,6 @@ class WcMultiselect extends HTMLElement{
           flex-wrap: wrap;
         }
         .content {
-          outline: none;
-          opacity: 1;
           position: absolute;
           display: block;
           background: #fff;
@@ -128,10 +126,10 @@ class WcMultiselect extends HTMLElement{
       </style>
       <div class="wrapper" id="multiselect">
         <div class="tags">
-          <input class="input-filter" type="text" tabindex=0/>
+          <input class="input-filter" type="text"/>
         </div>
         <div class="down-arrow"></div>
-        <div class="content" tabindex=1>
+        <div class="content">
           <ul class="items">
           </ul>
         </div>
@@ -147,24 +145,24 @@ class WcMultiselect extends HTMLElement{
     var templateContent = this.template.content.cloneNode(true);
     this._content = templateContent.getElementById('multiselect');
     this.filteredContent = this._content.getElementsByClassName('content')[0];
-    this.filteredContent.style.opacity = 0;
+    this.filteredContent.style.display = 'none';
     this.input = this._content.getElementsByClassName('input-filter')[0];
     this.input.onkeyup = this.updateFilteredList;
     this.input.onfocus = () => {
-      this.filteredContent.style.opacity = 1;
+      this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
     this.input.onblur = (e) => {
-      this.filteredContent.style.opacity = 0;
-    };
-    this.filteredContent.onblur = (e) => {
-      this.filteredContent.style.opacity = 0;
+      this.filteredContent.style.visibility = 'hidden';
     };
     this.input.onkeydown = (e) => {
       if (e.key == 'Backspace' && e.target.value == '') {
         this.removeLastItem();
       }
     };
+    // this.input.onclick = (e) => {
+    //   this._content.focus();
+    // };
     this._content.getElementsByClassName('items')[0].onclick = this.addItem;
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(templateContent);
@@ -173,7 +171,7 @@ class WcMultiselect extends HTMLElement{
     if (!this._content) {
       return;
     }
-    this.filteredContent.style.opacity = 1;
+    this.filteredContent.style.display = 'block';
     var items = this._content.getElementsByClassName('items')[0];
     this.filterList = this.list.filter(item => {
       var itemLabel = item[this.label] ? item[this.label] : item;
@@ -189,13 +187,13 @@ class WcMultiselect extends HTMLElement{
     });
   }
   addItem (e) {
-    this.filteredContent.style.opacity = 1;
+    this.input.focus();
     var filteredListIndex = parseInt(e.target.getAttribute('filtered-list-index'));
     var isAlreadySelected  = this.selectedItems.filter(item => item == this.filterList[filteredListIndex]).length > 0;
     if (isAlreadySelected) {
       return;
     }
-    this.filteredContent.style.opacity = 0;
+    this.filteredContent.style.display = 'none';
     this.input.value = '';
     this.tags = this._content.getElementsByClassName('tags')[0];
     var lastChild = this.tags.children[this.tags.childElementCount-1];
