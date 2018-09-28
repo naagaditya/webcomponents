@@ -152,6 +152,9 @@ class WcMultiselect extends HTMLElement{
       this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
+    this.input.onblur = () => {
+      this.filteredContent.style.display = 'none';
+    };
     this.input.onkeydown = (e) => {
       if (e.key == 'Backspace' && e.target.value == '') {
         this.removeLastItem();
