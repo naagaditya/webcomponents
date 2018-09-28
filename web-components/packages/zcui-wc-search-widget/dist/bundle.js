@@ -23,10 +23,19 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
     this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
     this.formatDate = this.formatDate.bind(this);
-    this.startDate = null;
-    this.startTime = null;
-    this.endDate = null;
-    this.endTime = null;
+    this._getDefaultTime = this._getDefaultTime.bind(this);
+    this._getDefaultDate = this._getDefaultDate.bind(this);
+
+    this._defaultStartTime = this._getDefaultTime('start');
+    this._defaultStartDate = this._getDefaultDate('start');
+    this._defaultEndTime = this._getDefaultTime('end');
+    this._defaultEndDate = this._getDefaultDate('end');
+
+    this.startDate = this._defaultStartDate;
+    this.startTime = this._defaultStartTime;
+    this.endDate = this._defaultEndDate;
+    this.endTime = this._defaultEndTime;
+
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -266,25 +275,60 @@ class ZcuiWcSearchWidget extends HTMLElement {
     });
   }
   formatDate(date) {
-    console.log('date---->', date);
     let dt = new Date(date);
-    console.log('date-->', dt)
     let formattedDate = ' '
     if(isNaN(dt.getTime())) return formattedDate ;
-    formattedDate = dt.toLocaleString('en-US', {weekday: 'short', month: 'short' , day: 'numeric'});
-    return formattedDate
+    formattedDate = dt.toLocaleString('en-GB', {weekday: 'short', month: 'short' , day: 'numeric'});
+    let addComma = arr => [arr[0]+',', ...arr.slice(1)].join(' ')
+    console.log(addComma(formattedDate.split(' ')))
+    return addComma(formattedDate.split(' '))
+  }
+  _getDefaultTime(type) {
+    let defaultTime = '00:00';
+    switch(type) {
+      case "start":
+        // start time logic will come here;
+        defaultTime = '08:00';
+        break;
+      case "end":
+        // end time logic will come here;
+        defaultTime = '10:00';
+        break
+      default:
+        console.error('Invalid defualt time type');
+    }
+    return defaultTime
+  }
+  _getDefaultDate(type) {
+    let defaultDate = '08/05/2018';
+    switch(type) {
+      case "start":
+        // start date logic will come here;
+        defaultDate = '08/15/2018';
+        break;
+      case "end":
+        // end date logic will come here;
+        defaultDate = '08/25/2018';
+        break
+      default:
+        console.error('Invalid defualt date type');
+    }
+    return defaultDate
   }
   handleStartDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = true;
     this.startDate = data.detail.date;
     this.startTime = data.detail.time;
+    console.log('start data--->', data)
+    this.updateShadowDom();
   }
   handleEndDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = false;
     this.endDate = data.detail.date;
     this.endTime = data.detail.time;
+    this.updateShadowDom();
   }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;
