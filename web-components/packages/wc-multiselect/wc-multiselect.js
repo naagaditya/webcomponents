@@ -18,6 +18,7 @@ class WcMultiselect extends HTMLElement{
         }
         .wrapper {
           position: relative;
+          outline: none;
         }
         .down-arrow {
           position: absolute;
@@ -124,9 +125,9 @@ class WcMultiselect extends HTMLElement{
           min-width: 150px;
         }
       </style>
-      <div class="wrapper" id="multiselect">
+      <div class="wrapper" id="multiselect" tabindex="0">
         <div class="tags">
-          <input class="input-filter" type="text" tabindex="0" />
+          <input class="input-filter" type="text"/>
         </div>
         <div class="down-arrow"></div>
         <div class="content">
@@ -152,13 +153,16 @@ class WcMultiselect extends HTMLElement{
       this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
-    this.input.onblur = (e) => {
-      if (e.target.className != 'input-filter') this.filteredContent.style.display = 'none';
+    this._content.onblur = (e) => {
+      this.filteredContent.style.display = 'none';
     };
     this.input.onkeydown = (e) => {
       if (e.key == 'Backspace' && e.target.value == '') {
         this.removeLastItem();
       }
+    };
+    this.input.onclick = (e) => {
+      this._content.focus();
     };
     this._content.getElementsByClassName('items')[0].onclick = this.addItem;
     this.attachShadow({ mode: 'open' });
