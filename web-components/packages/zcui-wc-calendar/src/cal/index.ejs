@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="cal-wrapper">
+        <div class="date-wrapper">
+            ${repeat(this.months, (month, i)=>html`
+            <zc-month-calendar 
+            on-date-tap= ${data => this.handleDateSelection(data)} 
+            start-year$="${month.getFullYear()}" 
+            start-month$="${month.getMonth()}"
+            selected-date$="${this.selectedDate}"
+            min-date$="${this.minDate}"
+            max-date$="${this.maxDate}"
+            ></zc-month-calendar>
+            `)}
+        </div>
+        <button class="done">Done</button>
+        <div class="time-wrapper">
+            <zc-time-picker 
+            on-time-tap=${data =>this.handleTimeSelection(data)}
+            selected-time$="${this.selectedTime}"
+            min-time$="${this.minTime}"
+            max-time$="${this.maxTime}"></zc-time-picker>
+        </div>
+    </div>
+
+</body>
+</html>
