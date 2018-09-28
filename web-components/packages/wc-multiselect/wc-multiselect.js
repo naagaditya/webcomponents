@@ -126,7 +126,7 @@ class WcMultiselect extends HTMLElement{
       </style>
       <div class="wrapper" id="multiselect">
         <div class="tags">
-          <input class="input-filter" type="text"/>
+          <input class="input-filter" type="text" tabindex=0/>
         </div>
         <div class="down-arrow"></div>
         <div class="content">
@@ -153,17 +153,14 @@ class WcMultiselect extends HTMLElement{
       this.updateFilteredList();
     };
     this.input.onblur = (e) => {
-      this.filteredContent.style.visibility = 'hidden';
+      this.filteredContent.style.display = 'none';
     };
     this.input.onkeydown = (e) => {
       if (e.key == 'Backspace' && e.target.value == '') {
         this.removeLastItem();
       }
     };
-    // this.input.onclick = (e) => {
-    //   this._content.focus();
-    // };
-    this._content.getElementsByClassName('items')[0].onclick = this.addItem;
+    this._content.getElementsByClassName('items')[0].onmousedown = this.addItem;
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(templateContent);
   }
