@@ -241,7 +241,7 @@ class WcMultiselect extends HTMLElement{
   attributeChangedCallback(attr, oldVal, newVal) {
     if (oldVal != newVal) {
       this.setProps();
-      this.updateFilteredList();
+      // this.updateFilteredList();
     }
   }
 }
