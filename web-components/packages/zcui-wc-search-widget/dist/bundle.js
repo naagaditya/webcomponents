@@ -21,6 +21,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.toggleStartCalender = this.toggleStartCalender.bind(this);
     this.toggleEndCalender = this.toggleEndCalender.bind(this);
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
+    this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
 
     this.cities = [];
     this._loadXMLDoc({
@@ -223,6 +224,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         selected-time='11:00 AM'
         min-date="08/05/2018"
         max-date="10/15/2018"
+        on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
         ></zc-calendar>
       </div>
     </div>
@@ -288,6 +290,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
   handleStartDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = true;
+  }
+  handleEndDateTimeChange(data) {
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
   }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;
