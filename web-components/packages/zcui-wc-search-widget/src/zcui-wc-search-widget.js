@@ -20,6 +20,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.closeLocationList = this.closeLocationList.bind(this);
     this.toggleStartCalender = this.toggleStartCalender.bind(this);
     this.toggleEndCalender = this.toggleEndCalender.bind(this);
+    this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
 
     this.cities = [];
     this._loadXMLDoc({
@@ -168,7 +169,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
       this.updateShadowDom();
     });
   }
-
+  handleStartDateTimeChange(data) {
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = true;
+  }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;
     this.searchParams.cityName = this.cities.filter(city => city.link_name == e.target.value)[0].name;
@@ -194,9 +198,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.updateShadowDom();
   }
   toggleStartCalender(){
+    this.isEndCalenderVisible = false;
     this.isStartCalenderVisible = !this.isStartCalenderVisible;
   }
   toggleEndCalender(){
+    this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = !this.isEndCalenderVisible;
   }
   filterLocations(e) {
