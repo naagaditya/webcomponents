@@ -1,6 +1,6 @@
 {
   "name": "@zoomcarindia/wc-multiselect",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "multi select",
   "unpkg": "wc-multiselect.js",
   "files": [
@@ -11,5 +11,6 @@
   "license": "ISC",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "a9a3d9e627c90c879fe639757c6348e6e7b05ff5"
 }
