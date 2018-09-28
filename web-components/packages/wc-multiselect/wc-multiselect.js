@@ -18,6 +18,7 @@ class WcMultiselect extends HTMLElement{
         }
         .wrapper {
           position: relative;
+          outline: none;
         }
         .down-arrow {
           position: absolute;
@@ -124,7 +125,7 @@ class WcMultiselect extends HTMLElement{
           min-width: 150px;
         }
       </style>
-      <div class="wrapper" id="multiselect">
+      <div class="wrapper" id="multiselect" tabindex="0">
         <div class="tags">
           <input class="input-filter" type="text" tabindex="0" />
         </div>
