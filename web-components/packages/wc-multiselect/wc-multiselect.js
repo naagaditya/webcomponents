@@ -52,7 +52,6 @@ class WcMultiselect extends HTMLElement{
           flex-wrap: wrap;
         }
         .content {
-          visibility: visible;
           position: absolute;
           display: block;
           background: #fff;
@@ -146,11 +145,11 @@ class WcMultiselect extends HTMLElement{
     var templateContent = this.template.content.cloneNode(true);
     this._content = templateContent.getElementById('multiselect');
     this.filteredContent = this._content.getElementsByClassName('content')[0];
-    this.filteredContent.style.visibility = 'hidden';
+    this.filteredContent.style.display = 'none';
     this.input = this._content.getElementsByClassName('input-filter')[0];
     this.input.onkeyup = this.updateFilteredList;
     this.input.onfocus = () => {
-      this.filteredContent.style.visibility = 'visible';
+      this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
     this.input.onblur = (e) => {
@@ -172,7 +171,7 @@ class WcMultiselect extends HTMLElement{
     if (!this._content) {
       return;
     }
-    this.filteredContent.style.visibility = 'visible';
+    this.filteredContent.style.display = 'block';
     var items = this._content.getElementsByClassName('items')[0];
     this.filterList = this.list.filter(item => {
       var itemLabel = item[this.label] ? item[this.label] : item;
@@ -194,7 +193,7 @@ class WcMultiselect extends HTMLElement{
     if (isAlreadySelected) {
       return;
     }
-    this.filteredContent.style.visibility = 'hidden';
+    this.filteredContent.style.display = 'none';
     this.input.value = '';
     this.tags = this._content.getElementsByClassName('tags')[0];
     var lastChild = this.tags.children[this.tags.childElementCount-1];
