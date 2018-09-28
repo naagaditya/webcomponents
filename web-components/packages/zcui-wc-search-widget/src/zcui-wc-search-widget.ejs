@@ -44,39 +44,19 @@
       <div class="input-wrapper">
         <label>Start Date & Time</label>
         <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <div class="input date">
-            <span>${this.searchParams.starts.date ? this.searchParams.starts.date : 'Date'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
-              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option value="${day}" selected="${day==this.searchParams.starts.date ? 'selected' : '' }">${day}</option>
-              ` )}
-            </select>
-          </div>
-          <div class="input month">
-            <span>
-              ${this.searchParams.starts.monthYearIndex || this.searchParams.starts.monthYearIndex==0 ?
-                this.monthsYears[this.searchParams.starts.monthYearIndex].displayName :
-                'Month'
-              }
-            </span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
-              ${repeat(this.monthsYears, (month, i) => html`
-              <option selected="${i==this.searchParams.starts.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
-              `)}
-            </select>
-          </div>
-          <div class="input time">
-            <span>${this.searchParams.starts.time ? this.searchParams.starts.time : 'Time'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
-              ${repeat(this.timeList, time => html `
-              <option selected="${ time==this.searchParams.starts.time ? 'selected' : '' }" value=${time}>${time}</option>
-              `)}
-            </select>
-          </div>
+          <button on-click=${this.toggleStartCalender}>start date</button>
         </div>
+        <zc-calendar
+        class$="${this.isStartCalenderVisible ? '' : 'hide'}"
+        id="start-calendar"
+        visible-months="6" 
+        min-time="00:00" 
+        max-time="12:00"
+        selected-date='09/15/2018'
+        selected-time='11:00 AM'
+        min-date="08/05/2018"
+        max-date="10/15/2018"
+        ></zc-calendar>
       </div>
 
       <div class="input-wrapper">
@@ -113,6 +93,17 @@
             </select>
           </div>
         </div>
+        <zc-calendar
+        class$="${this.isEndCalenderVisible ? '' : 'hide'}"
+        id="end-calendar"
+        visible-months="6" 
+        min-time="00:00" 
+        max-time="12:00"
+        selected-date='09/15/2018'
+        selected-time='11:00 AM'
+        min-date="08/05/2018"
+        max-date="10/15/2018"
+        ></zc-calendar>
       </div>
     </div>
     <div>

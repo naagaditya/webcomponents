@@ -18,7 +18,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.filterLocations = this.filterLocations.bind(this);
     this.changeLocation = this.changeLocation.bind(this);
     this.closeLocationList = this.closeLocationList.bind(this);
-    
+    this.toggleStartCalender = this.toggleStartCalender.bind(this);
+    this.toggleEndCalender = this.toggleEndCalender.bind(this);
+
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -43,7 +45,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
     this.locations = {};
     this.filteredLocation = [];
-
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const today = new Date();
     this.monthsYears = Array.apply(null, { length: 6 }).map((x, i) => {
@@ -190,7 +193,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.searchParams[type].time = val;
     this.updateShadowDom();
   }
-
+  toggleStartCalender(){
+    this.isStartCalenderVisible = !this.isStartCalenderVisible;
+  }
+  toggleEndCalender(){
+    this.isEndCalenderVisible = !this.isEndCalenderVisible;
+  }
   filterLocations(e) {
     if (!this.searchParams.cityLinkName) return;
     this.filteredLocation = this.locations[this.searchParams.cityLinkName].filter(loc => {

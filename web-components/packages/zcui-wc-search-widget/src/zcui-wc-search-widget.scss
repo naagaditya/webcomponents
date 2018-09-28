@@ -6,7 +6,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.52);
+    background-color: rgba(238, 255, 221, 0.36);
     z-index: 0;
   }
   position: relative;
@@ -55,7 +55,7 @@
 
     .input-box {
       border: solid 1px #8ABD50;
-      margin: 7px 10px 20px;
+      margin: 7px 10px 0px;
       display: flex;
       color: #595656;
       background: #fff;
@@ -135,6 +135,10 @@
       display: flex;
       flex-direction: column;
       flex: 1;
+
+      #start-calendar, #end-calendar{
+        margin-left: 11px;
+      }
     }
   }
   .date-time {
