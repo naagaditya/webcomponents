@@ -46,7 +46,7 @@
         <div 
         on-click=${this.toggleStartCalender}
         class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
-          <p> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
+          <p class="datetime"> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
         </div>
         <zc-calendar
         class$="${this.isStartCalenderVisible ? '' : 'hide'}"
@@ -67,7 +67,7 @@
         <div
         on-click=${this.toggleEndCalender}
         class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-            <p> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
+            <p class="datetime"> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
         </div>
         <zc-calendar
         class$="${this.isEndCalenderVisible ? '' : 'hide'}"
