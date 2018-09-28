@@ -152,7 +152,7 @@ class WcMultiselect extends HTMLElement{
       this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
-    this.input.onblur = () => {
+    this._content.onblur = () => {
       this.filteredContent.style.display = 'none';
     };
     this.input.onkeydown = (e) => {
