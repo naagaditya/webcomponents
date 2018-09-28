@@ -11,7 +11,7 @@
   }
   position: relative;
   display: flex;
-  padding: 20px;
+  padding: 15px;
   font-size: 16px;
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
@@ -31,21 +31,21 @@
     display: flex;
     margin: 0 auto;
     .logo-container {
-      padding: 0 20px;
+      padding-right: 15px;
       margin: 10px 0;
-      border-right: solid 1px #cecece;
     }
     .logo {
       width: 127px;
     }
     .title {
-      padding: 10px 20px;
+      padding: 10px 0px 20px 15px;
+      border-left: 1px solid #cecece;
       width: 160px;
     }
   }
   label {
-    letter-spacing: .5px;
-    margin: 0 10px;
+    letter-spacing: 0.5px;
+    margin: 20px 10px 0;
   }
   .search-input {
     z-index: 1;

@@ -43,66 +43,41 @@
 
       <div class="input-wrapper">
         <label>Start Date & Time</label>
-        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <button on-click=${this.toggleStartCalender}>start date</button>
+        <div 
+        on-click=${this.toggleStartCalender}
+        class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
+          <p> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
         </div>
         <zc-calendar
         class$="${this.isStartCalenderVisible ? '' : 'hide'}"
         id="start-calendar"
         visible-months="6" 
         min-time="00:00" 
-        max-time="12:00"
-        selected-date='09/15/2018'
-        selected-time='11:00 AM'
-        min-date="08/05/2018"
-        max-date="10/15/2018"
+        max-time="23:30"
+        selected-date$='${this.startDate}'
+        selected-time$='${this.startTime}'
+        min-date="08/01/2018"
+        max-date="10/15/2019"
         on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
         ></zc-calendar>
       </div>
 
       <div class="input-wrapper">
         <label>End Date & Time</label>
-        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <div class="input date">
-            <span>${this.searchParams.ends.date ? this.searchParams.ends.date : 'Date'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
-              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option selected="${day==this.searchParams.ends.date ? 'selected' : '' }" value="${day}">${day}</option>
-              ` )}
-            </select>
-          </div>
-          <div class="input month">
-            <span>
-              ${this.searchParams.ends.monthYearIndex || this.searchParams.ends.monthYearIndex==0 ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
-                'Month' }
-            </span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.monthsYears, (month, i) => html`
-              <option selected="${i==this.searchParams.ends.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
-              `)}
-            </select>
-          </div>
-          <div class="input time">
-            <span>${this.searchParams.ends.time ? this.searchParams.ends.time : 'Time'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.timeList, time => html `
-              <option selected="${ time==this.searchParams.ends.time ? 'selected' : '' }" value=${time}>${time}</option>
-              `)}
-            </select>
-          </div>
+        <div
+        on-click=${this.toggleEndCalender}
+        class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <p> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
         </div>
         <zc-calendar
         class$="${this.isEndCalenderVisible ? '' : 'hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time="00:00" 
-        max-time="12:00"
-        selected-date='09/15/2018'
-        selected-time='11:00 AM'
-        min-date="08/05/2018"
+        min-time$="${this.startTime}" 
+        max-time="23:30"
+        selected-date$="${this.endDate}"
+        selected-time$="${this.endTime}"
+        min-date$="${this.startDate}"
         max-date="10/15/2018"
         on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
         ></zc-calendar>

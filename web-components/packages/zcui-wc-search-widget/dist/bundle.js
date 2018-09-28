@@ -22,7 +22,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.toggleEndCalender = this.toggleEndCalender.bind(this);
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
     this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
-
+    this.formatDate = this.formatDate.bind(this);
+    this.startDate = null;
+    this.startTime = null;
+    this.endDate = null;
+    this.endTime = null;
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -115,7 +119,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   get htmlTemplate() {
     return html`
       <style>
-        .zcui-wc-search-widget{position:relative;display:flex;padding:20px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding:0 20px;margin:10px 0;border-right:solid 1px #cecece}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 20px;width:160px}.zcui-wc-search-widget label{letter-spacing:.5px;margin:0 10px}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
+        .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 20px 15px;border-left:1px solid #cecece;width:160px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0}.zcui-wc-search-widget .search-input .input-box{border:solid 1px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
 
       </style>
       <div class="zcui-wc-search-widget" on-click=${this.closeLocationList}>
@@ -163,66 +167,41 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
       <div class="input-wrapper">
         <label>Start Date & Time</label>
-        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <button on-click=${this.toggleStartCalender}>start date</button>
+        <div 
+        on-click=${this.toggleStartCalender}
+        class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
+          <p> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
         </div>
         <zc-calendar
         class$="${this.isStartCalenderVisible ? '' : 'hide'}"
         id="start-calendar"
         visible-months="6" 
         min-time="00:00" 
-        max-time="12:00"
-        selected-date='09/15/2018'
-        selected-time='11:00 AM'
-        min-date="08/05/2018"
-        max-date="10/15/2018"
+        max-time="23:30"
+        selected-date$='${this.startDate}'
+        selected-time$='${this.startTime}'
+        min-date="08/01/2018"
+        max-date="10/15/2019"
         on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
         ></zc-calendar>
       </div>
 
       <div class="input-wrapper">
         <label>End Date & Time</label>
-        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <div class="input date">
-            <span>${this.searchParams.ends.date ? this.searchParams.ends.date : 'Date'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
-              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option selected="${day==this.searchParams.ends.date ? 'selected' : '' }" value="${day}">${day}</option>
-              ` )}
-            </select>
-          </div>
-          <div class="input month">
-            <span>
-              ${this.searchParams.ends.monthYearIndex || this.searchParams.ends.monthYearIndex==0 ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
-                'Month' }
-            </span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.monthsYears, (month, i) => html`
-              <option selected="${i==this.searchParams.ends.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
-              `)}
-            </select>
-          </div>
-          <div class="input time">
-            <span>${this.searchParams.ends.time ? this.searchParams.ends.time : 'Time'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.timeList, time => html `
-              <option selected="${ time==this.searchParams.ends.time ? 'selected' : '' }" value=${time}>${time}</option>
-              `)}
-            </select>
-          </div>
+        <div
+        on-click=${this.toggleEndCalender}
+        class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <p> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
         </div>
         <zc-calendar
         class$="${this.isEndCalenderVisible ? '' : 'hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time="00:00" 
-        max-time="12:00"
-        selected-date='09/15/2018'
-        selected-time='11:00 AM'
-        min-date="08/05/2018"
+        min-time$="${this.startTime}" 
+        max-time="23:30"
+        selected-date$="${this.endDate}"
+        selected-time$="${this.endTime}"
+        min-date$="${this.startDate}"
         max-date="10/15/2018"
         on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
         ></zc-calendar>
@@ -237,7 +216,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
 </div>
     `;
   }
-
 
   createShadowDom() {
     this.attachShadow({ mode: 'open' });
@@ -287,13 +265,26 @@ class ZcuiWcSearchWidget extends HTMLElement {
       this.updateShadowDom();
     });
   }
+  formatDate(date) {
+    console.log('date---->', date);
+    let dt = new Date(date);
+    console.log('date-->', dt)
+    let formattedDate = ' '
+    if(isNaN(dt.getTime())) return formattedDate ;
+    formattedDate = dt.toLocaleString('en-US', {weekday: 'short', month: 'short' , day: 'numeric'});
+    return formattedDate
+  }
   handleStartDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = true;
+    this.startDate = data.detail.date;
+    this.startTime = data.detail.time;
   }
   handleEndDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = false;
+    this.endDate = data.detail.date;
+    this.endTime = data.detail.time;
   }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;

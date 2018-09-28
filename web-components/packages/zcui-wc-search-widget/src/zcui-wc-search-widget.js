@@ -22,7 +22,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.toggleEndCalender = this.toggleEndCalender.bind(this);
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
     this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
-
+    this.formatDate = this.formatDate.bind(this);
+    this.startDate = null;
+    this.startTime = null;
+    this.endDate = null;
+    this.endTime = null;
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -121,7 +125,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     `;
   }
 
-
   createShadowDom() {
     this.attachShadow({ mode: 'open' });
     this.updateShadowDom();
@@ -170,13 +173,26 @@ class ZcuiWcSearchWidget extends HTMLElement {
       this.updateShadowDom();
     });
   }
+  formatDate(date) {
+    console.log('date---->', date);
+    let dt = new Date(date);
+    console.log('date-->', dt)
+    let formattedDate = ' '
+    if(isNaN(dt.getTime())) return formattedDate ;
+    formattedDate = dt.toLocaleString('en-US', {weekday: 'short', month: 'short' , day: 'numeric'});
+    return formattedDate
+  }
   handleStartDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = true;
+    this.startDate = data.detail.date;
+    this.startTime = data.detail.time;
   }
   handleEndDateTimeChange(data) {
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = false;
+    this.endDate = data.detail.date;
+    this.endTime = data.detail.time;
   }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;
