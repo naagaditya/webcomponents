@@ -172,7 +172,7 @@ class WcMultiselect extends HTMLElement{
     var items = this._content.getElementsByClassName('items')[0];
     this.filterList = this.list.filter(item => {
       var itemLabel = item[this.label] ? item[this.label] : item;
-      return itemLabel.toString().includes(e ? e.target.value : '');
+      return itemLabel.toString().toLowerCase().includes(e ? e.target.value.toLowerCase() : '');
     });
     items.innerHTML = '';
     this.filterList.forEach((item, index) => {
