@@ -18,7 +18,6 @@ class WcMultiselect extends HTMLElement{
         }
         .wrapper {
           position: relative;
-          outline: none;
         }
         .down-arrow {
           position: absolute;
@@ -125,7 +124,7 @@ class WcMultiselect extends HTMLElement{
           min-width: 150px;
         }
       </style>
-      <div class="wrapper" id="multiselect" tabindex="0">
+      <div class="wrapper" id="multiselect">
         <div class="tags">
           <input class="input-filter" type="text"/>
         </div>
@@ -153,17 +152,17 @@ class WcMultiselect extends HTMLElement{
       this.filteredContent.style.display = 'block';
       this.updateFilteredList();
     };
-    this._content.onblur = (e) => {
-      this.filteredContent.style.display = 'none';
+    this.input.onblur = (e) => {
+      this.filteredContent.style.visibility = 'hidden';
     };
     this.input.onkeydown = (e) => {
       if (e.key == 'Backspace' && e.target.value == '') {
         this.removeLastItem();
       }
     };
-    this.input.onclick = (e) => {
-      this._content.focus();
-    };
+    // this.input.onclick = (e) => {
+    //   this._content.focus();
+    // };
     this._content.getElementsByClassName('items')[0].onclick = this.addItem;
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(templateContent);
@@ -188,6 +187,7 @@ class WcMultiselect extends HTMLElement{
     });
   }
   addItem (e) {
+    this.input.focus();
     var filteredListIndex = parseInt(e.target.getAttribute('filtered-list-index'));
     var isAlreadySelected  = this.selectedItems.filter(item => item == this.filterList[filteredListIndex]).length > 0;
     if (isAlreadySelected) {
