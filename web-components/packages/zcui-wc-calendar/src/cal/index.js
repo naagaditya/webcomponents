@@ -21,15 +21,18 @@ class zcCalendar extends HTMLElement {
     this.setProps = this.setProps.bind(this);
     this.handleDateSelection = this.handleDateSelection.bind(this);
     this.handleTimeSelection = this.handleTimeSelection.bind(this);
+    this.handleDateSubmission = this.handleDateSubmission.bind(this);
+  }
+  handleDateSubmission(data) {
+    console.log('asdlkfjsdalfjasdlkj')
+    this.dispatchDateTimeChange();
   }
   handleTimeSelection(data) {
     this.selectedTime = data.detail.time;
-    this.dispatchDateTimeChange();
     this.updateShadowDom();
   }
   handleDateSelection(data) {
     this.selectedDate = data.detail.date;
-    this.dispatchDateTimeChange();
     this.updateShadowDom();
   }
   dispatchDateTimeChange(){

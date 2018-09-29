@@ -20,7 +20,7 @@
             ></zc-month-calendar>
             `)}
         </div>
-        <button class="done">Done</button>
+        <button class="done" on-click=${e =>{this.handleDateSubmission()}}>Done</button>
         <div class="time-wrapper">
             <zc-time-picker 
             on-time-tap=${data =>this.handleTimeSelection(data)}
