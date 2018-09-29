@@ -10,9 +10,9 @@
 
             ${repeat(this.dates, date=>html`
               <div 
-                class$="${this.addClassNames(new Date(`${this.month}/${date}/${this.year}`))}"
+                class$="${this.addClassNames(new Date(`${parseInt(this.month)+1}/${date}/${this.year}`))}"
                 on-click=${e => {this.handleDateSelection(date)}}
-                disabled$="${!this.isdateAllowed(new Date(`${this.month}/${date}/${this.year}`))}"
+                disabled$="${!this.isdateAllowed(new Date(`${parseInt(this.month)+1}/${date}/${this.year}`))}"
               >
                 ${date}
               </div>`)}

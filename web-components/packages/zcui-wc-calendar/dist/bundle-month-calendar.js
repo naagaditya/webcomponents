@@ -90,9 +90,9 @@ class zcMonthCalendar extends HTMLElement {
 
             ${repeat(this.dates, date=>html`
               <div 
-                class$="${this.addClassNames(new Date(`${this.month}/${date}/${this.year}`))}"
+                class$="${this.addClassNames(new Date(`${parseInt(this.month)+1}/${date}/${this.year}`))}"
                 on-click=${e => {this.handleDateSelection(date)}}
-                disabled$="${!this.isdateAllowed(new Date(`${this.month}/${date}/${this.year}`))}"
+                disabled$="${!this.isdateAllowed(new Date(`${parseInt(this.month)+1}/${date}/${this.year}`))}"
               >
                 ${date}
               </div>`)}
@@ -103,7 +103,8 @@ class zcMonthCalendar extends HTMLElement {
   };
   handleDateSelection(date) {
     this.selectedDate = date;
-    date = `${this.month}/${date}/${this.year}`
+    // adding one in month as js dates are 0 based.
+    date = `${parseInt(this.month)+1}/${date}/${this.year}`
     if(this.isdateAllowed(new Date(date))){
       this.dispatchEvent(new CustomEvent('date-tap', {bubbles: true, composed: true, detail:{
       date: date,
