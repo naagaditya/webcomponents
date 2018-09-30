@@ -16,7 +16,6 @@
   "license": "ISC",
   "dependencies": {
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
-    "babel-polyfill": "^6.26.0",
     "ejs": "^2.6.1",
     "node-sass": "^4.9.2"
   },

@@ -5,15 +5,14 @@ import babelRuntimeExternal from 'rollup-plugin-babel-runtime-external';
 
 export default {
   input: './dist/bundle.js',
-  plugins: [babel(),
+  plugins: [babel(), uglify(),
     babelRuntimeExternal({
       helpers: false,
       polyfill: true,
-      regenerator: true,
+      regenerator: false,
     })],
   output: {
     file: './dist/bundle.min.js',
     format: 'iife'
   }
-
 };
