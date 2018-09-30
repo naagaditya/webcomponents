@@ -9,8 +9,6 @@
     </i>
     
   </header>
-  <div class="error">${this.errorMessages[this.selectedErrorMessage]}</div>
-  <div class="error">${this.apiErrorMsg}</div>
   <div class="search-input">
     <div class="input-wrapper">
       <label>Pick-up & Drop-off location</label>
@@ -38,11 +36,12 @@
           </div>
         </div>
       </div>
+      <div class="error">${this.errorMessages[this.selectedErrorMessage]}</div>
     </div>
     <div class="date-time">
 
       <div class="input-wrapper">
-        <label>Start Date & Time</label>
+        <label class="date-label">Start Date & Time</label>
         <div 
         on-click=${this.toggleStartCalender}
         class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
@@ -63,7 +62,7 @@
       </div>
 
       <div class="input-wrapper">
-        <label>End Date & Time</label>
+        <label class="date-label">End Date & Time</label>
         <div
         on-click=${this.toggleEndCalender}
         class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
@@ -82,9 +81,10 @@
         on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
         ></zc-calendar>
       </div>
+      <div class="error">${this.apiErrorMsg}</div>
     </div>
-    <div>
-      <label for=""></label>
+    <div class="search-car-button">
+      <label for="" ></label>
       <div class="input-box button"><button on-click=${this.searchCar}> Search Car</button></div>
     </div>
     

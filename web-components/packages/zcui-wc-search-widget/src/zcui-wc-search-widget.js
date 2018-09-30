@@ -351,9 +351,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   searchCar() {
-    // this.selectedErrorMessage = this._validateParams();
-    // this.updateShadowDom();
-    // if (this.selectedErrorMessage) return;
+    this.selectedErrorMessage = this._validateParams();
+    this.updateShadowDom();
+    if (this.selectedErrorMessage) return;
 
     // const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
     // const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
