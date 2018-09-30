@@ -25,7 +25,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.formatDate = this.formatDate.bind(this);
     this._getDefaultTime = this._getDefaultTime.bind(this);
     this._getDefaultDate = this._getDefaultDate.bind(this);
-
+    this.onOutSideClick = this.onOutSideClick.bind(this);
     this._defaultStartTime = this._getDefaultTime('start');
     this._defaultStartDate = this._getDefaultDate('start');
     this._defaultEndTime = this._getDefaultTime('end');
@@ -133,7 +133,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 20px 15px;border-left:1px solid #cecece;width:160px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0;align-items:baseline}.zcui-wc-search-widget .search-input .input-box{border:solid 2px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper .datetime{margin:12px}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;border-radius:2.2px;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);color:#fff;text-transform:uppercase;margin:auto;outline:none}.zcui-wc-search-widget .hide{display:none}
 
       </style>
-      <div class="zcui-wc-search-widget" on-click=${this.closeLocationList}>
+      <div class="zcui-wc-search-widget" on-click=${this.onOutSideClick}>
   <div class="background-overlay"></div>
   <header>
     <div class="logo-container">
@@ -184,7 +184,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
           <p class="datetime"> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
         </div>
         <zc-calendar
-        class$="${this.isStartCalenderVisible ? '' : 'hide'}"
+        class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
         min-time="00:00" 
@@ -205,7 +205,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
             <p class="datetime"> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
         </div>
         <zc-calendar
-        class$="${this.isEndCalenderVisible ? '' : 'hide'}"
+        class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
         min-time$="${this.startTime}" 
@@ -392,9 +392,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return new Date(selectMonthYear.year, selectMonthYear.month, 0).getDate();
   }
 
-  _get24HrTime(time) {
-    const timeArr = time.split(' ');
-    return timeArr[1] == 'PM' ? `${parseInt(timeArr[0].split(':')[0]) + 12}:${timeArr[0].split(':')[1]}` : timeArr[0];
+  _get24HrTime(time12h) {
+    const [time, meridiemStatus] = time12h.split(' ')
+    let [hrs, minutes] = time.split(':')
+    hrs = hrs == '12' ? '00' : hrs
+    hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
+    return `${hrs}:${minutes}`
   }
 
   _dateInPast(type) {
@@ -468,10 +471,19 @@ class ZcuiWcSearchWidget extends HTMLElement {
   _objToUrl(obj) {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
-
+  onOutSideClick(e) {
+    this.closeCalendars(e);
+    this.closeLocationList(e);
+  }
+  closeCalendars(e) {
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime']
+    if(validCalClick.includes(e.target.className)) return;
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
+  }
   closeLocationList(e) {
+    console.log('e.target.className--->', e.target.className);
     if (e.target.className == 'area-text-input') return;
-    console.log('selcted classname-->', e.target.className)
     this.filteredLocation = [];
     this.updateShadowDom();
   }

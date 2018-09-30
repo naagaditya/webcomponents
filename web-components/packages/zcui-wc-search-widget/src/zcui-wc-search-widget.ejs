@@ -1,4 +1,4 @@
-<div class="zcui-wc-search-widget" on-click=${this.closeLocationList}>
+<div class="zcui-wc-search-widget" on-click=${this.onOutSideClick}>
   <div class="background-overlay"></div>
   <header>
     <div class="logo-container">
@@ -49,7 +49,7 @@
           <p class="datetime"> ${this.formatDate(this.startDate)} - ${this.startTime} </p>
         </div>
         <zc-calendar
-        class$="${this.isStartCalenderVisible ? '' : 'hide'}"
+        class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
         min-time="00:00" 
@@ -70,7 +70,7 @@
             <p class="datetime"> ${this.formatDate(this.endDate)} - ${this.endTime} </p>
         </div>
         <zc-calendar
-        class$="${this.isEndCalenderVisible ? '' : 'hide'}"
+        class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
         min-time$="${this.startTime}" 

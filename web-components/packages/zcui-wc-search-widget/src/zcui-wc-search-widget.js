@@ -25,7 +25,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.formatDate = this.formatDate.bind(this);
     this._getDefaultTime = this._getDefaultTime.bind(this);
     this._getDefaultDate = this._getDefaultDate.bind(this);
-
+    this.onOutSideClick = this.onOutSideClick.bind(this);
     this._defaultStartTime = this._getDefaultTime('start');
     this._defaultStartDate = this._getDefaultDate('start');
     this._defaultEndTime = this._getDefaultTime('end');
@@ -379,7 +379,16 @@ class ZcuiWcSearchWidget extends HTMLElement {
   _objToUrl(obj) {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
-
+  onOutSideClick(e) {
+    this.closeCalendars(e);
+    this.closeLocationList(e);
+  }
+  closeCalendars(e) {
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime']
+    if(validCalClick.includes(e.target.className)) return;
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
+  }
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
     this.filteredLocation = [];
