@@ -124,7 +124,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'Start date cannot be greater than end date'
       },
       notMinimumBookingDuration: {
-        message: 'Minimum booking duration should be greater than 4 hrs'
+        message: 'Minimum booking should be greater than 4 hrs'
       }
     }
     this.pickupErrors = ['emptyCity','emptyLocation'];
@@ -135,7 +135,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   get htmlTemplate() {
     return html`
       <style>
-        .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1;position:absolute;display:flex;align-self:center;bottom:-26px;left:0;font-size:12px}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 0px 10px;border-left:1px solid #cecece;width:155px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget date-label{padding:25px 0px}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0;align-items:baseline}.zcui-wc-search-widget .search-input .input-box{border:solid 2px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);max-height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{position:relative;display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper .datetime{margin:12px}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;color:#fff;text-transform:uppercase;margin:auto;background-color:#6fbe45;outline:none;border:none}.zcui-wc-search-widget .hide{display:none}@media screen and (max-width: 350px){.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:-17px}}@media screen and (max-width: 48em){.zcui-wc-search-widget .date-time{flex:1}.zcui-wc-search-widget .search-car-button{width:100%}.zcui-wc-search-widget .input-box.button{background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);border:none}}
+        .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:left;margin:10px;z-index:1;position:absolute;display:flex;align-self:center;bottom:-26px;left:0;font-size:12px}.zcui-wc-search-widget .error-msg{color:#d0021b;text-align:center;margin:10px;z-index:1}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 0px 10px;border-left:1px solid #cecece;width:155px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget date-label{padding:25px 0px}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0;align-items:baseline}.zcui-wc-search-widget .search-input .input-box{border:solid 2px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);max-height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{position:relative;display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper .datetime{margin:12px}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;color:#fff;text-transform:uppercase;margin:auto;background-color:#6fbe45;outline:none;border:none}.zcui-wc-search-widget .hide{display:none}@media screen and (max-width: 350px){.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:-17px}}@media screen and (max-width: 48em){.zcui-wc-search-widget .date-time{flex:1}.zcui-wc-search-widget .search-car-button{width:100%}.zcui-wc-search-widget .input-box.button{background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);border:none}}
 
       </style>
       <div class="zcui-wc-search-widget" on-click=${this.onOutSideClick}>
@@ -149,6 +149,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     </i>
     
   </header>
+  <div class="error-msg">${this.apiErrorMsg}</div>
   <div class="search-input">
     <div class="input-wrapper">
       <label>Pick-up & Drop-off location</label>
@@ -227,7 +228,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
         ></zc-calendar>
         <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">${this.errorMessages[this.selectedErrorMessage].message}</div>
       </div>
-      <div class="error">${this.apiErrorMsg}</div>
     </div>
     <div class="search-car-button">
       <label for="" ></label>
@@ -440,7 +440,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
 _isMinimumBookingDuration() {
   const starts = new Date(`${this.startDate} ${this.startTime}`);
   const ends = new Date(`${this.endDate} ${this.endTime}`);
-  let hours = Math.abs(ends - start) / 36e5;
+  let hours = Math.abs(ends - starts) / 36e5;
+  console.log('hours--->', hours);
   return hours < 4;
 }
   _validateParams() {
@@ -450,7 +451,7 @@ _isMinimumBookingDuration() {
     if (this._dateInPast('starts')) return 'startInPast';
     if (this._dateInPast('ends')) return 'endInPast';
     if (this._isStartsGreaterPast()) return 'invalidDateRange';
-    if(this._isMinimumBookingDuration) return 'notMinimumBookingDuration';
+    if(this._isMinimumBookingDuration()) return 'notMinimumBookingDuration';
     return 'noError';
   }
 

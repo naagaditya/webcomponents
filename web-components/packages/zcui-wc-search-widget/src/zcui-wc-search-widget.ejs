@@ -9,6 +9,7 @@
     </i>
     
   </header>
+  <div class="error-msg">${this.apiErrorMsg}</div>
   <div class="search-input">
     <div class="input-wrapper">
       <label>Pick-up & Drop-off location</label>
@@ -87,7 +88,6 @@
         ></zc-calendar>
         <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">${this.errorMessages[this.selectedErrorMessage].message}</div>
       </div>
-      <div class="error">${this.apiErrorMsg}</div>
     </div>
     <div class="search-car-button">
       <label for="" ></label>

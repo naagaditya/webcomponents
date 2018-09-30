@@ -342,7 +342,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
 _isMinimumBookingDuration() {
   const starts = new Date(`${this.startDate} ${this.startTime}`);
   const ends = new Date(`${this.endDate} ${this.endTime}`);
-  let hours = Math.abs(ends - start) / 36e5;
+  let hours = Math.abs(ends - starts) / 36e5;
+  console.log('hours--->', hours);
   return hours < 4;
 }
   _validateParams() {
@@ -352,7 +353,7 @@ _isMinimumBookingDuration() {
     if (this._dateInPast('starts')) return 'startInPast';
     if (this._dateInPast('ends')) return 'endInPast';
     if (this._isStartsGreaterPast()) return 'invalidDateRange';
-    if(this._isMinimumBookingDuration) return 'notMinimumBookingDuration';
+    if(this._isMinimumBookingDuration()) return 'notMinimumBookingDuration';
     return 'noError';
   }
 
