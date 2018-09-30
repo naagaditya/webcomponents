@@ -35,6 +35,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.startTime = this._defaultStartTime;
     this.endDate = this._defaultEndDate;
     this.endTime = this._defaultEndTime;
+    this.isEditingStartDateTime = false;
+    this.isEditingEndDateTime = false;
 
     this.cities = [];
     this._loadXMLDoc({
@@ -188,7 +190,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     if(isNaN(dt.getTime())) return formattedDate ;
     formattedDate = dt.toLocaleString('en-GB', {weekday: 'short', month: 'short' , day: 'numeric'});
     let addComma = arr => [arr[0]+',', ...arr.slice(1)].join(' ')
-    console.log(addComma(formattedDate.split(' ')))
     return addComma(formattedDate.split(' '))
   }
   _getDefaultTime(type) {
@@ -224,18 +225,25 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return defaultDate
   }
   handleStartDateTimeChange(data) {
-    this.isStartCalenderVisible = false;
-    this.isEndCalenderVisible = true;
     this.startDate = data.detail.date;
     this.startTime = data.detail.time;
-    console.log('start data--->', data)
+    let isSubmitted = data.detail.isSubmitted;
+    if((this._defaultStartDate != this.startDate && this._defaultStartTime != this.startTime && !this.isEditingStartDateTime) || isSubmitted){
+      this.isStartCalenderVisible = false;
+      this.isEndCalenderVisible = true;
+      this.isEditingStartDateTime = true;
+    }
     this.updateShadowDom();
   }
   handleEndDateTimeChange(data) {
-    this.isStartCalenderVisible = false;
-    this.isEndCalenderVisible = false;
+    let isSubmitted = data.detail.isSubmitted;
     this.endDate = data.detail.date;
     this.endTime = data.detail.time;
+    if((this._defaultEndDate != this.endDate && this._defaultEndTime != this.endTime && !this.isEditingEndDateTime) || isSubmitted){
+      this.isStartCalenderVisible = false;
+      this.isEndCalenderVisible = false;
+      this.isEditingEndDateTime = true;
+    }
     this.updateShadowDom();
   }
   changeCity(e) {
