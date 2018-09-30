@@ -103,27 +103,30 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
     };
     this._updateLocations();
-
-    // index 0 means no error
-    this.errorMessages = [
-      '',
-      'Please select city',
-      'Please select starting point',
-      'Please select start date',
-      'Please select start month',
-      'Please select start time',
-      'Please select end date',
-      'Please select end month',
-      'Please select end time',
-      'Starts Can\'t be in past',
-      'ends Can\'t be in past',
-      'Wrong start date selected',
-      'Wrong end date selected',
-      'Start date cannot be greater than end date'
-    ];
-    this.pickupErrors = [1,2];
-    this.startsErrors = [3,4,5,9,11,13];
-    this.endsErrors = [6,7,8,10,12,13];
+    this.selectedErrorMessage = 'noError';
+    this.errorMessages = {
+      noError:{
+        message: ''
+      },
+      emptyCity: {
+        message: 'Please select city'
+      },
+      emptyLocation: {
+        message: 'please select starting point'
+      },
+      startInPast: {
+        message: 'Start date can\'t be in past'
+      },
+      endInPast: {
+        message: 'End date can\'t be in past'
+      },
+      invalidDateRange: {
+        message: 'Start date cannot be greater than end date'
+      }
+    }
+    this.pickupErrors = ['emptyCity','emptyLocation'];
+    this.startsErrors = ['startInPast', 'invalidDateRange'];
+    this.endsErrors = ['endInPast'];
   }
 
   get htmlTemplate() {
@@ -317,48 +320,36 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   _dateInPast(type) {
-    const monthYearIndex = this.searchParams[type].monthYearIndex;
-    const selectMonthYear = this.monthsYears[monthYearIndex];
-    const date = new Date(`${selectMonthYear.month}-${this.searchParams[type].date}-${selectMonthYear.year} ${this.searchParams[type].time}`);
     const today = new Date();
+    let date;
+    if(type === 'starts'){
+      date = new Date(`${this.startDate} ${this.startTime}`);
+    }
+    if(type === 'ends'){
+      date = new Date(`${this.endDate} ${this.endTime}`);
+    } 
     return today > date;
   }
 
   _isStartsGreaterPast() {
-    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const starts = new Date(`${selectStartsMonthYear.month}-${this.searchParams.starts.date}-${selectStartsMonthYear.year} ${this.searchParams.starts.time}`);
-    const ends = new Date(`${selectEndsMonthYear.month}-${this.searchParams.ends.date}-${selectEndsMonthYear.year} ${this.searchParams.ends.time}`);
+    const starts = new Date(`${this.startDate} ${this.startTime}`);
+    const ends = new Date(`${this.endDate} ${this.endTime}`);
     return starts > ends;
   }
   _validateParams() {
     const params = this.searchParams;
-    if (!params.cityLinkName) return 1;
-    if (!params.lat || !params.lng) return 2;
-    if (!params.starts.date) return 3;
-    if (!params.starts.monthYearIndex && params.starts.monthYearIndex!=0) return 4;
-    if (!params.starts.time) return 5;
-    if (!params.ends.date) return 6;
-    if (!params.ends.monthYearIndex && params.ends.monthYearIndex != 0) return 7;
-    if (!params.ends.time) return 8;
-    if (this._dateInPast('starts')) return 9;
-    if (this._dateInPast('ends')) return 10;
-    if (parseInt(params.starts.date) > this.daysInMonth('starts')) return 11;
-    if (parseInt(params.ends.date) > this.daysInMonth('ends')) return 12;
-    if (this._isStartsGreaterPast()) return 13;
+    if (!params.cityLinkName) return 'emptyCity';
+    if (!params.lat || !params.lng) return 'emptyLocation';
+    if (this._dateInPast('starts')) return 'startInPast';
+    if (this._dateInPast('ends')) return 'endInPast';
+    if (this._isStartsGreaterPast()) return 'invalidDateRange';
+    return 'noError';
   }
 
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
     this.updateShadowDom();
-    if (this.selectedErrorMessage) return;
-
-    // const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    // const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    // const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    // const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
+    if (this.selectedErrorMessage != 'noError') return;
 
     const startDate = new Date(this.startDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
     const endDate = new Date(this.endDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')

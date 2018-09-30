@@ -76,8 +76,6 @@
       }
       &.button {
         border: none;
-        background-color: #6fbe45;
-        box-shadow: 1px 1px 7px 0 rgba(186, 185, 185, 0.5);
       }
       .city {
         flex: 1;
@@ -98,7 +96,7 @@
         }
         .location-list {
           box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
-          height: 230px;
+          max-height: 230px;
           overflow: scroll;
           position: absolute;
           top: 45px;
@@ -174,6 +172,7 @@
     margin: auto;
     background-color: #6fbe45;
     outline: none;
+    border:none;
   }
   .hide {
     display: none;
@@ -199,6 +198,13 @@
     }
     .search-car-button {
       width: 100%;
+    }
+    .input-box{
+      &.button{
+        background-color: #6fbe45;
+        box-shadow: 1px 1px 7px 0 rgba(186, 185, 185, 0.5);
+        border:none;
+      }
     }
   }
 }

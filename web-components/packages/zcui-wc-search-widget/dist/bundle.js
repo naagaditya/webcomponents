@@ -103,33 +103,36 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
     };
     this._updateLocations();
-
-    // index 0 means no error
-    this.errorMessages = [
-      '',
-      'Please select city',
-      'Please select starting point',
-      'Please select start date',
-      'Please select start month',
-      'Please select start time',
-      'Please select end date',
-      'Please select end month',
-      'Please select end time',
-      'Starts Can\'t be in past',
-      'ends Can\'t be in past',
-      'Wrong start date selected',
-      'Wrong end date selected',
-      'Start date cannot be greater than end date'
-    ];
-    this.pickupErrors = [1,2];
-    this.startsErrors = [3,4,5,9,11,13];
-    this.endsErrors = [6,7,8,10,12,13];
+    this.selectedErrorMessage = 'noError';
+    this.errorMessages = {
+      noError:{
+        message: ''
+      },
+      emptyCity: {
+        message: 'Please select city'
+      },
+      emptyLocation: {
+        message: 'please select starting point'
+      },
+      startInPast: {
+        message: 'Start date can\'t be in past'
+      },
+      endInPast: {
+        message: 'End date can\'t be in past'
+      },
+      invalidDateRange: {
+        message: 'Start date cannot be greater than end date'
+      }
+    }
+    this.pickupErrors = ['emptyCity','emptyLocation'];
+    this.startsErrors = ['startInPast', 'invalidDateRange'];
+    this.endsErrors = ['endInPast'];
   }
 
   get htmlTemplate() {
     return html`
       <style>
-        .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1;position:absolute;display:flex;align-self:center;bottom:-26px;left:0;font-size:12px}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 0px 10px;border-left:1px solid #cecece;width:155px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget date-label{padding:25px 0px}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0;align-items:baseline}.zcui-wc-search-widget .search-input .input-box{border:solid 2px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none;background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5)}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{position:relative;display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper .datetime{margin:12px}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;color:#fff;text-transform:uppercase;margin:auto;background-color:#6fbe45;outline:none}.zcui-wc-search-widget .hide{display:none}@media screen and (max-width: 350px){.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:-17px}}@media screen and (max-width: 48em){.zcui-wc-search-widget .date-time{flex:1}.zcui-wc-search-widget .search-car-button{width:100%}}
+        .zcui-wc-search-widget{position:relative;display:flex;padding:15px;font-size:16px;flex-direction:column;font-family:Arial, Helvetica, sans-serif;background-image:url("https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg");background-size:contain;margin:auto;text-align:left;min-height:333px}.zcui-wc-search-widget .background-overlay{position:absolute;width:100%;top:0;left:0;bottom:0;right:0;background-color:rgba(255,255,255,0.52);z-index:0}.zcui-wc-search-widget .error{color:#d0021b;text-align:center;margin:10px;z-index:1;position:absolute;display:flex;align-self:center;bottom:-26px;left:0;font-size:12px}.zcui-wc-search-widget header{z-index:1;display:flex;margin:0 auto}.zcui-wc-search-widget header .logo-container{padding-right:15px;margin:10px 0}.zcui-wc-search-widget header .logo{width:127px}.zcui-wc-search-widget header .title{padding:10px 0px 0px 10px;border-left:1px solid #cecece;width:155px}.zcui-wc-search-widget label{letter-spacing:0.5px;margin:20px 10px 0}.zcui-wc-search-widget date-label{padding:25px 0px}.zcui-wc-search-widget .search-input{z-index:1;display:flex;flex-wrap:wrap;padding:10px 0;align-items:baseline}.zcui-wc-search-widget .search-input .input-box{border:solid 2px #8ABD50;margin:7px 10px 0px;display:flex;color:#595656;background:#fff;letter-spacing:.5px;border-radius:2px}.zcui-wc-search-widget .search-input .input-box.error-border{border-color:#d0021b}.zcui-wc-search-widget .search-input .input-box.button{border:none}.zcui-wc-search-widget .search-input .input-box .city{flex:1;border-right:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .city span{flex:1}.zcui-wc-search-widget .search-input .input-box .area{flex:2;position:relative}.zcui-wc-search-widget .search-input .input-box .area input{width:100%;border:none;outline:none;font-size:16px;padding:0 10px}.zcui-wc-search-widget .search-input .input-box .area .location-list{box-shadow:0 2px 4px 0 rgba(0,0,0,0.5);max-height:230px;overflow:scroll;position:absolute;top:45px;width:100%;left:0;background:#fff;border:solid 1px #cecece;z-index:9}.zcui-wc-search-widget .search-input .input-box .area .location-list div{border-bottom:solid 1px #cecece;padding:15px;cursor:pointer}.zcui-wc-search-widget .search-input .input-box .date{width:21%}.zcui-wc-search-widget .search-input .input-box .month{width:45%;border-right:solid 1px #8ABD50;border-left:solid 1px #8ABD50}.zcui-wc-search-widget .search-input .input-box .time{width:34%}.zcui-wc-search-widget .search-input .input-box select{opacity:0;position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}.zcui-wc-search-widget .search-input .input-box .input{position:relative;padding:12px 9px;display:flex;align-items:center;justify-content:space-between}.zcui-wc-search-widget .search-input .input-wrapper{position:relative;display:flex;flex-direction:column;flex:1}.zcui-wc-search-widget .search-input .input-wrapper .datetime{margin:12px}.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:11px}.zcui-wc-search-widget .date-time{display:flex;flex-wrap:wrap;justify-content:space-between;flex:2}.zcui-wc-search-widget .date-time .input-wrapper{min-width:256px}.zcui-wc-search-widget button{font-size:16px;padding:11px;max-width:420px;color:#fff;text-transform:uppercase;margin:auto;background-color:#6fbe45;outline:none;border:none}.zcui-wc-search-widget .hide{display:none}@media screen and (max-width: 350px){.zcui-wc-search-widget .search-input .input-wrapper #start-calendar,.zcui-wc-search-widget .search-input .input-wrapper #end-calendar{margin-left:-17px}}@media screen and (max-width: 48em){.zcui-wc-search-widget .date-time{flex:1}.zcui-wc-search-widget .search-car-button{width:100%}.zcui-wc-search-widget .input-box.button{background-color:#6fbe45;box-shadow:1px 1px 7px 0 rgba(186,185,185,0.5);border:none}}
 
       </style>
       <div class="zcui-wc-search-widget" on-click=${this.onOutSideClick}>
@@ -170,10 +173,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
           </div>
         </div>
       </div>
-      <div class="error">${this.errorMessages[this.selectedErrorMessage]}</div>
+      
+      <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+        ${this.errorMessages[this.selectedErrorMessage].message}
+      </div>
     </div>
     <div class="date-time">
-
       <div class="input-wrapper">
         <label class="date-label">Start Date & Time</label>
         <div 
@@ -193,6 +198,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
         max-date="10/15/2019"
         on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
         ></zc-calendar>
+        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+          ${this.errorMessages[this.selectedErrorMessage].message}
+        </div>
       </div>
 
       <div class="input-wrapper">
@@ -214,6 +222,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         max-date="10/15/2019"
         on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
         ></zc-calendar>
+        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">${this.errorMessages[this.selectedErrorMessage].message}</div>
       </div>
       <div class="error">${this.apiErrorMsg}</div>
     </div>
@@ -409,48 +418,36 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   _dateInPast(type) {
-    const monthYearIndex = this.searchParams[type].monthYearIndex;
-    const selectMonthYear = this.monthsYears[monthYearIndex];
-    const date = new Date(`${selectMonthYear.month}-${this.searchParams[type].date}-${selectMonthYear.year} ${this.searchParams[type].time}`);
     const today = new Date();
+    let date;
+    if(type === 'starts'){
+      date = new Date(`${this.startDate} ${this.startTime}`);
+    }
+    if(type === 'ends'){
+      date = new Date(`${this.endDate} ${this.endTime}`);
+    } 
     return today > date;
   }
 
   _isStartsGreaterPast() {
-    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const starts = new Date(`${selectStartsMonthYear.month}-${this.searchParams.starts.date}-${selectStartsMonthYear.year} ${this.searchParams.starts.time}`);
-    const ends = new Date(`${selectEndsMonthYear.month}-${this.searchParams.ends.date}-${selectEndsMonthYear.year} ${this.searchParams.ends.time}`);
+    const starts = new Date(`${this.startDate} ${this.startTime}`);
+    const ends = new Date(`${this.endDate} ${this.endTime}`);
     return starts > ends;
   }
   _validateParams() {
     const params = this.searchParams;
-    if (!params.cityLinkName) return 1;
-    if (!params.lat || !params.lng) return 2;
-    if (!params.starts.date) return 3;
-    if (!params.starts.monthYearIndex && params.starts.monthYearIndex!=0) return 4;
-    if (!params.starts.time) return 5;
-    if (!params.ends.date) return 6;
-    if (!params.ends.monthYearIndex && params.ends.monthYearIndex != 0) return 7;
-    if (!params.ends.time) return 8;
-    if (this._dateInPast('starts')) return 9;
-    if (this._dateInPast('ends')) return 10;
-    if (parseInt(params.starts.date) > this.daysInMonth('starts')) return 11;
-    if (parseInt(params.ends.date) > this.daysInMonth('ends')) return 12;
-    if (this._isStartsGreaterPast()) return 13;
+    if (!params.cityLinkName) return 'emptyCity';
+    if (!params.lat || !params.lng) return 'emptyLocation';
+    if (this._dateInPast('starts')) return 'startInPast';
+    if (this._dateInPast('ends')) return 'endInPast';
+    if (this._isStartsGreaterPast()) return 'invalidDateRange';
+    return 'noError';
   }
 
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
     this.updateShadowDom();
-    if (this.selectedErrorMessage) return;
-
-    // const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    // const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    // const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    // const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
+    if (this.selectedErrorMessage != 'noError') return;
 
     const startDate = new Date(this.startDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
     const endDate = new Date(this.endDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
