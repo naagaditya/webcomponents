@@ -122,11 +122,14 @@ class ZcuiWcSearchWidget extends HTMLElement {
       },
       invalidDateRange: {
         message: 'Start date cannot be greater than end date'
+      },
+      notMinimumBookingDuration: {
+        message: 'Minimum booking duration should be greater than 4 hrs'
       }
     }
     this.pickupErrors = ['emptyCity','emptyLocation'];
     this.startsErrors = ['startInPast', 'invalidDateRange'];
-    this.endsErrors = ['endInPast'];
+    this.endsErrors = ['endInPast', 'notMinimumBookingDuration'];
   }
 
   get htmlTemplate() {
@@ -434,6 +437,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const ends = new Date(`${this.endDate} ${this.endTime}`);
     return starts > ends;
   }
+_isMinimumBookingDuration() {
+  const starts = new Date(`${this.startDate} ${this.startTime}`);
+  const ends = new Date(`${this.endDate} ${this.endTime}`);
+  let hours = Math.abs(ends - start) / 36e5;
+  return hours < 4;
+}
   _validateParams() {
     const params = this.searchParams;
     if (!params.cityLinkName) return 'emptyCity';
@@ -441,6 +450,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     if (this._dateInPast('starts')) return 'startInPast';
     if (this._dateInPast('ends')) return 'endInPast';
     if (this._isStartsGreaterPast()) return 'invalidDateRange';
+    if(this._isMinimumBookingDuration) return 'notMinimumBookingDuration';
     return 'noError';
   }
 
