@@ -351,14 +351,21 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
 
   searchCar() {
-    this.selectedErrorMessage = this._validateParams();
-    this.updateShadowDom();
-    if (this.selectedErrorMessage) return;
-    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
+    // this.selectedErrorMessage = this._validateParams();
+    // this.updateShadowDom();
+    // if (this.selectedErrorMessage) return;
+
+    // const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
+    // const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
+    // const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
+    // const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
+
+    const startDate = new Date(this.startDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
+    const endDate = new Date(this.endDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
+    const startTime = this._get24HrTime(this.startTime)
+    const endTime = this._get24HrTime(this.endTime)
+
+    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
     window.open(url, '_blank');
   }
 
