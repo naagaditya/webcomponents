@@ -24,21 +24,23 @@ class zcCalendar extends HTMLElement {
     this.handleDateSubmission = this.handleDateSubmission.bind(this);
   }
   handleDateSubmission(data) {
-    console.log('asdlkfjsdalfjasdlkj')
-    this.dispatchDateTimeChange();
+    this.dispatchDateTimeChange(true);
   }
   handleTimeSelection(data) {
     this.selectedTime = data.detail.time;
+    this.dispatchDateTimeChange();
     this.updateShadowDom();
   }
   handleDateSelection(data) {
     this.selectedDate = data.detail.date;
+    this.dispatchDateTimeChange();
     this.updateShadowDom();
   }
-  dispatchDateTimeChange(){
+  dispatchDateTimeChange(isSubmitted=false){
     this.dispatchEvent(new CustomEvent('datetime-change', {bubbles: true, composed: true, detail:{
       time: this.selectedTime,
-      date: this.selectedDate
+      date: this.selectedDate,
+      isSubmitted,
     }}));
   }
   setProps() {
