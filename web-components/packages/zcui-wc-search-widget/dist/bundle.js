@@ -1,6 +1,6 @@
+import '../node_modules/babel-polyfill/dist/polyfill';
 import { html, render } from '../lib/lit-extended.js';
 import { repeat } from '../lib/repeat.js';
-
 class ZcuiWcSearchWidget extends HTMLElement {
   static get observedAttributes() {
     return [];
