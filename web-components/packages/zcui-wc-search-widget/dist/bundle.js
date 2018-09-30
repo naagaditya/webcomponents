@@ -301,15 +301,15 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return defaultTime
   }
   _getDefaultDate(type) {
-    let defaultDate = '08/05/2018';
+    let defaultDate = '09/05/2018';
     switch(type) {
       case "start":
         // start date logic will come here;
-        defaultDate = '08/15/2018';
+        defaultDate = '09/15/2018';
         break;
       case "end":
         // end date logic will come here;
-        defaultDate = '08/25/2018';
+        defaultDate = '09/25/2018';
         break
       default:
         console.error('Invalid defualt date type');
@@ -471,6 +471,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
+    console.log('selcted classname-->', e.target.className)
     this.filteredLocation = [];
     this.updateShadowDom();
   }

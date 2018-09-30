@@ -209,15 +209,15 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return defaultTime
   }
   _getDefaultDate(type) {
-    let defaultDate = '08/05/2018';
+    let defaultDate = '09/05/2018';
     switch(type) {
       case "start":
         // start date logic will come here;
-        defaultDate = '08/15/2018';
+        defaultDate = '09/15/2018';
         break;
       case "end":
         // end date logic will come here;
-        defaultDate = '08/25/2018';
+        defaultDate = '09/25/2018';
         break
       default:
         console.error('Invalid defualt date type');
@@ -300,9 +300,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return new Date(selectMonthYear.year, selectMonthYear.month, 0).getDate();
   }
 
-  _get24HrTime(time) {
-    const timeArr = time.split(' ');
-    return timeArr[1] == 'PM' ? `${parseInt(timeArr[0].split(':')[0]) + 12}:${timeArr[0].split(':')[1]}` : timeArr[0];
+  _get24HrTime(time12h) {
+    const [time, meridiemStatus] = time12h.split(' ')
+    let [hrs, minutes] = time.split(':')
+    hrs = hrs == '12' ? '00' : hrs
+    hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
+    return `${hrs}:${minutes}`
   }
 
   _dateInPast(type) {
