@@ -56,10 +56,14 @@ class zcMonthCalendar extends HTMLElement {
     let date = (i-this.startingDay > 0 && i-this.startingDay <= this.monthLength ? i-this.startingDay : false);
     return date || '.'
   })
+  console.log('props updated--->', this.selectedDate);
   }
   addClassNames(date) {
     let selectedDate = new Date(this.selectedDate)
     let classNames = ['day',]
+    console.log('date--->', date);
+    console.log('selectedDate--->', selectedDate);
+    // console.log('selectedDate.getTime() == date.getTime()-->', selectedDate.getTime() == date.getTime())
     if(selectedDate.getTime() == date.getTime()) classNames.push('selected');
     if(!this.isdateAllowed(date)) classNames.push('disabled');
     return classNames.join(' ');
@@ -103,6 +107,7 @@ class zcMonthCalendar extends HTMLElement {
   };
   handleDateSelection(date) {
     this.selectedDate = date;
+    console.log('handleDateSelection--->', date);
     // adding one in month as js dates are 0 based.
     date = `${parseInt(this.month)+1}/${date}/${this.year}`
     if(this.isdateAllowed(new Date(date))){

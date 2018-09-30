@@ -27,11 +27,13 @@ class zcCalendar extends HTMLElement {
     this.dispatchDateTimeChange(true);
   }
   handleTimeSelection(data) {
+    console.log('handle time selection');
     this.selectedTime = data.detail.time;
     this.dispatchDateTimeChange();
     this.updateShadowDom();
   }
   handleDateSelection(data) {
+    console.log('handle date selection');
     this.selectedDate = data.detail.date;
     this.dispatchDateTimeChange();
     this.updateShadowDom();

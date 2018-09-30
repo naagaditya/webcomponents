@@ -21,6 +21,7 @@
             border-radius: 50px;
         }
         &.disable{
+            display:none;
             color: #b9b9b9;
             font-weight: 300;
             cursor: not-allowed;

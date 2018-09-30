@@ -43,8 +43,9 @@ class zcTimePicker extends HTMLElement {
   }
   addClassNames(time) {
     let classNames = ['time'];
+    let time24h = this.convertTo24Hour(time);
     if (!this.isTimeAllowed(time)) classNames.push('disable');
-    if (this.selectedTime == time) classNames.push('selected')
+    if (time24h == this.selectedTime) classNames.push('selected')
     return classNames.join(' ')
   }
   convertTo24Hour(time12h) {
@@ -55,7 +56,7 @@ class zcTimePicker extends HTMLElement {
     return `${hrs}:${minutes}`
   }
   _ifRequiredConvertTo24Hr(time){
-    let time24h = null
+    let time24h;
     let ampmRegex = /[p,a].?m.?/ig;
     let isAmPmFormat = ampmRegex.test(time.toLowerCase());
     if(isAmPmFormat) {
@@ -67,9 +68,7 @@ class zcTimePicker extends HTMLElement {
   setProps() {
     this.minTime = this._ifRequiredConvertTo24Hr(this.getAttribute('min-time'))|| 0;
     this.maxTime = this._ifRequiredConvertTo24Hr(this.getAttribute('max-time')) || 24;
-    this.selectedTime = this.getAttribute('selected-time') || null;
-    console.log('minTime-->', this.minTime);
-    console.log('maxTime--->', this.maxTime);
+    this.selectedTime = this._ifRequiredConvertTo24Hr(this.getAttribute('selected-time')) || null;
     // this.visibleMonthCount = this.getAttribute('visible-months') || 6;
   }
 
@@ -95,6 +94,7 @@ class zcTimePicker extends HTMLElement {
     this.updateShadowDom();
   }
   updateShadowDom() {
+    console.log('update shadow dom called from time')
     if (this.shadowRoot) {
       render(this.htmlTemplate, this.shadowRoot);
     }

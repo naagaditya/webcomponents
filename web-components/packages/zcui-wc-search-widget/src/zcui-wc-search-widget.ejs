@@ -52,11 +52,11 @@
         class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
-        min-time="00:00" 
+        min-time$="${this.minStartTime}"
         max-time="23:30"
         selected-date$='${this.startDate}'
         selected-time$='${this.startTime}'
-        min-date="08/01/2018"
+        min-date$="${this._defaultStartDate}"
         max-date="10/15/2019"
         on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
         ></zc-calendar>
@@ -73,7 +73,7 @@
         class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time$="${this.startTime}" 
+        min-time$="${this.startDate == this.endDate ? this.startTime: '00:00'}" 
         max-time="23:30"
         selected-date$="${this.endDate}"
         selected-time$="${this.endTime}"

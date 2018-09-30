@@ -23,6 +23,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
     this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
     this.formatDate = this.formatDate.bind(this);
+    this._roundTimeHalfHour = this._roundTimeHalfHour.bind(this);
     this._getDefaultTime = this._getDefaultTime.bind(this);
     this._getDefaultDate = this._getDefaultDate.bind(this);
     this.onOutSideClick = this.onOutSideClick.bind(this);
@@ -30,7 +31,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this._defaultStartDate = this._getDefaultDate('start');
     this._defaultEndTime = this._getDefaultTime('end');
     this._defaultEndDate = this._getDefaultDate('end');
-
     this.startDate = this._defaultStartDate;
     this.startTime = this._defaultStartTime;
     this.endDate = this._defaultEndDate;
@@ -192,12 +192,20 @@ class ZcuiWcSearchWidget extends HTMLElement {
     let addComma = arr => [arr[0]+',', ...arr.slice(1)].join(' ')
     return addComma(formattedDate.split(' '))
   }
+  _roundTimeHalfHour(time) {
+    var timeToReturn = new Date(time);
+    timeToReturn.setMilliseconds(Math.ceil(time.getMilliseconds() / 1000) * 1000);
+    timeToReturn.setSeconds(Math.ceil(timeToReturn.getSeconds() / 60) * 60);
+    timeToReturn.setMinutes(Math.ceil(timeToReturn.getMinutes() / 30) * 30);
+    return timeToReturn;
+}
   _getDefaultTime(type) {
     let defaultTime = '00:00';
     switch(type) {
       case "start":
         // start time logic will come here;
-        defaultTime = '08:00';
+        
+        defaultTime = this._roundTimeHalfHour(new Date()).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
         break;
       case "end":
         // end time logic will come here;
@@ -212,8 +220,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
     let defaultDate = '09/05/2018';
     switch(type) {
       case "start":
-        // start date logic will come here;
-        defaultDate = '09/15/2018';
+        defaultDate = new Date().toLocaleDateString('en-US');
+        // defaultDate = '09/15/2018';
         break;
       case "end":
         // end date logic will come here;
@@ -275,7 +283,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.isStartCalenderVisible = !this.isStartCalenderVisible;
   }
   toggleEndCalender(){
-    console.log('startTime-->', this.startTime)
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = !this.isEndCalenderVisible;
   }
@@ -381,11 +388,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
   onOutSideClick(e) {
-    this.closeCalendars(e);
+    // this.closeCalendars(e);
     this.closeLocationList(e);
   }
   closeCalendars(e) {
-    let validCalClick = ['zc-calendar', 'input-box', 'datetime']
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide']
     if(validCalClick.includes(e.target.className)) return;
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = false;
