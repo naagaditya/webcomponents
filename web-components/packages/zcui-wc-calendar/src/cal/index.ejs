@@ -11,7 +11,7 @@
         <div class="date-wrapper">
             ${repeat(this.months, (month, i)=>html`
             <zc-month-calendar 
-            on-date-tap= ${data => this.handleDateSelection(data)} 
+            on-date-tap= ${data => this.handleDateTimeSelection(data)} 
             start-year$="${month.getFullYear()}" 
             start-month$="${month.getMonth()}"
             selected-date$="${this.selectedDate}"
@@ -23,7 +23,7 @@
         <button class="done" on-click=${e =>{this.handleDateSubmission()}}>Done</button>
         <div class="time-wrapper">
             <zc-time-picker 
-            on-time-tap=${data =>this.handleTimeSelection(data)}
+            on-time-tap=${data =>this.handleDateTimeSelection(data)}
             selected-time$="${this.selectedTime}"
             min-time$="${this.minTime}"
             max-time$="${this.maxTime}"></zc-time-picker>

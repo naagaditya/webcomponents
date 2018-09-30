@@ -56,7 +56,6 @@ class zcMonthCalendar extends HTMLElement {
     let date = (i-this.startingDay > 0 && i-this.startingDay <= this.monthLength ? i-this.startingDay : false);
     return date || '.'
   })
-  // console.log('props updated--->', this.selectedDate);
   }
   addClassNames(date) {
     let selectedDate = new Date(this.selectedDate)
@@ -107,15 +106,14 @@ class zcMonthCalendar extends HTMLElement {
   };
   handleDateSelection(date) {
     this.selectedDate = date;
-    console.log('handleDateSelection--->', date);
+    this.updateShadowDom();
     // adding one in month as js dates are 0 based.
-    date = `${parseInt(this.month)+1}/${date}/${this.year}`
+    date = `${parseInt(this.month)+1}/${date}/${this.year}`;
     if(this.isdateAllowed(new Date(date))){
       this.dispatchEvent(new CustomEvent('date-tap', {bubbles: true, composed: true, detail:{
       date: date,
     }}));
     }
-
   }
   connectedCallback() {
     this.createShadowDom();

@@ -34,11 +34,6 @@ class zcTimePicker extends HTMLElement {
     let time24h = parseInt(this.convertTo24Hour(time).replace(':', ''));
     let minTime = parseInt(this.minTime.replace(':', ''));
     let maxTime = parseInt(this.maxTime.replace(':', ''));
-    // console.log('......................');
-    // console.log('minTime--->', minTime)
-    // console.log('time24h--->', time24h)
-    // console.log('maxTime--->', maxTime)
-    // console.log('......................');
     return (time24h >= minTime && time24h <= maxTime)
   }
   addClassNames(time) {
@@ -116,7 +111,6 @@ class zcTimePicker extends HTMLElement {
     this.updateShadowDom();
   }
   updateShadowDom() {
-    console.log('update shadow dom called from time')
     if (this.shadowRoot) {
       render(this.htmlTemplate, this.shadowRoot);
     }

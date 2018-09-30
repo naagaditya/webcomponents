@@ -16,27 +16,19 @@ class zcCalendar extends HTMLElement {
 }
   constructor() {
     super();
-    this.mon = "1";
     this.today = new Date();
     this.setProps = this.setProps.bind(this);
-    this.handleDateSelection = this.handleDateSelection.bind(this);
-    this.handleTimeSelection = this.handleTimeSelection.bind(this);
     this.handleDateSubmission = this.handleDateSubmission.bind(this);
+    this.handleDateTimeSelection = this.handleDateTimeSelection.bind(this);
   }
   handleDateSubmission(data) {
     this.dispatchDateTimeChange(true);
   }
-  handleTimeSelection(data) {
-    console.log('handle time selection');
-    this.selectedTime = data.detail.time;
-    this.dispatchDateTimeChange();
+  handleDateTimeSelection(data) {
+    if(data.detail.time) this.selectedTime = data.detail.time;
+    if(data.detail.date) this.selectedDate = data.detail.date;
     this.updateShadowDom();
-  }
-  handleDateSelection(data) {
-    console.log('handle date selection');
-    this.selectedDate = data.detail.date;
     this.dispatchDateTimeChange();
-    this.updateShadowDom();
   }
   dispatchDateTimeChange(isSubmitted=false){
     this.dispatchEvent(new CustomEvent('datetime-change', {bubbles: true, composed: true, detail:{
@@ -81,7 +73,7 @@ class zcCalendar extends HTMLElement {
         <div class="date-wrapper">
             ${repeat(this.months, (month, i)=>html`
             <zc-month-calendar 
-            on-date-tap= ${data => this.handleDateSelection(data)} 
+            on-date-tap= ${data => this.handleDateTimeSelection(data)} 
             start-year$="${month.getFullYear()}" 
             start-month$="${month.getMonth()}"
             selected-date$="${this.selectedDate}"
@@ -93,7 +85,7 @@ class zcCalendar extends HTMLElement {
         <button class="done" on-click=${e =>{this.handleDateSubmission()}}>Done</button>
         <div class="time-wrapper">
             <zc-time-picker 
-            on-time-tap=${data =>this.handleTimeSelection(data)}
+            on-time-tap=${data =>this.handleDateTimeSelection(data)}
             selected-time$="${this.selectedTime}"
             min-time$="${this.minTime}"
             max-time$="${this.maxTime}"></zc-time-picker>
