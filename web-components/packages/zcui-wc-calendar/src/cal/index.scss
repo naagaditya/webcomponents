@@ -35,3 +35,14 @@
         overflow-y: scroll;
     }
 }
+@media screen and (max-width: 400px) {
+    .cal-wrapper {
+    width: 320px;
+    .date-wrapper {
+      width: 235px;
+    }
+    .time-wrapper {
+        width: 78px;
+    }
+  }
+}

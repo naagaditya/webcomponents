@@ -57,7 +57,7 @@ class zcCalendar extends HTMLElement {
   get htmlTemplate () { 
     return html`
     <style>
-      .cal-wrapper{position:absolute;z-index:1;height:325px;background:white;border-radius:3px;width:360px;box-shadow:0 1px 5px #888;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif}.cal-wrapper .date-wrapper{width:270px;display:inline-block;overflow-y:scroll;height:325px}.cal-wrapper .done{position:absolute;font-size:18px;text-align:center;font-weight:500;top:10px;margin:6px;color:#6fbe45;text-transform:uppercase;background:white;border:none}.cal-wrapper .time-wrapper{width:85px;display:inline-block;text-align:center;vertical-align:top;height:260px;margin-top:60px;overflow-y:scroll}
+      .cal-wrapper{position:absolute;z-index:1;height:325px;background:white;border-radius:3px;width:360px;box-shadow:0 1px 5px #888;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif}.cal-wrapper .date-wrapper{width:270px;display:inline-block;overflow-y:scroll;height:325px}.cal-wrapper .done{position:absolute;font-size:18px;text-align:center;font-weight:500;top:10px;margin:6px;color:#6fbe45;text-transform:uppercase;background:white;border:none}.cal-wrapper .time-wrapper{width:85px;display:inline-block;text-align:center;vertical-align:top;height:260px;margin-top:60px;overflow-y:scroll}@media screen and (max-width: 400px){.cal-wrapper{width:320px}.cal-wrapper .date-wrapper{width:235px}.cal-wrapper .time-wrapper{width:78px}}
 
     </style>
     <!DOCTYPE html>

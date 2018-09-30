@@ -25,6 +25,10 @@
     text-align: center;
     margin: 10px;
     z-index: 1;
+    position: absolute;
+    display: flex;
+    align-self: center;
+    top: 65px;
   }
   header {
     z-index: 1;
@@ -38,12 +42,13 @@
       width: 127px;
     }
     .title {
-      padding: 10px 0px 20px 15px;
+      padding: 10px 0px 0px 10px;
       border-left: 1px solid #cecece;
-      width: 160px;
+      width: 155px;
     }
   }
   label {
+    padding: 25px 0px;
     letter-spacing: 0.5px;
     margin: 20px 10px 0;
   }
