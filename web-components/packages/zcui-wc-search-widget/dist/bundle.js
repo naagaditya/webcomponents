@@ -367,6 +367,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.isStartCalenderVisible = !this.isStartCalenderVisible;
   }
   toggleEndCalender(){
+    console.log('startTime-->', this.startTime)
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = !this.isEndCalenderVisible;
   }
@@ -482,7 +483,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.isEndCalenderVisible = false;
   }
   closeLocationList(e) {
-    console.log('e.target.className--->', e.target.className);
     if (e.target.className == 'area-text-input') return;
     this.filteredLocation = [];
     this.updateShadowDom();

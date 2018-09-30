@@ -275,6 +275,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.isStartCalenderVisible = !this.isStartCalenderVisible;
   }
   toggleEndCalender(){
+    console.log('startTime-->', this.startTime)
     this.isStartCalenderVisible = false;
     this.isEndCalenderVisible = !this.isEndCalenderVisible;
   }

@@ -54,12 +54,22 @@ class zcTimePicker extends HTMLElement {
     hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
     return `${hrs}:${minutes}`
   }
+  _ifRequiredConvertTo24Hr(time){
+    let time24h = null
+    let ampmRegex = /[p,a].?m.?/ig;
+    let isAmPmFormat = ampmRegex.test(time.toLowerCase());
+    if(isAmPmFormat) {
+      time24h = this.convertTo24Hour(time);
+      return time24h;
+    }
+    return time;
+  }
   setProps() {
-    this.minTime = this.getAttribute('min-time') || 0;
-    this.maxTime = this.getAttribute('max-time') || 24;
+    this.minTime = this._ifRequiredConvertTo24Hr(this.getAttribute('min-time'))|| 0;
+    this.maxTime = this._ifRequiredConvertTo24Hr(this.getAttribute('max-time')) || 24;
     this.selectedTime = this.getAttribute('selected-time') || null;
-    // console.log('minTime-->', this.minTime);
-    // console.log('maxTime--->', this.maxTime);
+    console.log('minTime-->', this.minTime);
+    console.log('maxTime--->', this.maxTime);
     // this.visibleMonthCount = this.getAttribute('visible-months') || 6;
   }
 
