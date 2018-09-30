@@ -31,14 +31,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this._defaultStartDate = this._getDefaultDate('start');
     this._defaultEndTime = this._getDefaultTime('end');
     this._defaultEndDate = this._getDefaultDate('end');
-    this.minStartTime = this._defaultStartTime;
     this.startDate = this._defaultStartDate;
     this.startTime = this._defaultStartTime;
     this.endDate = this._defaultEndDate;
     this.endTime = this._defaultEndTime;
     this.isEditingStartDateTime = false;
     this.isEditingEndDateTime = false;
-
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -188,7 +186,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
-        min-time$="${this.minStartTime}"
+        min-time$="${this._defaultStartTime}"
         max-time="23:30"
         selected-date$='${this.startDate}'
         selected-time$='${this.startTime}'
@@ -209,7 +207,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time$="${this.startDate == this.endDate ? this.startTime: '00:00'}" 
+        min-time$="${this.startDate === this.endDate ? this.startTime: '00:00'}" 
         max-time="23:30"
         selected-date$="${this.endDate}"
         selected-time$="${this.endTime}"
@@ -277,10 +275,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
       this.updateShadowDom();
     });
   }
-  // getMinStartTime() {
-  //   return this.startDate == this._defaultStartDate ? this._defaultStartTime: '00:00'
-  // }
-  
   formatDate(date) {
     let dt = new Date(date);
     let formattedDate = ' '
@@ -305,8 +299,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
         defaultTime = this._roundTimeHalfHour(new Date()).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
         break;
       case "end":
-        // end time logic will come here;
-        defaultTime = '10:00';
+        let endTime = new Date();
+        endTime.setHours(endTime.getHours() + 4);
+        defaultTime = this._roundTimeHalfHour(endTime).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
         break
       default:
         console.error('Invalid defualt time type');
@@ -318,11 +313,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     switch(type) {
       case "start":
         defaultDate = new Date().toLocaleDateString('en-US');
-        // defaultDate = '09/15/2018';
         break;
       case "end":
-        // end date logic will come here;
-        defaultDate = '09/25/2018';
+        let endDate = new Date();
+        endDate.setHours(endDate.getHours()+4);
+        defaultDate = endDate.toLocaleDateString('en-US');
         break
       default:
         console.error('Invalid defualt date type');
@@ -331,7 +326,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
   handleStartDateTimeChange(data) {
     this.startDate = data.detail.date;
-    this.minStartTime =  this.startDate == this._defaultStartDate ? this._defaultStartTime: '00:00'
     this.startTime = data.detail.time;
     let isSubmitted = data.detail.isSubmitted;
     if((this._defaultStartDate != this.startDate && this._defaultStartTime != this.startTime && !this.isEditingStartDateTime) || isSubmitted){
@@ -486,7 +480,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
   onOutSideClick(e) {
-    // this.closeCalendars(e);
+    this.closeCalendars(e);
     this.closeLocationList(e);
   }
   closeCalendars(e) {

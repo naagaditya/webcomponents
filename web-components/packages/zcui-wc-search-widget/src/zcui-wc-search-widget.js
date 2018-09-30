@@ -37,7 +37,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.endTime = this._defaultEndTime;
     this.isEditingStartDateTime = false;
     this.isEditingEndDateTime = false;
-
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -208,8 +207,9 @@ class ZcuiWcSearchWidget extends HTMLElement {
         defaultTime = this._roundTimeHalfHour(new Date()).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
         break;
       case "end":
-        // end time logic will come here;
-        defaultTime = '10:00';
+        let endTime = new Date();
+        endTime.setHours(endTime.getHours() + 4);
+        defaultTime = this._roundTimeHalfHour(endTime).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
         break
       default:
         console.error('Invalid defualt time type');
@@ -221,11 +221,11 @@ class ZcuiWcSearchWidget extends HTMLElement {
     switch(type) {
       case "start":
         defaultDate = new Date().toLocaleDateString('en-US');
-        // defaultDate = '09/15/2018';
         break;
       case "end":
-        // end date logic will come here;
-        defaultDate = '09/25/2018';
+        let endDate = new Date();
+        endDate.setHours(endDate.getHours()+4);
+        defaultDate = endDate.toLocaleDateString('en-US');
         break
       default:
         console.error('Invalid defualt date type');
@@ -388,7 +388,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
   onOutSideClick(e) {
-    // this.closeCalendars(e);
+    this.closeCalendars(e);
     this.closeLocationList(e);
   }
   closeCalendars(e) {
