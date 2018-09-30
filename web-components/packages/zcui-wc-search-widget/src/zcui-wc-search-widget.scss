@@ -175,5 +175,24 @@
   }
 }
 
+@media screen and (max-width: 350px) {
+  .zcui-wc-search-widget {
+    .search-input {
+      .input-wrapper {
+        #start-calendar, #end-calendar {
+          margin-left: -17px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 48em) {
+  .zcui-wc-search-widget {
+    .date-time {
+      flex: 1;
+    }
+  }
+}
 
 
