@@ -45,7 +45,7 @@ class zcMonthCalendar extends HTMLElement {
     this.startingDay = this.firstDay.getDay();
     this.daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     this.monthLength = this.daysInMonth[this.month];
-    if (this.month === 1) {
+    if (this.month == 1) {
       if ((this.year % 4 === 0 && this.year % 100 !== 0) || this.year % 400 === 0){
           this.monthLength = 29;
       }

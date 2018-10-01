@@ -58,7 +58,7 @@ class zcMonthCalendar extends HTMLElement {
   })
   }
   addClassNames(date) {
-    let selectedDate = new Date(this.selectedDate)
+    let selectedDate = new Date(this.selectedDate);
     let classNames = ['day',];
     if(selectedDate.getTime() === date.getTime()) classNames.push('selected');
     if(!this.isdateAllowed(date)) classNames.push('disabled');
