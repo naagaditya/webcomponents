@@ -424,19 +424,10 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const today = new Date();
     let date;
     if(type === 'starts'){
-      console.log('--------------------------------');
-      console.log('starts', this.startDate, this.startTime);
       date = new Date(`${this.startDate} ${this.startTime}`);
-      console.log('start date --->', date);
-      console.log('starts today-->', today, today > date);
     }
     if(type === 'ends'){
-      console.log('ends');
       date = new Date(`${this.endDate} ${this.endTime}`);
-      console.log('--------------------------------');
-      console.log('end time -->', this.endTime);
-      console.log('end-date ---->', date);
-      console.log('ends today-->', today, today > date);
     } 
     return today > date;
   }
@@ -450,11 +441,9 @@ _isMinimumBookingDuration() {
   const starts = new Date(`${this.startDate} ${this.startTime}`);
   const ends = new Date(`${this.endDate} ${this.endTime}`);
   let hours = Math.abs(ends - starts) / 36e5;
-  console.log('hours--->', hours);
   return hours < 4;
 }
   _validateParams() {
-    console.log('_validateParams is called.')
     const params = this.searchParams;
     if (!params.cityLinkName) return 'emptyCity';
     if (!params.lat || !params.lng) return 'emptyLocation';
@@ -467,7 +456,6 @@ _isMinimumBookingDuration() {
 
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
-    console.log('selectedErrorMessage-->', this.selectedErrorMessage);
     this.updateShadowDom();
     if (this.selectedErrorMessage != 'noError') return;
 

@@ -46,7 +46,7 @@ class zcMonthCalendar extends HTMLElement {
     this.daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     this.monthLength = this.daysInMonth[this.month];
     if (this.month == 1) {
-      if ((this.year % 4 == 0 && this.year % 100 != 0) || this.year % 400 == 0){
+      if ((this.year % 4 === 0 && this.year % 100 !== 0) || this.year % 400 === 0){
           this.monthLength = 29;
       }
   };
@@ -59,11 +59,8 @@ class zcMonthCalendar extends HTMLElement {
   }
   addClassNames(date) {
     let selectedDate = new Date(this.selectedDate)
-    let classNames = ['day',]
-    // console.log('date--->', date);
-    // console.log('selectedDate--->', selectedDate);
-    // console.log('selectedDate.getTime() == date.getTime()-->', selectedDate.getTime() == date.getTime())
-    if(selectedDate.getTime() == date.getTime()) classNames.push('selected');
+    let classNames = ['day',];
+    if(selectedDate.getTime() === date.getTime()) classNames.push('selected');
     if(!this.isdateAllowed(date)) classNames.push('disabled');
     return classNames.join(' ');
   }

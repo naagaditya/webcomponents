@@ -1,4 +1,5 @@
-console.log('starting')
+console.log('starting the build');
+console.time('build');
 const ejs = require('ejs');
 const sass = require('node-sass');
 const fs = require('fs');
@@ -43,7 +44,5 @@ const scriptStringTime = ejs.render(scriptTime, { style: styleStringTime, html: 
 
 fs.writeFileSync('./dist/bundle-time-picker.js', scriptStringTime);
 
-
-
-
 console.log('merging files is done');
+console.timeEnd('build');
