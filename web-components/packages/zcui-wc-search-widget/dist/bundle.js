@@ -194,7 +194,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
-        min-time$="${this._defaultStartTime}"
+        min-time="00:00"
         max-time="23:30"
         selected-date$='${this.startDate}'
         selected-time$='${this.startTime}'
@@ -218,7 +218,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time$="${this.startDate === this.endDate ? this.startTime: '00:00'}" 
+        min-time$="00:00" 
         max-time="23:30"
         selected-date$="${this.endDate}"
         selected-time$="${this.endTime}"
@@ -424,10 +424,19 @@ class ZcuiWcSearchWidget extends HTMLElement {
     const today = new Date();
     let date;
     if(type === 'starts'){
+      console.log('--------------------------------');
+      console.log('starts', this.startDate, this.startTime);
       date = new Date(`${this.startDate} ${this.startTime}`);
+      console.log('start date --->', date);
+      console.log('starts today-->', today, today > date);
     }
     if(type === 'ends'){
+      console.log('ends');
       date = new Date(`${this.endDate} ${this.endTime}`);
+      console.log('--------------------------------');
+      console.log('end time -->', this.endTime);
+      console.log('end-date ---->', date);
+      console.log('ends today-->', today, today > date);
     } 
     return today > date;
   }
@@ -445,6 +454,7 @@ _isMinimumBookingDuration() {
   return hours < 4;
 }
   _validateParams() {
+    console.log('_validateParams is called.')
     const params = this.searchParams;
     if (!params.cityLinkName) return 'emptyCity';
     if (!params.lat || !params.lng) return 'emptyLocation';
@@ -457,6 +467,7 @@ _isMinimumBookingDuration() {
 
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
+    console.log('selectedErrorMessage-->', this.selectedErrorMessage);
     this.updateShadowDom();
     if (this.selectedErrorMessage != 'noError') return;
 

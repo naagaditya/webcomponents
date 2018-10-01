@@ -54,7 +54,7 @@
         class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
         id="start-calendar"
         visible-months="6" 
-        min-time$="${this._defaultStartTime}"
+        min-time="00:00"
         max-time="23:30"
         selected-date$='${this.startDate}'
         selected-time$='${this.startTime}'
@@ -78,7 +78,7 @@
         class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
         id="end-calendar"
         visible-months="6" 
-        min-time$="${this.startDate === this.endDate ? this.startTime: '00:00'}" 
+        min-time$="00:00" 
         max-time="23:30"
         selected-date$="${this.endDate}"
         selected-time$="${this.endTime}"

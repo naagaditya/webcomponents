@@ -343,7 +343,6 @@ _isMinimumBookingDuration() {
   const starts = new Date(`${this.startDate} ${this.startTime}`);
   const ends = new Date(`${this.endDate} ${this.endTime}`);
   let hours = Math.abs(ends - starts) / 36e5;
-  console.log('hours--->', hours);
   return hours < 4;
 }
   _validateParams() {
