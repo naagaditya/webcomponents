@@ -11,37 +11,40 @@
   </header>
   <div class="error-msg">${this.apiErrorMsg}</div>
   <div class="search-input">
-    <div class="input-wrapper">
-      <label>Pick-up & Drop-off location</label>
-      <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-        <div class="input city">
-          <span>
-            ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
-          </span>
-          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-          <select on-change=${this.changeCity}>
-            <option>${this.cities.length ? '' : 'Please wait'}</option>
-             ${repeat( this.cities,
-              city => html`
-              <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
-            ` )}
-          </select>
-        </div>
-        <div class="input area">
-          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
-          <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
-          <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
-            ${repeat(this.filteredLocation, loc => html`
-              <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
-            `)}
+    <div class="location-selection">
+      <div class="input-wrapper">
+          <label>Pick-up & Drop-off location</label>
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <div class="input city">
+              <span>
+                ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
+              </span>
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
+              <select on-change=${this.changeCity}>
+                <option>${this.cities.length ? '' : 'Please wait'}</option>
+                  ${repeat( this.cities,
+                  city => html`
+                  <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
+                ` )}
+              </select>
+            </div>
+            <div class="input area">
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
+              <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+              <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
+                ${repeat(this.filteredLocation, loc => html`
+                  <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
+                `)}
+              </div>
+            </div>
+          </div>
+          
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+            ${this.errorMessages[this.selectedErrorMessage].message}
           </div>
         </div>
-      </div>
-      
-      <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
-        ${this.errorMessages[this.selectedErrorMessage].message}
-      </div>
     </div>
+
     <div class="date-time">
       <div class="input-wrapper">
         <label class="date-label">Start Date & Time</label>

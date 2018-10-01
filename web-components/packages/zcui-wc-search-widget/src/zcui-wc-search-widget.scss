@@ -197,8 +197,14 @@
   }
 }
 
-@media screen and (max-width: 48em) {
+@media screen and (max-width: 64em) {
   .zcui-wc-search-widget {
+    .search-input{
+      .location-selection{
+        width: 100%;
+      }
+    }
+
     .date-time {
       flex: 1;
     }
