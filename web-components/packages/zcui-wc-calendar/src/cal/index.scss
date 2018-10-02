@@ -1,6 +1,6 @@
 .cal-wrapper {
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     height: 325px;
     background: white;
     border-radius: 3px;
@@ -14,7 +14,7 @@
         height: 325px;
     }
     .done{
-        position: absolute;
+    position: absolute;
     font-size: 18px;
     text-align: center;
     font-weight: 500;
@@ -24,6 +24,7 @@
     text-transform: uppercase;
     background: white;
     border: none;
+    outline: none;
     }
     .time-wrapper {
         width: 85px;
@@ -37,12 +38,19 @@
 }
 @media screen and (max-width: 400px) {
     .cal-wrapper {
-    width: 320px;
+    width: 307px;
     .date-wrapper {
-      width: 235px;
+      width: 220px;
+    }
+    .done{
+        right: 10px;
+        background: transparent;
+        margin:0;
+        margin-top: 6px;
     }
     .time-wrapper {
-        width: 78px;
+        width: 80px;
+        font-size: 14px;
     }
   }
 }

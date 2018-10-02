@@ -70,6 +70,7 @@
     align-items: baseline;
 
     .input-box {
+      cursor: pointer;
       border: solid 2px #8ABD50;
       margin: 7px 10px 0px;
       display: flex;
@@ -87,6 +88,9 @@
       .city {
         flex: 1;
         border-right: solid 1px #8ABD50;
+        select{
+          cursor: pointer;
+        }
         span {
           flex: 1;
         }
@@ -172,7 +176,7 @@
   }
   button {
     font-size: 16px;
-    padding: 11px;
+    padding: 14px;
     max-width: 420px;
     color: #fff;
     text-transform: uppercase;
@@ -200,12 +204,15 @@
 
 @media screen and (max-width: 64em) {
   .zcui-wc-search-widget {
+    button{
+      max-width: 100%;
+      width: 100%;
+    }
     .search-input{
       .location-selection{
         width: 100%;
       }
     }
-
     .date-time {
       flex: 1;
     }
