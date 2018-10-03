@@ -15,7 +15,7 @@
         .weekdays{
             .weekday{
                 line-height: 32px;
-                width: 35px;
+                width: 14.2%;
                 height: 35px;
                 text-align: center;
                 display: inline-block;
@@ -58,18 +58,18 @@
         }
     }
 }
-@media screen and (max-width: 400px) {
+
+@media screen and (max-width: 425px) {
     .month {
-    width: 220px;
+    width: 100%;
     .month-grid {
       padding: 0;
     }
     .days-containers .day {
-        height: 28px;
+        height: 30px;
         line-height: 29px;
     }
     .weekdays-container .weekdays .weekday {
-      width: 31px;
       height: 31px;
     }
   }

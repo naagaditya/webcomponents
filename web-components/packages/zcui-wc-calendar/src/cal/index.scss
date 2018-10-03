@@ -36,20 +36,28 @@
         overflow-y: scroll;
     }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 360px) {
     .cal-wrapper {
-    width: 307px;
+        width: 120%;
+        .date-wrapper {
+            width: 70%;
+        }
+    }   
+}
+@media screen and (min-width: 360px) and (max-width: 425px) {
+    .cal-wrapper {
+    width: 93.5%;
     .date-wrapper {
-      width: 220px;
+        width: 75%;
     }
     .done{
-        right: 10px;
+        right: 0%;
         background: transparent;
         margin:0;
         margin-top: 6px;
     }
     .time-wrapper {
-        width: 80px;
+        width: 23%;
         font-size: 14px;
     }
   }
