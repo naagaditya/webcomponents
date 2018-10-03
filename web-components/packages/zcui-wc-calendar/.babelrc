@@ -8,7 +8,7 @@
     ]
   ],
   "plugins": [
-    "transform-custom-element-classes",
-    "transform-es2015-classes"
+    "external-helpers",
+    "transform-custom-element-classes"
   ]
 }
