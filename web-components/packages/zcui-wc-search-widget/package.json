@@ -15,6 +15,7 @@
   "author": "Aditya Naag",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-custom-element-classes": "^0.1.0",
     "ejs": "^2.6.1",
     "node-sass": "^4.9.2"
   },
