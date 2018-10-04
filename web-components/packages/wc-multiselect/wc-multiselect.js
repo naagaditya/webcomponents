@@ -121,7 +121,7 @@ class WcMultiselect extends HTMLElement{
           border: none;
           outline: none;
           flex: 1;
-          min-width: 150px;
+          min-width: 30px;
         }
       </style>
       <div class="wrapper" id="multiselect">
@@ -147,6 +147,11 @@ class WcMultiselect extends HTMLElement{
     this.filteredContent = this._content.getElementsByClassName('content')[0];
     this.filteredContent.style.display = 'none';
     this.input = this._content.getElementsByClassName('input-filter')[0];
+    this.downArrow = this._content.getElementsByClassName('down-arrow')[0];
+    this.downArrow.onclick = () => {
+      this.filteredContent.style.display = 'block';
+      this.updateFilteredList();
+    }
     this.input.onkeyup = this.updateFilteredList;
     this.input.onfocus = () => {
       this.filteredContent.style.display = 'block';
