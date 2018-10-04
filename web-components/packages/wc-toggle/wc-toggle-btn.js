@@ -9,7 +9,8 @@ class WcToggleBtn extends HTMLElement {
       'on-bg-color',
       'off-bg-color',
       'on-text-color',
-      'off-text-color'
+      'off-text-color',
+      'initial-value'
     ];
   }
   constructor() {
@@ -112,6 +113,7 @@ class WcToggleBtn extends HTMLElement {
     this.sliderColor = this.getAttribute('slider-color') || '#fff';
     this.onTextColor = this.getAttribute('on-text-color') || '#fff';
     this.offTextColor = this.getAttribute('off-text-color') || '#fff';
+    this.initialValue = this.getAttribute('initial-value') || 'false';
   }
 
   connectedCallback () {
@@ -133,6 +135,8 @@ class WcToggleBtn extends HTMLElement {
     this._content = templateContent.getElementById('switch');
     this._checkbox = templateContent.getElementById('checkbox');
     this._toggleText = templateContent.getElementById('toggle-text');
+    this._checkbox.checked = this.initialValue == 'true' ? true : false;
+    this._toggleText.innerHTML = this._checkbox.checked ? this.onText : this.offText;
     this._checkbox.onclick = this.toggleCheckbox;
     if (this.shadowRoot) {
       this.shadowRoot.replaceChild(templateContent, this.shadowRoot.firstElementChild);
