@@ -191,11 +191,16 @@ class ZcuiWcSearchWidget extends HTMLElement {
   }
   formatDate(date) {
     let dt = new Date(date);
-    let formattedDate = ' '
+    let extractedDate ='';
+    let extractedDay='';
+    let extractedMonth='';
+    let formattedDate = 'Invalid Date';
+
     if(isNaN(dt.getTime())) return formattedDate ;
-    formattedDate = dt.toLocaleString('en-GB', {weekday: 'short', month: 'short' , day: 'numeric'});
-    let addComma = arr => [arr[0]+',', ...arr.slice(1)].join(' ')
-    return addComma(formattedDate.split(' '))
+
+    [extractedDay, extractedDate, extractedMonth] = dt.toDateString().slice(0, -4).split(' ');
+    formattedDate = `${extractedDay}, ${extractedDate} ${extractedMonth}`;
+    return formattedDate;
   }
   _roundTimeHalfHour(time) {
     var timeToReturn = new Date(time);
