@@ -23,6 +23,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
     this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
     this.formatDate = this.formatDate.bind(this);
+    this.formatTime = this.formatTime.bind(this);
     this._roundTimeHalfHour = this._roundTimeHalfHour.bind(this);
     this._getDefaultTime = this._getDefaultTime.bind(this);
     this._getDefaultDate = this._getDefaultDate.bind(this);
@@ -201,6 +202,14 @@ class ZcuiWcSearchWidget extends HTMLElement {
     [extractedDay, extractedDate, extractedMonth] = dt.toDateString().slice(0, -4).split(' ');
     formattedDate = `${extractedDay}, ${extractedDate} ${extractedMonth}`;
     return formattedDate;
+  }
+  formatTime(time){
+    time = time.toLowerCase();
+    if (time.indexOf('am') !== -1 || time.indexOf('pm') !== -1) {
+      return time;
+    }
+    // this is a fallback for UC browser
+    return this._get12HrTime(new Date(time));
   }
   _roundTimeHalfHour(time) {
     var timeToReturn = new Date(time);
