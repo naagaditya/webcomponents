@@ -206,7 +206,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
   formatTime(time){
     time = time.toLowerCase();
     if (time.indexOf('am') !== -1 || time.indexOf('pm') !== -1) {
-      return time;
+      return time.toUpperCase();
     }
     // this is a fallback for UC browser
     return this._get12HrTime(new Date(time));
@@ -222,14 +222,12 @@ class ZcuiWcSearchWidget extends HTMLElement {
     let defaultTime = '00:00';
     switch(type) {
       case "start":
-        // start time logic will come here;
-        
-        defaultTime = this._roundTimeHalfHour(new Date()).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
+        defaultTime = this._get12HrTime(this._roundTimeHalfHour(new Date()));
         break;
       case "end":
         let endTime = new Date();
         endTime.setHours(endTime.getHours() + 4);
-        defaultTime = this._roundTimeHalfHour(endTime).toLocaleString('en-US',{hourCycle:"h12", hour:'2-digit', minute:'2-digit'});
+        defaultTime = this._get12HrTime(this._roundTimeHalfHour(endTime));
         break
       default:
         console.error('Invalid defualt time type');
@@ -333,6 +331,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     let [hrs, minutes] = time.split(':')
     hrs = hrs == '12' ? '00' : hrs
     hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
+    hrs = hrs < 10 ? '0' + hrs : hrs;
     return `${hrs}:${minutes}`
   }
 
@@ -373,12 +372,23 @@ _isMinimumBookingDuration() {
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
     this.updateShadowDom();
-    if (this.selectedErrorMessage != 'noError') return;
 
-    const startDate = new Date(this.startDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
-    const endDate = new Date(this.endDate).toLocaleString('en-GB', {year:"numeric", month:"2-digit", day:"numeric"}).split('/').reverse().join('-')
-    const startTime = this._get24HrTime(this.startTime)
-    const endTime = this._get24HrTime(this.endTime)
+    if (this.selectedErrorMessage != 'noError') return;
+    
+    let startDate = new Date(this.startDate);
+    let endDate = new Date(this.endDate);
+    let timeZoneOffset = startDate.getTimezoneOffset() * 60000;
+    startDate = new Date(startDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
+    endDate = new Date(endDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
+
+    console.log('this.startTime-->', this.startTime)
+    console.log('this.endTime-->', this.endTime)
+
+    const startTime = this._get24HrTime(this.startTime);
+    const endTime = this._get24HrTime(this.endTime);
+
+    console.log('startTime-->', startTime)
+    console.log('this.endTime-->', endTime)
 
     const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
     window.open(url, '_blank');
@@ -424,8 +434,13 @@ _isMinimumBookingDuration() {
     this.filteredLocation = [];
     this.updateShadowDom();
   }
-  _get12HrTime(date) {
-    return date.getHours() > 12 ? `${date.getHours() - 12}:00 PM` : `${date.getHours()}:00 AM`;
+  _get12HrTime(time) {
+    let t = time.toTimeString().slice(0, 5);
+    let hrs, minutes;
+    [hrs, minutes] = t.split(':');
+    var h = hrs % 12 || 12;
+    var ampm = (hrs < 12 || hrs === 24) ? "AM" : "PM";
+    return `${h}:${minutes} ${ampm}`
   }
 }
 

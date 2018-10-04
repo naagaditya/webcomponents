@@ -26,7 +26,6 @@ class zcTimePicker extends HTMLElement {
     while(dt.getDate() === 1){
       dateList.push(this._get12HrTime(dt));
       dt.setMinutes(dt.getMinutes() + step);
-      dateList.push(time);
     }
     return dateList;
   }
