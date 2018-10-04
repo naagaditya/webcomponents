@@ -24,7 +24,7 @@ class zcTimePicker extends HTMLElement {
     let dateList = []
     var dt = new Date(1970, 0, 1, 0, 0, 0, 0);
     while(dt.getDate() === 1){
-      var time = dt.toLocaleTimeString('en-US',  {hour: '2-digit', minute: '2-digit', hour12: true});
+      dateList.push(this._get12HrTime(dt));
       dt.setMinutes(dt.getMinutes() + step);
       dateList.push(time);
     }
@@ -49,6 +49,14 @@ class zcTimePicker extends HTMLElement {
     hrs = hrs == '12' ? '00' : hrs
     hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
     return `${hrs}:${minutes}`
+  }
+  _get12HrTime(time) {
+    let t = time.toTimeString().slice(0, 5);
+      let hrs, minutes;
+      [hrs, minutes] = t.split(':');
+      var h = hrs % 12 || 12;
+      var ampm = (hrs < 12 || hrs === 24) ? "AM" : "PM";
+      return `${h}:${minutes} ${ampm}`
   }
   _ifRequiredConvertTo24Hr(time){
     let time24h;
