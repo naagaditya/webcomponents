@@ -1,0 +1,46 @@
+.time-containers{
+    padding-right: 6px;
+    .time{
+        // background-color: antiquewhite;
+        text-align:center;
+        transition: 0.2s;
+        padding: 10px 0;
+        margin: 0;
+        &:hover{
+            color: white;
+            transition: 0.2s;
+            background: #B4D3A2;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        &.selected{
+            color: white;
+            transition: 0.2s;
+            background: #B4D3A2;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        &.disable{
+            display:none;
+            color: #b9b9b9;
+            font-weight: 300;
+            cursor: not-allowed;
+            &:hover{
+                background: white;;
+                color:#b9b9b9;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 425px) {
+    .time-containers{
+        padding:0;
+        .time{
+            padding: 7px 0;
+            margin: 0;
+            margin-bottom: 4px;
+        }
+    }
+}

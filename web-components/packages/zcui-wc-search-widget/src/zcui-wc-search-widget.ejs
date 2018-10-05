@@ -1,4 +1,5 @@
-<div class="zcui-wc-search-widget main" on-click=${this.closeLocationList}>
+<div class="zcui-wc-search-widget main" on-click=${this.onOutSideClick}>
+  <div class="background-overlay"></div>
   <header>
     <div class="logo-container">
       <img alt="logo" src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/logo.svg" class="logo"/>
@@ -8,115 +9,92 @@
     </i>
     
   </header>
-  <div class="error">${this.errorMessages[this.selectedErrorMessage]}</div>
-  <div class="error">${this.apiErrorMsg}</div>
+  <div class="error-msg">${this.apiErrorMsg}</div>
   <div class="search-input">
-    <div class="input-wrapper">
-      <label>Pick-up & Drop-off location</label>
-      <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-        <div class="input city">
-          <span>
-            ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
-          </span>
-          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-          <select on-change=${this.changeCity}>
-            <option>${this.cities.length ? '' : 'Please wait'}</option>
-             ${repeat( this.cities,
-              city => html`
-              <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
-            ` )}
-          </select>
-        </div>
-        <div class="input area">
-          <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
-          <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
-          <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
-            ${repeat(this.filteredLocation, loc => html`
-              <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
-            `)}
+    <div class="location-selection">
+      <div class="input-wrapper">
+          <label>Pick-up & Drop-off location</label>
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <div class="input city">
+              <span>
+                ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
+              </span>
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
+              <select on-change=${this.changeCity}>
+                <option>${this.cities.length ? '' : 'Please wait'}</option>
+                  ${repeat( this.cities,
+                  city => html`
+                  <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
+                ` )}
+              </select>
+            </div>
+            <div class="input area">
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
+              <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+              <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
+                ${repeat(this.filteredLocation, loc => html`
+                  <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
+                `)}
+              </div>
+            </div>
+          </div>
+          
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+            ${this.errorMessages[this.selectedErrorMessage].message}
           </div>
         </div>
-      </div>
     </div>
+
     <div class="date-time">
-
       <div class="input-wrapper">
-        <label>Start Date & Time</label>
-        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <div class="input date">
-            <span>${this.searchParams.starts.date ? this.searchParams.starts.date : 'Date'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'starts')}}>
-              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option value="${day}" selected="${day==this.searchParams.starts.date ? 'selected' : '' }">${day}</option>
-              ` )}
-            </select>
-          </div>
-          <div class="input month">
-            <span>
-              ${this.searchParams.starts.monthYearIndex || this.searchParams.starts.monthYearIndex==0 ?
-                this.monthsYears[this.searchParams.starts.monthYearIndex].displayName :
-                'Month'
-              }
-            </span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'starts')}}>
-              ${repeat(this.monthsYears, (month, i) => html`
-              <option selected="${i==this.searchParams.starts.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
-              `)}
-            </select>
-          </div>
-          <div class="input time">
-            <span>${this.searchParams.starts.time ? this.searchParams.starts.time : 'Time'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'starts')}}>
-              ${repeat(this.timeList, time => html `
-              <option selected="${ time==this.searchParams.starts.time ? 'selected' : '' }" value=${time}>${time}</option>
-              `)}
-            </select>
-          </div>
+        <label class="date-label">Start Date & Time</label>
+        <div 
+        on-click=${this.toggleStartCalender}
+        class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
+          <p class="datetime"> ${this.formatDate(this.startDate)} - ${this.formatTime(this.startTime)} </p>
+        </div>
+        <zc-calendar
+        class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
+        id="start-calendar"
+        visible-months="6" 
+        min-time="00:00"
+        max-time="23:30"
+        selected-date$='${this.startDate}'
+        selected-time$='${this.startTime}'
+        min-date$="${this._defaultStartDate}"
+        max-date="10/15/2019"
+        on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
+        ></zc-calendar>
+        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+          ${this.errorMessages[this.selectedErrorMessage].message}
         </div>
       </div>
 
       <div class="input-wrapper">
-        <label>End Date & Time</label>
-        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
-          <div class="input date">
-            <span>${this.searchParams.ends.date ? this.searchParams.ends.date : 'Date'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeDate(e.currentTarget.value, 'ends')}}>
-              ${repeat( Array.apply(null, {length: 31}).map((x,i)=> i+1), day => html`
-              <option selected="${day==this.searchParams.ends.date ? 'selected' : '' }" value="${day}">${day}</option>
-              ` )}
-            </select>
-          </div>
-          <div class="input month">
-            <span>
-              ${this.searchParams.ends.monthYearIndex || this.searchParams.ends.monthYearIndex==0 ? this.monthsYears[this.searchParams.ends.monthYearIndex].displayName :
-                'Month' }
-            </span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeMonth(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.monthsYears, (month, i) => html`
-              <option selected="${i==this.searchParams.ends.monthYearIndex ? 'selected' : ''}" value=${i}>${month.displayName}</option>
-              `)}
-            </select>
-          </div>
-          <div class="input time">
-            <span>${this.searchParams.ends.time ? this.searchParams.ends.time : 'Time'}</span>
-            <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
-            <select on-change=${e => { this.changeTime(e.currentTarget.value, 'ends')}}>
-              ${repeat(this.timeList, time => html `
-              <option selected="${ time==this.searchParams.ends.time ? 'selected' : '' }" value=${time}>${time}</option>
-              `)}
-            </select>
-          </div>
+        <label class="date-label">End Date & Time</label>
+        <div
+        on-click=${this.toggleEndCalender}
+        class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <p class="datetime"> ${this.formatDate(this.endDate)} - ${this.formatTime(this.endTime)} </p>
         </div>
+        <zc-calendar
+        class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
+        id="end-calendar"
+        visible-months="6" 
+        min-time$="00:00" 
+        max-time="23:30"
+        selected-date$="${this.endDate}"
+        selected-time$="${this.endTime}"
+        min-date$="${this.startDate}"
+        max-date="10/15/2019"
+        on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
+        ></zc-calendar>
+        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">${this.errorMessages[this.selectedErrorMessage].message}</div>
       </div>
     </div>
-    <div>
-      <label for=""></label>
-      <div class="input-box button"><button on-click=${this.searchCar}> Search Car</button></div>
+    <div class="search-car-button">
+      <label for="" ></label>
+      <div class="input-box button"><button on-click=${this.searchCar}> Search Cars</button></div>
     </div>
     
   </div>

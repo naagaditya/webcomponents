@@ -18,7 +18,26 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.filterLocations = this.filterLocations.bind(this);
     this.changeLocation = this.changeLocation.bind(this);
     this.closeLocationList = this.closeLocationList.bind(this);
-    
+    this.toggleStartCalender = this.toggleStartCalender.bind(this);
+    this.toggleEndCalender = this.toggleEndCalender.bind(this);
+    this.handleStartDateTimeChange = this.handleStartDateTimeChange.bind(this);
+    this.handleEndDateTimeChange = this.handleEndDateTimeChange.bind(this);
+    this.formatDate = this.formatDate.bind(this);
+    this.formatTime = this.formatTime.bind(this);
+    this._roundTimeHalfHour = this._roundTimeHalfHour.bind(this);
+    this._getDefaultTime = this._getDefaultTime.bind(this);
+    this._getDefaultDate = this._getDefaultDate.bind(this);
+    this.onOutSideClick = this.onOutSideClick.bind(this);
+    this._defaultStartTime = this._getDefaultTime('start');
+    this._defaultStartDate = this._getDefaultDate('start');
+    this._defaultEndTime = this._getDefaultTime('end');
+    this._defaultEndDate = this._getDefaultDate('end');
+    this.startDate = this._defaultStartDate;
+    this.startTime = this._defaultStartTime;
+    this.endDate = this._defaultEndDate;
+    this.endTime = this._defaultEndTime;
+    this.isEditingStartDateTime = false;
+    this.isEditingEndDateTime = false;
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -43,7 +62,8 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
     this.locations = {};
     this.filteredLocation = [];
-
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const today = new Date();
     this.monthsYears = Array.apply(null, { length: 6 }).map((x, i) => {
@@ -84,27 +104,33 @@ class ZcuiWcSearchWidget extends HTMLElement {
 
     };
     this._updateLocations();
-
-    // index 0 means no error
-    this.errorMessages = [
-      '',
-      'Please select city',
-      'Please select starting point',
-      'Please select start date',
-      'Please select start month',
-      'Please select start time',
-      'Please select end date',
-      'Please select end month',
-      'Please select end time',
-      'Starts Can\'t be in past',
-      'ends Can\'t be in past',
-      'Wrong start date selected',
-      'Wrong end date selected',
-      'Start date cannot be greater than end date'
-    ];
-    this.pickupErrors = [1,2];
-    this.startsErrors = [3,4,5,9,11,13];
-    this.endsErrors = [6,7,8,10,12,13];
+    this.selectedErrorMessage = 'noError';
+    this.errorMessages = {
+      noError:{
+        message: ''
+      },
+      emptyCity: {
+        message: 'Please select city'
+      },
+      emptyLocation: {
+        message: 'please select starting point'
+      },
+      startInPast: {
+        message: 'Start date can\'t be in past'
+      },
+      endInPast: {
+        message: 'End date can\'t be in past'
+      },
+      invalidDateRange: {
+        message: 'Start date cannot be greater than end date'
+      },
+      notMinimumBookingDuration: {
+        message: 'Minimum booking should be greater than 4 hrs'
+      }
+    }
+    this.pickupErrors = ['emptyCity','emptyLocation'];
+    this.startsErrors = ['startInPast', 'invalidDateRange'];
+    this.endsErrors = ['endInPast', 'notMinimumBookingDuration'];
   }
 
   get htmlTemplate() {
@@ -115,7 +141,6 @@ class ZcuiWcSearchWidget extends HTMLElement {
       <%- html %>
     `;
   }
-
 
   createShadowDom() {
     this.attachShadow({ mode: 'open' });
@@ -165,7 +190,88 @@ class ZcuiWcSearchWidget extends HTMLElement {
       this.updateShadowDom();
     });
   }
+  formatDate(date) {
+    let dt = new Date(date);
+    let extractedDate ='';
+    let extractedDay='';
+    let extractedMonth='';
+    let formattedDate = 'Invalid Date';
 
+    if(isNaN(dt.getTime())) return formattedDate ;
+
+    [extractedDay, extractedDate, extractedMonth] = dt.toDateString().slice(0, -4).split(' ');
+    formattedDate = `${extractedDay}, ${extractedDate} ${extractedMonth}`;
+    return formattedDate;
+  }
+  formatTime(time){
+    time = time.toLowerCase();
+    if (time.indexOf('am') !== -1 || time.indexOf('pm') !== -1) {
+      return time.toUpperCase();
+    }
+    // this is a fallback for UC browser
+    return this._get12HrTime(new Date(time));
+  }
+  _roundTimeHalfHour(time) {
+    var timeToReturn = new Date(time);
+    timeToReturn.setMilliseconds(Math.ceil(time.getMilliseconds() / 1000) * 1000);
+    timeToReturn.setSeconds(Math.ceil(timeToReturn.getSeconds() / 60) * 60);
+    timeToReturn.setMinutes(Math.ceil(timeToReturn.getMinutes() / 30) * 30);
+    return timeToReturn;
+}
+  _getDefaultTime(type) {
+    let defaultTime = '00:00';
+    switch(type) {
+      case "start":
+        defaultTime = this._get12HrTime(this._roundTimeHalfHour(new Date()));
+        break;
+      case "end":
+        let endTime = new Date();
+        endTime.setHours(endTime.getHours() + 4);
+        defaultTime = this._get12HrTime(this._roundTimeHalfHour(endTime));
+        break
+      default:
+        console.error('Invalid defualt time type');
+    }
+    return defaultTime
+  }
+  _getDefaultDate(type) {
+    let defaultDate = '09/05/2018';
+    switch(type) {
+      case "start":
+        defaultDate = new Date().toLocaleDateString('en-US');
+        break;
+      case "end":
+        let endDate = new Date();
+        endDate.setHours(endDate.getHours()+4);
+        defaultDate = endDate.toLocaleDateString('en-US');
+        break
+      default:
+        console.error('Invalid defualt date type');
+    }
+    return defaultDate
+  }
+  handleStartDateTimeChange(data) {
+    this.startDate = data.detail.date;
+    this.startTime = data.detail.time;
+    let isSubmitted = data.detail.isSubmitted;
+    if((this._defaultStartDate != this.startDate && this._defaultStartTime != this.startTime && !this.isEditingStartDateTime) || isSubmitted){
+      this.isStartCalenderVisible = false;
+      this.isEndCalenderVisible = true;
+      this.isEditingStartDateTime = true;
+    }
+    this.updateShadowDom();
+  }
+  handleEndDateTimeChange(data) {
+    let isSubmitted = data.detail.isSubmitted;
+    this.endDate = data.detail.date;
+    this.endTime = data.detail.time;
+    if((this._defaultEndDate != this.endDate && this._defaultEndTime != this.endTime && !this.isEditingEndDateTime) || isSubmitted){
+      this.isStartCalenderVisible = false;
+      this.isEndCalenderVisible = false;
+      this.isEditingEndDateTime = true;
+    }
+    this.updateShadowDom();
+  }
   changeCity(e) {
     this.searchParams.cityLinkName = e.target.value;
     this.searchParams.cityName = this.cities.filter(city => city.link_name == e.target.value)[0].name;
@@ -190,7 +296,14 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.searchParams[type].time = val;
     this.updateShadowDom();
   }
-
+  toggleStartCalender(){
+    this.isEndCalenderVisible = false;
+    this.isStartCalenderVisible = !this.isStartCalenderVisible;
+  }
+  toggleEndCalender(){
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = !this.isEndCalenderVisible;
+  }
   filterLocations(e) {
     if (!this.searchParams.cityLinkName) return;
     this.filteredLocation = this.locations[this.searchParams.cityLinkName].filter(loc => {
@@ -213,54 +326,71 @@ class ZcuiWcSearchWidget extends HTMLElement {
     return new Date(selectMonthYear.year, selectMonthYear.month, 0).getDate();
   }
 
-  _get24HrTime(time) {
-    const timeArr = time.split(' ');
-    return timeArr[1] == 'PM' ? `${parseInt(timeArr[0].split(':')[0]) + 12}:${timeArr[0].split(':')[1]}` : timeArr[0];
+  _get24HrTime(time12h) {
+    const [time, meridiemStatus] = time12h.split(' ')
+    let [hrs, minutes] = time.split(':')
+    hrs = hrs == '12' ? '00' : hrs
+    hrs = (meridiemStatus.toLowerCase() === 'pm') ? parseInt(hrs, 10) + 12 : parseInt(hrs, 10);
+    hrs = hrs < 10 ? '0' + hrs : hrs;
+    return `${hrs}:${minutes}`
   }
 
   _dateInPast(type) {
-    const monthYearIndex = this.searchParams[type].monthYearIndex;
-    const selectMonthYear = this.monthsYears[monthYearIndex];
-    const date = new Date(`${selectMonthYear.month}-${this.searchParams[type].date}-${selectMonthYear.year} ${this.searchParams[type].time}`);
     const today = new Date();
+    let date;
+    if(type === 'starts'){
+      date = new Date(`${this.startDate} ${this.startTime}`);
+    }
+    if(type === 'ends'){
+      date = new Date(`${this.endDate} ${this.endTime}`);
+    } 
     return today > date;
   }
 
   _isStartsGreaterPast() {
-    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const starts = new Date(`${selectStartsMonthYear.month}-${this.searchParams.starts.date}-${selectStartsMonthYear.year} ${this.searchParams.starts.time}`);
-    const ends = new Date(`${selectEndsMonthYear.month}-${this.searchParams.ends.date}-${selectEndsMonthYear.year} ${this.searchParams.ends.time}`);
+    const starts = new Date(`${this.startDate} ${this.startTime}`);
+    const ends = new Date(`${this.endDate} ${this.endTime}`);
     return starts > ends;
   }
+_isMinimumBookingDuration() {
+  const starts = new Date(`${this.startDate} ${this.startTime}`);
+  const ends = new Date(`${this.endDate} ${this.endTime}`);
+  let hours = Math.abs(ends - starts) / 36e5;
+  return hours < 4;
+}
   _validateParams() {
     const params = this.searchParams;
-    if (!params.cityLinkName) return 1;
-    if (!params.lat || !params.lng) return 2;
-    if (!params.starts.date) return 3;
-    if (!params.starts.monthYearIndex && params.starts.monthYearIndex!=0) return 4;
-    if (!params.starts.time) return 5;
-    if (!params.ends.date) return 6;
-    if (!params.ends.monthYearIndex && params.ends.monthYearIndex != 0) return 7;
-    if (!params.ends.time) return 8;
-    if (this._dateInPast('starts')) return 9;
-    if (this._dateInPast('ends')) return 10;
-    if (parseInt(params.starts.date) > this.daysInMonth('starts')) return 11;
-    if (parseInt(params.ends.date) > this.daysInMonth('ends')) return 12;
-    if (this._isStartsGreaterPast()) return 13;
+    if (!params.cityLinkName) return 'emptyCity';
+    if (!params.lat || !params.lng) return 'emptyLocation';
+    if (this._dateInPast('starts')) return 'startInPast';
+    if (this._dateInPast('ends')) return 'endInPast';
+    if (this._isStartsGreaterPast()) return 'invalidDateRange';
+    if(this._isMinimumBookingDuration()) return 'notMinimumBookingDuration';
+    return 'noError';
   }
 
   searchCar() {
     this.selectedErrorMessage = this._validateParams();
     this.updateShadowDom();
-    if (this.selectedErrorMessage) return;
-    const startsMonthYearIndex = this.searchParams.starts.monthYearIndex;
-    const selectStartsMonthYear = this.monthsYears[startsMonthYearIndex];
-    const endsMonthYearIndex = this.searchParams.ends.monthYearIndex;
-    const selectEndsMonthYear = this.monthsYears[endsMonthYearIndex];
-    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${selectStartsMonthYear.year}-${selectStartsMonthYear.month}-${this.searchParams.starts.date} ${this._get24HrTime(this.searchParams.starts.time)}&ends=${selectEndsMonthYear.year}-${selectEndsMonthYear.month}-${this.searchParams.ends.date} ${window.encodeURIComponent(this._get24HrTime(this.searchParams.ends.time))}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
+
+    if (this.selectedErrorMessage != 'noError') return;
+    
+    let startDate = new Date(this.startDate);
+    let endDate = new Date(this.endDate);
+    let timeZoneOffset = startDate.getTimezoneOffset() * 60000;
+    startDate = new Date(startDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
+    endDate = new Date(endDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
+
+    console.log('this.startTime-->', this.startTime)
+    console.log('this.endTime-->', this.endTime)
+
+    const startTime = this._get24HrTime(this.startTime);
+    const endTime = this._get24HrTime(this.endTime);
+
+    console.log('startTime-->', startTime)
+    console.log('this.endTime-->', endTime)
+
+    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
     window.open(url, '_blank');
   }
 
@@ -289,14 +419,28 @@ class ZcuiWcSearchWidget extends HTMLElement {
   _objToUrl(obj) {
     return Object.keys(obj).map(k => `${k}=${obj[k]}`).join('&');
   }
-
+  onOutSideClick(e) {
+    this.closeCalendars(e);
+    this.closeLocationList(e);
+  }
+  closeCalendars(e) {
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide']
+    if(validCalClick.includes(e.target.className)) return;
+    this.isStartCalenderVisible = false;
+    this.isEndCalenderVisible = false;
+  }
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
     this.filteredLocation = [];
     this.updateShadowDom();
   }
-  _get12HrTime(date) {
-    return date.getHours() > 12 ? `${date.getHours() - 12}:00 PM` : `${date.getHours()}:00 AM`;
+  _get12HrTime(time) {
+    let t = time.toTimeString().slice(0, 5);
+    let hrs, minutes;
+    [hrs, minutes] = t.split(':');
+    var h = hrs % 12 || 12;
+    var ampm = (hrs < 12 || hrs === 24) ? "AM" : "PM";
+    return `${h}:${minutes} ${ampm}`
   }
 }
 
