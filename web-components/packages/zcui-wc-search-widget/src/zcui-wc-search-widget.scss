@@ -1,14 +1,16 @@
 .zcui-wc-search-widget {
-  display: flex;
-  padding: 20px;
-  font-size: 16px;
-  flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: url('https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg');
-  background-size: contain;
-  margin: auto;
-  text-align: left;
-  min-height: 333px;
+  &.main{
+    display: flex;
+    padding: 20px;
+    font-size: 16px;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/bg.svg');
+    background-size: contain;
+    margin: auto;
+    text-align: left;
+    min-height: 333px;
+  }
   .error {
     color: #d0021b;
     text-align: center;
