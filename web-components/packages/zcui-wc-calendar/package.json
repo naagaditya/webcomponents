@@ -1,6 +1,6 @@
 {
   "name": "@zoomcarindia/zcui-wc-calendar",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "zoomcar search calendar component",
   "main": "src/cal/index.js",
   "watch": {
