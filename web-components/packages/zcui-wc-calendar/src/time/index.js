@@ -83,7 +83,6 @@ class zcTimePicker extends HTMLElement {
   `;
   };
   handleTimeSelection(time) {
-    console.log(time)
     this.dispatchEvent(new CustomEvent('time-tap', {bubbles: true, composed: true, detail:{
       time: time,
     }}));
