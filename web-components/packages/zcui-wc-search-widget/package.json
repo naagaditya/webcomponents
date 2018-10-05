@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./build.js && rollup -c"
   },
-  "unpkg": "dist/bundle.js",
+  "unpkg": "dist/bundle.min.js",
   "files": [
     "/dist/"
   ],
@@ -29,5 +29,6 @@
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-babel-runtime-external": "^2.0.0",
     "rollup-plugin-uglify": "^6.0.0"
-  }
+  },
+  "gitHead": "ad1ba1f3f7d533d6abe666b7636ab1265cb7b9a1"
 }

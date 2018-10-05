@@ -1,4 +1,8 @@
 {
+  "name": "@zoomcarindia/zcui-wc-calendar",
+  "version": "0.0.0",
+  "description": "zoomcar search calendar component",
+  "main": "src/cal/index.js",
   "watch": {
     "build": {
       "patterns": [
@@ -9,6 +13,13 @@
       "quiet": false
     }
   },
+  "unpkg": "dist/bundle-datetime-picker.min.js",
+  "files": [
+    "/dist/"
+  ],
+  "keywords": [],
+  "author": "Aditya Naag",
+  "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-babel": "babel index.js --watch -o dist/bundle.js",
@@ -38,6 +49,5 @@
     "rollup-plugin-livereload": "^0.6.0",
     "rollup-plugin-serve": "^0.6.0",
     "rollup-plugin-uglify": "^6.0.0"
-  },
-  "version": null
+  }
 }

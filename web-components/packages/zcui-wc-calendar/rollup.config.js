@@ -11,12 +11,6 @@ export default {
     './dist/bundle-time-picker.js',
     './dist/bundle.js',
   ],
-  plugin: [babel(), uglify(),serve(),livereload('dist'),
-    babelRuntimeExternal({
-      helpers: false,
-      polyfill: true,
-      regenerator: false,
-    })],
   output: {
     file: './dist/bundle-datetime-picker.min.js',
     format: 'iife'
