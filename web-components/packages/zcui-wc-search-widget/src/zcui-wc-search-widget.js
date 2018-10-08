@@ -38,6 +38,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.endTime = this._defaultEndTime;
     this.isEditingStartDateTime = false;
     this.isEditingEndDateTime = false;
+    this.apiErrorMsg ='';
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
