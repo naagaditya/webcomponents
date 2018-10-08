@@ -480,13 +480,14 @@ _isMinimumBookingDuration() {
     let startDate = new Date(this.startDate);
     let endDate = new Date(this.endDate);
     let timeZoneOffset = startDate.getTimezoneOffset() * 60000;
+    let ref = window.location.hostname.split('.').slice(1,2).join('')
     startDate = new Date(startDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
     endDate = new Date(endDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
 
     const startTime = this._get24HrTime(this.startTime);
     const endTime = this._get24HrTime(this.endTime);
 
-    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
+    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${ref}`;
     window.open(url, '_blank');
   }
 
