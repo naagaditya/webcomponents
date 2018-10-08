@@ -1,5 +1,5 @@
 .month{
-    width: 270px;
+    width:100%;
     user-select: none;
     h2 {
         text-align: center;
@@ -26,12 +26,12 @@
         .day{
             // background-color: antiquewhite;
             // width: 32px;
-            width: calc(100%/8);
-            height: 32px;
+            width: 12.2%;
+            height:27px;
+            line-height: 27px;
             display: inline-block;
             text-align:center;
             transition: 0.2s;
-            line-height: 32px;
             &:hover{
                 color: white;
                 transition: 0.2s;
