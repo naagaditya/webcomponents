@@ -114,7 +114,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'Please select city'
       },
       emptyLocation: {
-        message: 'please select starting point'
+        message: 'Please select an area'
       },
       startInPast: {
         message: 'Start date can\'t be in past'
@@ -123,7 +123,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'End date can\'t be in past'
       },
       invalidDateRange: {
-        message: 'Start date cannot be greater than end date'
+        message: 'Start date & time needs to be before end date & time'
       },
       notMinimumBookingDuration: {
         message: 'Minimum booking should be greater than 4 hrs'
@@ -420,10 +420,14 @@ _isMinimumBookingDuration() {
     this.closeLocationList(e);
   }
   closeCalendars(e) {
-    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide']
-    if(validCalClick.includes(e.target.className)) return;
-    this.isStartCalenderVisible = false;
-    this.isEndCalenderVisible = false;
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide', 'hide'];
+    // code below id done in this manner, to make sure it works perfectly on firefox, where e.target.className return
+    // class name differently than that of chrome. 
+    let classNames = e.target.className.split(' ')
+    let classInterSaction = classNames.filter(c=> validCalClick.includes(c))
+    if(classInterSaction.length > 0){
+      return
+    }
   }
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
