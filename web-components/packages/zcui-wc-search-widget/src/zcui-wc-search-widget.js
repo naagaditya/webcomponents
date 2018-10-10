@@ -420,10 +420,14 @@ _isMinimumBookingDuration() {
     this.closeLocationList(e);
   }
   closeCalendars(e) {
-    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide']
-    if(validCalClick.includes(e.target.className)) return;
-    this.isStartCalenderVisible = false;
-    this.isEndCalenderVisible = false;
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide', 'hide'];
+    // code below id done in this manner, to make sure it works perfectly on firefox, where e.target.className return
+    // class name differently than that of chrome. 
+    let classNames = e.target.className.split(' ')
+    let classInterSaction = classNames.filter(c=> validCalClick.includes(c))
+    if(classInterSaction.length > 0){
+      return
+    }
   }
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
