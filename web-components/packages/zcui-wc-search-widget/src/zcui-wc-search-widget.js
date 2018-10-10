@@ -114,7 +114,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'Please select city'
       },
       emptyLocation: {
-        message: 'please select starting point'
+        message: 'Please select an area'
       },
       startInPast: {
         message: 'Start date can\'t be in past'
@@ -123,7 +123,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'End date can\'t be in past'
       },
       invalidDateRange: {
-        message: 'Start date cannot be greater than end date'
+        message: 'Start date & time needs to be before end date & time'
       },
       notMinimumBookingDuration: {
         message: 'Minimum booking should be greater than 4 hrs'

@@ -71,7 +71,7 @@
     flex-wrap: wrap;
     padding: 10px 0;
     align-items: baseline;
-
+    line-height: 1.5;
     .input-box {
       cursor: pointer;
       border: solid 2px #8ABD50;
@@ -180,7 +180,7 @@
   }
   button {
     font-size: 16px;
-    padding: 14px;
+    padding: 17px;
     max-width: 420px;
     color: #fff;
     text-transform: uppercase;
