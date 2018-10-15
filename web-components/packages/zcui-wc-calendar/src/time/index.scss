@@ -1,5 +1,7 @@
 .time-containers{
     padding-right: 6px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     .time{
         // background-color: antiquewhite;
         text-align:center;
