@@ -1,5 +1,6 @@
 .cal-wrapper {
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     position: absolute;
     z-index: 2;
     background: white;
