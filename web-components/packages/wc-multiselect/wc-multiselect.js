@@ -16,7 +16,7 @@ class WcMultiselect extends HTMLElement{
         :host {
           display: block;
         }
-        .wrapper {
+        .multi-select-wrapper {
           position: relative;
         }
         .down-arrow {
@@ -124,7 +124,7 @@ class WcMultiselect extends HTMLElement{
           min-width: 30px;
         }
       </style>
-      <div class="wrapper" id="multiselect">
+      <div class="multi-select-wrapper" id="multiselect">
         <div class="tags">
           <input class="input-filter" type="text" tabindex=0/>
         </div>
