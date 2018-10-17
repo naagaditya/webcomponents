@@ -51,7 +51,7 @@ class WcMultiselect extends HTMLElement{
           align-items: center;
           flex-wrap: wrap;
         }
-        .content {
+        .multi-select-content {
           position: absolute;
           display: block;
           background: #fff;
@@ -64,14 +64,14 @@ class WcMultiselect extends HTMLElement{
           border-bottom-right-radius: 5px;
           z-index: 3;
         }
-        .content > ul {
+        .multi-select-content > ul {
           list-style: none;
           padding: 0;
           margin: 0;
           min-width: 100%;
           vertical-align: top;
         }
-        .content > ul > li {
+        .multi-select-content > ul > li {
           padding: 0 12px;
           min-height: 40px;
           line-height: 16px;
@@ -80,7 +80,7 @@ class WcMultiselect extends HTMLElement{
           display: flex;
           align-items: center;
         }
-        .content > ul > li:hover {
+        .multi-select-content > ul > li:hover {
           background: #41b883;
           outline: none;
           color: #fff;
@@ -129,7 +129,7 @@ class WcMultiselect extends HTMLElement{
           <input class="input-filter" type="text" tabindex=0/>
         </div>
         <div class="down-arrow"></div>
-        <div class="content">
+        <div class="multi-select-content">
           <ul class="items">
           </ul>
         </div>
