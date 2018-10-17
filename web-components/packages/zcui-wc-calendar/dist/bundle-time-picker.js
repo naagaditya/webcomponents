@@ -77,7 +77,7 @@ class zcTimePicker extends HTMLElement {
   get htmlTemplate () { 
     return html`
     <style>
-      .time-containers{padding-right:6px}.time-containers .time{text-align:center;transition:0.2s;padding:10px 0;margin:0}.time-containers .time:hover{color:white;transition:0.2s;background:#B4D3A2;cursor:pointer;border-radius:50px}.time-containers .time.selected{color:white;transition:0.2s;background:#B4D3A2;cursor:pointer;border-radius:50px}.time-containers .time.disable{display:none;color:#b9b9b9;font-weight:300;cursor:not-allowed}.time-containers .time.disable:hover{background:white;color:#b9b9b9}@media screen and (max-width: 425px){.time-containers{padding:0}.time-containers .time{padding:7px 0;margin:0;margin-bottom:4px}}
+      .time-containers{padding-right:6px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}.time-containers .time{text-align:center;transition:0.2s;padding:10px 0;margin:0;font-size:small}.time-containers .time:hover{color:white;transition:0.2s;background:#B4D3A2;cursor:pointer;border-radius:50px}.time-containers .time.selected{color:white;transition:0.2s;background:#B4D3A2;cursor:pointer;border-radius:50px}.time-containers .time.disable{display:none;color:#b9b9b9;font-weight:300;cursor:not-allowed}.time-containers .time.disable:hover{background:white;color:#b9b9b9}@media screen and (max-width: 425px){.time-containers{padding:0}.time-containers .time{padding:7px 0;margin:0;margin-bottom:4px}}
 
     </style>
     <!DOCTYPE html>

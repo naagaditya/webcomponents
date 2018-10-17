@@ -38,6 +38,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
     this.endTime = this._defaultEndTime;
     this.isEditingStartDateTime = false;
     this.isEditingEndDateTime = false;
+    this.apiErrorMsg ='';
     this.cities = [];
     this._loadXMLDoc({
       method: 'GET',
@@ -113,7 +114,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'Please select city'
       },
       emptyLocation: {
-        message: 'please select starting point'
+        message: 'Please select an area'
       },
       startInPast: {
         message: 'Start date can\'t be in past'
@@ -122,7 +123,7 @@ class ZcuiWcSearchWidget extends HTMLElement {
         message: 'End date can\'t be in past'
       },
       invalidDateRange: {
-        message: 'Start date cannot be greater than end date'
+        message: 'Start date & time needs to be before end date & time'
       },
       notMinimumBookingDuration: {
         message: 'Minimum booking should be greater than 4 hrs'
@@ -378,19 +379,14 @@ _isMinimumBookingDuration() {
     let startDate = new Date(this.startDate);
     let endDate = new Date(this.endDate);
     let timeZoneOffset = startDate.getTimezoneOffset() * 60000;
+    let ref = window.location.hostname.split('.').slice(1,2).join('')
     startDate = new Date(startDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
     endDate = new Date(endDate.getTime() - timeZoneOffset).toISOString().slice(0,10);
-
-    console.log('this.startTime-->', this.startTime)
-    console.log('this.endTime-->', this.endTime)
 
     const startTime = this._get24HrTime(this.startTime);
     const endTime = this._get24HrTime(this.endTime);
 
-    console.log('startTime-->', startTime)
-    console.log('this.endTime-->', endTime)
-
-    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${window.location.hostname}`;
+    const url = `https://www.zoomcar.com/${this.searchParams.cityLinkName}/search/query?lat=${this.searchParams.lat}&lng=${this.searchParams.lng}&starts=${startDate} ${startTime}&ends=${endDate} ${endTime}&type=zoom_later&bracket=with_fuel&ref=${ref}`;
     window.open(url, '_blank');
   }
 
@@ -424,10 +420,14 @@ _isMinimumBookingDuration() {
     this.closeLocationList(e);
   }
   closeCalendars(e) {
-    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide']
-    if(validCalClick.includes(e.target.className)) return;
-    this.isStartCalenderVisible = false;
-    this.isEndCalenderVisible = false;
+    let validCalClick = ['zc-calendar', 'input-box', 'datetime', 'zc-calender hide', 'hide'];
+    // code below id done in this manner, to make sure it works perfectly on firefox, where e.target.className return
+    // class name differently than that of chrome. 
+    let classNames = e.target.className.split(' ')
+    let classInterSaction = classNames.filter(c=> validCalClick.includes(c))
+    if(classInterSaction.length > 0){
+      return
+    }
   }
   closeLocationList(e) {
     if (e.target.className == 'area-text-input') return;
