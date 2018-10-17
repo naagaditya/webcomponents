@@ -144,7 +144,7 @@ class WcMultiselect extends HTMLElement{
     this.template.innerHTML = this.htmlTemplate;
     var templateContent = this.template.content.cloneNode(true);
     this._content = templateContent.getElementById('multiselect');
-    this.filteredContent = this._content.getElementsByClassName('content')[0];
+    this.filteredContent = this._content.getElementsByClassName('multi-select-content')[0];
     this.filteredContent.style.display = 'none';
     this.input = this._content.getElementsByClassName('input-filter')[0];
     this.downArrow = this._content.getElementsByClassName('down-arrow')[0];
