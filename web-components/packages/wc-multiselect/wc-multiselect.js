@@ -1,6 +1,6 @@
 class WcMultiselect extends HTMLElement{
   static get observedAttributes() {
-    return ['label', 'options'];
+    return ['label', 'options', 'single-select'];
   }
   constructor () {
     super();
@@ -138,6 +138,7 @@ class WcMultiselect extends HTMLElement{
   setProps () {
     this.list = JSON.parse(this.getAttribute('options'));
     this.label = this.getAttribute('label');
+    this.singleSelect = this.getAttribute('single-select');
   }
   connectedCallback () {
     this.setProps();
@@ -194,6 +195,9 @@ class WcMultiselect extends HTMLElement{
     var isAlreadySelected  = this.selectedItems.filter(item => item == this.filterList[filteredListIndex]).length > 0;
     if (isAlreadySelected) {
       return;
+    }
+    if (this.singleSelect === "true" && this.selectedItems.length == 1) {
+      this.removeLastItem();
     }
     this.filteredContent.style.display = 'none';
     this.input.value = '';

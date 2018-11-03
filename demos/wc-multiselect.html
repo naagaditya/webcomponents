@@ -6,7 +6,8 @@
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="import" href="https://unpkg.com/@zoomcarindia/wc-multiselect/wc-multiselect.html">
+  <!-- <link rel="import" href="https://unpkg.com/@zoomcarindia/wc-multiselect/wc-multiselect.html"> -->
+  <link rel="import" href="../web-components/packages/wc-multiselect/wc-multiselect.html">
 </head>
 
 <body>
@@ -21,6 +22,10 @@
       <div class="form-group">
         <label for="label">label</label>
         <input type="text" name="label">
+      </div>
+      <div class="form-group">
+        <label for="single-select">single select</label>
+        <input type="text" name="single-select">
       </div>
       <button class="btn btn-primary" onclick="change(event)">Change</button>
     </form>
@@ -42,7 +47,7 @@
   <div style="display: flex;flex-direction: column;">
     <code>&lt;link rel="import" href="https://unpkg.com/@zoomcarindia/wc-multiselect/wc-multiselect.html"&gt;</code>
     <code id="wc-multiselect">
-      &lt;wc-multiselect options='[{"name":"aditya","id":1},{"name":"rahul","id":2}]' label="name" &gt;&lt;/wc-multiselect&gt;
+      &lt;wc-multiselect options='[{"name":"aditya","id":1},{"name":"rahul","id":2}]' label="name" single-select="false" &gt;&lt;/wc-multiselect&gt;
     </code>
     <h1>callback</h1>
     <code>
@@ -60,9 +65,11 @@
       e.preventDefault();
       const options = document.getElementsByName("options")[0].value;
       const label = document.getElementsByName("label")[0].value;
+      const singleSelect = document.getElementsByName("single-select")[0].value;
       multiselect.setAttribute('options', options);
       multiselect.setAttribute('label', label);
-      document.getElementById('wc-multiselect').innerHTML = `&lt;wc-multiselect options= '${options}' label="${label}" &gt;&lt;/wc-multiselect&gt;`;
+      multiselect.setAttribute('single-select', singleSelect);
+      document.getElementById('wc-multiselect').innerHTML = `&lt;wc-multiselect options= '${options}' label="${label}" single-select="${singleSelect}" &gt;&lt;/wc-multiselect&gt;`;
     }
     document.getElementsByName("options")[0].value = multiselect.getAttribute('options');
     document.getElementsByName("label")[0].value = multiselect.getAttribute('label');
