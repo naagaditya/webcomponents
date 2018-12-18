@@ -9,7 +9,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   constructor() {
     super();
     this.updateShadowDom = this.updateShadowDom.bind(this);
-    
   }
 
   get htmlTemplate() {

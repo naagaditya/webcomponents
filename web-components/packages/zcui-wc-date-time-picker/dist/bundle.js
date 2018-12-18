@@ -9,8 +9,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   constructor() {
     super();
     this.updateShadowDom = this.updateShadowDom.bind(this);
-    console.log('sds');
-    
   }
 
   get htmlTemplate() {
@@ -20,7 +18,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       </style>
       <div>
   hi there?
-  aditya naag is bvhbyhjkhyfrcdc
+  aditya naag is bvhbyhjkhyfrcdclihugsdcsdchjghcg
 </div>
     `;
   }
