@@ -2,7 +2,7 @@
   "name": "@zoomcarindia/zcui-wc-search-widget",
   "version": "1.0.20",
   "description": "zoomcar search widget web component",
-  "main": "src/zcui-wc-search-widget.js",
+  "main": "dist/bundle.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./build.js && rollup -c"
