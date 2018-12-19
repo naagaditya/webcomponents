@@ -1,8 +1,8 @@
 {
   "name": "@zoomcarindia/zcui-wc-calendar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "zoomcar search calendar component",
-  "main": "src/cal/index.js",
+  "main": "dist/bundle-datetime-picker.min.js",
   "watch": {
     "build": {
       "patterns": [
