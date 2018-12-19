@@ -4,7 +4,7 @@ import { terser } from "rollup-plugin-terser";
 import mergeFiles  from "./merge-files.js";
 import html from 'rollup-plugin-html';
 import multiEntry from "rollup-plugin-multi-entry";
-import scss from 'rollup-plugin-scss'
+import scss from 'rollup-plugin-scss';
 
 
 export default {

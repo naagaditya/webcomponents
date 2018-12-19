@@ -1,4 +1,40 @@
 .zcui-wc-date-time-picker {
-  .a {
+  padding: 20px;
+  border: solid 1px #cecece;
+  box-shadow: 5px 5px 50px 2px #cecece;
+  border-radius: 5px;
+  height: 200px;
+  margin: auto;
+  width: fit-content;
+  .d-f {
+    display: flex;
+  }
+  .flip-month-page {
+    .left-arrow {
+      border-left: solid 1.5px #6b46bc;
+      border-bottom: solid 1.5px #6b46bc;
+    }
+    .right-arrow {
+      border-right: solid 1.5px #6b46bc;
+      border-top: solid 1.5px #6b46bc;
+    }
+    .arrow {
+      height: 12px;
+      width: 12px;
+      transform: rotate(45deg);
+    }
+    .change-month, .change-year{
+      border: solid 2px #e5e8e9bf;
+      border-radius: 5px;
+      padding: 5px 10px;
+      .down-arrow {
+        height: 8px;
+        width: 8px;
+        transform: rotate(45deg);
+        border-right: solid 1.5px #6b46bc;
+        border-bottom: solid 1.5px #6b46bc;
+        margin-left: 10px;
+      }
+    }
   }
 }

@@ -18,7 +18,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       </style>
       <div>
   hi there?
-  aditya naag is bvhbyhjkhyfrcdclihugsdcsdchjghcg
+  aditya naag is best
 </div>
     `;
   }
