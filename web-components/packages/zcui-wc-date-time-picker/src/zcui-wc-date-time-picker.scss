@@ -10,13 +10,17 @@
     display: flex;
   }
   .flip-month-page {
+    align-items: center;
+    justify-content: space-around;
     .left-arrow {
       border-left: solid 1.5px #6b46bc;
       border-bottom: solid 1.5px #6b46bc;
+      margin-right: 10px;
     }
     .right-arrow {
       border-right: solid 1.5px #6b46bc;
       border-top: solid 1.5px #6b46bc;
+      margin-left: 10px;
     }
     .arrow {
       height: 12px;
@@ -24,10 +28,14 @@
       transform: rotate(45deg);
     }
     .change-month, .change-year{
+      position: relative;
+      cursor: pointer;
       border: solid 2px #e5e8e9bf;
       border-radius: 5px;
       padding: 5px 10px;
+      margin: 0 7px;
       .down-arrow {
+        margin-top: 2px;
         height: 8px;
         width: 8px;
         transform: rotate(45deg);

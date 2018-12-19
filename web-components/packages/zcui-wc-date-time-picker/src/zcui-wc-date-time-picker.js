@@ -3,7 +3,10 @@ import { repeat } from '../../../../lib/repeat.js';
 
 class ZcuiWcDateTimePicker extends HTMLElement {
   static get observedAttributes() {
-    return [];
+    return [
+      'max-date-time',
+      'min-date-time'
+    ];
   }
 
   constructor() {
@@ -36,6 +39,12 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       this.setProps();
       this.updateShadowDom();
     }
+  }
+
+  setProps() {
+    this.maxDateTime = new Date(this.getAttribute('max-date-time'));
+    this.minDateTime = new Date(this.getAttribute('min-date-time'));
+    
   }
 
   connectedCallback() {
