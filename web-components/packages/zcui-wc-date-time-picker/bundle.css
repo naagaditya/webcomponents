@@ -3,7 +3,6 @@
   border: solid 1px #cecece;
   box-shadow: 5px 5px 50px 2px #cecece;
   border-radius: 5px;
-  height: 200px;
   margin: auto;
   width: fit-content; }
   .zcui-wc-date-time-picker .d-f {
@@ -63,3 +62,17 @@
         width: 70px; }
   .zcui-wc-date-time-picker .hide {
     display: none; }
+  .zcui-wc-date-time-picker .calendar {
+    font-size: 13px;
+    width: 265px; }
+    .zcui-wc-date-time-picker .calendar .day-name {
+      padding-top: 10px; }
+    .zcui-wc-date-time-picker .calendar .dates {
+      padding: 10px 0; }
+  .zcui-wc-date-time-picker .divider {
+    border-bottom: solid 1.5px #e5e8e9bf; }
+  .zcui-wc-date-time-picker .date-cell {
+    display: inline-block;
+    width: 35px;
+    text-align: center;
+    padding: 10px 0; }

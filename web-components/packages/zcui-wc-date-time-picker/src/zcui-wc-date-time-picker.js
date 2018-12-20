@@ -12,8 +12,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   constructor() {
     super();
     // initialize variables
-    this.selectedMonth = 4;
-    this.selectedYear = 2018;
     this.openMonthList = false;
     this.openYearList = false;
     this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -23,6 +21,12 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.updateShadowDom = this.updateShadowDom.bind(this);
     this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
     this.toggleOpenYearList = this.toggleOpenYearList.bind(this);
+    this._flipPage = this._flipPage.bind(this);
+
+    //initialize Calendar
+    this.selectedMonth = 4;
+    this.selectedYear = 2018;
+    this._flipPage();    
   }
 
   get htmlTemplate() {
@@ -98,9 +102,20 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     if (maxYear - minYear < 1) {
       const maxMonth = maxDate.getMonth();
       const minMonth = minDate.getMonth();
-      console.log(maxYear, minYear, maxMonth, minMonth);
       this.monthRangeVal = Array.apply(null, { length: maxMonth - minMonth + 1 }).map((x, i) => i + minMonth);
     }
+  }
+
+  _flipPage() {
+    var tempDate = new Date();
+    tempDate.setYear(this.selectedYear);
+    tempDate.setMonth(this.selectedMonth);
+    tempDate.setDate(1);
+    this.startDateOfCalendar = 1 - tempDate.getDay();
+    tempDate.setMonth(this.selectedMonth - 1);
+    tempDate.setDate(0);
+    this.endDateOfCalendar = tempDate.getDate();
+    this.updateShadowDom();
   }
 }
 

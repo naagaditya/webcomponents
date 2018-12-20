@@ -1,10 +1,3 @@
-<script>
-function onClick(e) {
-  return function(month) {
-    this.selectMonth(month);
-  }
-}
-</script>
 <div class="zcui-wc-date-time-picker d-f">
   <div class="flip-month-page d-f">
     <span class="arrow left-arrow"></span>
@@ -27,13 +20,30 @@ function onClick(e) {
       </div>
       <div class$="${this.openYearList ? 'year-list' : 'hide'}">
         ${repeat(this.yearRangeVal, year => html`
-        <span on-click=${this.selectYear(year)}>${year}</span>
+          <span on-click=${this.selectYear(year)}>${year}</span>
         `)}
       </div>
     </span>
-    <span class="calendar">
-      <div></div>
-    </span>
     <span class="arrow right-arrow"></span>
+  </div>
+  <div class="calendar">
+    <div class="day-name">
+      <span class="date-cell">SU</span>
+      <span class="date-cell">MO</span>
+      <span class="date-cell">TU</span>
+      <span class="date-cell">WE</span>
+      <span class="date-cell">TH</span>
+      <span class="date-cell">FR</span>
+      <span class="date-cell">SA</span>
+    </div>
+    <div class="divider"></div>
+    <!-- (this.endDateOfCalendar-this.startDateOfCalendar+1) will give total dates 
+    startDateOfCalendar starts with -ve val or 1 startDateOfCalendar is starts with sunday -->
+
+    <div class="dates">
+      ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
+        <span class="date-cell">${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}</span>
+      `)}
+    </div>
   </div>
 </div>
