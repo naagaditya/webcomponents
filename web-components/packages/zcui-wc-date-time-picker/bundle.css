@@ -52,13 +52,14 @@
         overflow: scroll;
         padding-top: 5px; }
         .zcui-wc-date-time-picker .flip-month-page .change-month .month-list span, .zcui-wc-date-time-picker .flip-month-page .change-month .year-list span, .zcui-wc-date-time-picker .flip-month-page .change-year .month-list span, .zcui-wc-date-time-picker .flip-month-page .change-year .year-list span {
-          padding: 5px 0;
+          box-sizing: border-box;
+          padding: 5px 10px;
           width: 100%;
-          text-align: center; }
+          text-align: left; }
           .zcui-wc-date-time-picker .flip-month-page .change-month .month-list span:hover, .zcui-wc-date-time-picker .flip-month-page .change-month .year-list span:hover, .zcui-wc-date-time-picker .flip-month-page .change-year .month-list span:hover, .zcui-wc-date-time-picker .flip-month-page .change-year .year-list span:hover {
             background: #6b46bc;
             color: #fff; }
-    .zcui-wc-date-time-picker .flip-month-page .change-month {
-      width: 90px; }
+      .zcui-wc-date-time-picker .flip-month-page .change-month .month, .zcui-wc-date-time-picker .flip-month-page .change-year .month {
+        width: 70px; }
   .zcui-wc-date-time-picker .hide {
     display: none; }

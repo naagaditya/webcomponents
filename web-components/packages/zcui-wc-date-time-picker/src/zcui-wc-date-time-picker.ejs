@@ -10,19 +10,26 @@ function onClick(e) {
     <span class="arrow left-arrow"></span>
     <span class="change-month d-f">
       <div class="d-f" on-click=${this.toggleOpenMonthList}>
-        <span class="month name">${this.selectedMonth}</span>
+        <span class="month name">${this.monthNames[this.selectedMonth]}</span>
         <div class="down-arrow"></div>
       </div>
       <div
         class$="${this.openMonthList ? 'month-list' : 'hide'}">
-        ${repeat(this.monthNames, month => html`
-          <span on-click=${this.selectMonth(month)}>${month}</span>
+        ${repeat(this.monthRangeVal, month => html`
+          <span on-click=${this.selectMonth(month)}>${this.monthNames[month]}</span>
         `)}
       </div>
     </span>
     <span class="change-year d-f">
-      <span class="year-name">2018</span>
-      <div class="down-arrow"></div>
+      <div class="d-f" on-click=${this.toggleOpenYearList}>
+        <span class="year-name">${this.selectedYear}</span>
+        <div class="down-arrow"></div>
+      </div>
+      <div class$="${this.openYearList ? 'year-list' : 'hide'}">
+        ${repeat(this.yearRangeVal, year => html`
+        <span on-click=${this.selectYear(year)}>${year}</span>
+        `)}
+      </div>
     </span>
     <span class="calendar">
       <div></div>

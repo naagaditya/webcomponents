@@ -11,15 +11,18 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   constructor() {
     super();
-
     // initialize variables
-    this.selectedMonth = 'September';
+    this.selectedMonth = 4;
+    this.selectedYear = 2018;
     this.openMonthList = false;
-    this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
+    this.openYearList = false;
+    this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.monthRangeVal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    this.yearRangeVal = [2018];
     // bind this in all functions
     this.updateShadowDom = this.updateShadowDom.bind(this);
     this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
+    this.toggleOpenYearList = this.toggleOpenYearList.bind(this);
   }
 
   get htmlTemplate() {
@@ -52,6 +55,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   setProps() {
     this.maxDateTime = new Date(this.getAttribute('max-date-time'));
     this.minDateTime = new Date(this.getAttribute('min-date-time'));
+    this._updateCalendarRange();
     
   }
 
@@ -64,13 +68,40 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.updateShadowDom();
   }
 
+  toggleOpenYearList() {
+    this.openYearList = !this.openYearList;
+    this.updateShadowDom();
+  }
+
   selectMonth(month) {
     return () => {
       this.selectedMonth = month;
       this.openMonthList = false;
       this.updateShadowDom();
     }
-  };
+  }
+
+  selectYear(year) {
+    return () => {
+      this.selectedYear = year;
+      this.openYearList = false;
+      this.updateShadowDom();
+    }
+  }
+  
+  _updateCalendarRange() {
+    const maxDate = new Date(this.maxDateTime);
+    const minDate = new Date(this.minDateTime);
+    const maxYear = maxDate.getFullYear();
+    const minYear = minDate.getFullYear();
+    this.yearRangeVal = Array.apply(null, { length: maxYear - minYear + 1 }).map((x, i) => i + minYear);
+    if (maxYear - minYear < 1) {
+      const maxMonth = maxDate.getMonth();
+      const minMonth = minDate.getMonth();
+      console.log(maxYear, minYear, maxMonth, minMonth);
+      this.monthRangeVal = Array.apply(null, { length: maxMonth - minMonth + 1 }).map((x, i) => i + minMonth);
+    }
+  }
 }
 
 window.customElements.define('zcui-wc-date-time-picker', ZcuiWcDateTimePicker);

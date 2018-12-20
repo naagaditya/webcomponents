@@ -57,18 +57,19 @@
         overflow: scroll;
         padding-top: 5px;
         span {
-          padding: 5px 0;
+          box-sizing: border-box;
+          padding: 5px 10px;
           width: 100%;
-          text-align: center;
+          text-align: left;
           &:hover {
             background: #6b46bc;
             color: #fff;
           }
         }
       }
-    }
-    .change-month {
-      width: 90px;
+      .month {
+        width: 70px;
+      }
     }
   }
   .hide {
