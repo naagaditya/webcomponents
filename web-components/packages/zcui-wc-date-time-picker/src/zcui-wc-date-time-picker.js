@@ -11,7 +11,15 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   constructor() {
     super();
+
+    // initialize variables
+    this.selectedMonth = 'September';
+    this.openMonthList = false;
+    this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // bind this in all functions
     this.updateShadowDom = this.updateShadowDom.bind(this);
+    this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
   }
 
   get htmlTemplate() {
@@ -50,6 +58,19 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   connectedCallback() {
     this.createShadowDom();
   }
+
+  toggleOpenMonthList() {
+    this.openMonthList = !this.openMonthList;
+    this.updateShadowDom();
+  }
+
+  selectMonth(month) {
+    return () => {
+      this.selectedMonth = month;
+      this.openMonthList = false;
+      this.updateShadowDom();
+    }
+  };
 }
 
 window.customElements.define('zcui-wc-date-time-picker', ZcuiWcDateTimePicker);

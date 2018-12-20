@@ -1,9 +1,24 @@
+<script>
+function onClick(e) {
+  return function(month) {
+    this.selectMonth(month);
+  }
+}
+</script>
 <div class="zcui-wc-date-time-picker d-f">
   <div class="flip-month-page d-f">
     <span class="arrow left-arrow"></span>
     <span class="change-month d-f">
-      <span class="month name">September</span>
-      <div class="down-arrow"></div>
+      <div class="d-f" on-click=${this.toggleOpenMonthList}>
+        <span class="month name">${this.selectedMonth}</span>
+        <div class="down-arrow"></div>
+      </div>
+      <div
+        class$="${this.openMonthList ? 'month-list' : 'hide'}">
+        ${repeat(this.monthNames, month => html`
+          <span on-click=${this.selectMonth(month)}>${month}</span>
+        `)}
+      </div>
     </span>
     <span class="change-year d-f">
       <span class="year-name">2018</span>

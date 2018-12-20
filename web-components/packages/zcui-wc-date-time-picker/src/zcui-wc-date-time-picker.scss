@@ -43,6 +43,35 @@
         border-bottom: solid 1.5px #6b46bc;
         margin-left: 10px;
       }
+      .month-list, .year-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 29px;
+        left: 0;
+        height: 100px;
+        right: 0;
+        border: solid 1px #e5e8e9bf;
+        border-top: none;
+        overflow: scroll;
+        padding-top: 5px;
+        span {
+          padding: 5px 0;
+          width: 100%;
+          text-align: center;
+          &:hover {
+            background: #6b46bc;
+            color: #fff;
+          }
+        }
+      }
     }
+    .change-month {
+      width: 90px;
+    }
+  }
+  .hide {
+    display: none;
   }
 }
