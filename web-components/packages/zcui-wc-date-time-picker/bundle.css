@@ -24,6 +24,9 @@
       height: 12px;
       width: 12px;
       transform: rotate(45deg); }
+      .zcui-wc-date-time-picker .flip-month-page .arrow.disabled {
+        pointer-events: none;
+        border-color: #cecece; }
     .zcui-wc-date-time-picker .flip-month-page .change-month, .zcui-wc-date-time-picker .flip-month-page .change-year {
       position: relative;
       cursor: pointer;

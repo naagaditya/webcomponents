@@ -17,6 +17,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.monthRangeVal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     this.yearRangeVal = [2018];
+    this.disableNextMonth = this.disablePrevMonth = false;
 
     // bind this in all functions
     this.updateShadowDom = this.updateShadowDom.bind(this);
@@ -27,11 +28,11 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.setPrevMonth = this.setPrevMonth.bind(this);
     this._updateMonthRange = this._updateMonthRange.bind(this);
     this.closeDropDowns = this.closeDropDowns.bind(this);
+    this._checkDisabledNextPrevArrow = this._checkDisabledNextPrevArrow.bind(this);
 
     //initialize Calendar
     this.startDate = new Date();
-    this.endDate = null;
-    this._flipPage();    
+    this.endDate = null;    
   }
 
   get htmlTemplate() {
@@ -65,6 +66,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.maxDateTime = new Date(this.getAttribute('max-date-time'));
     this.minDateTime = new Date(this.getAttribute('min-date-time'));
     this._updateCalendarRange();
+    this._flipPage();
     
   }
 
@@ -131,6 +133,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     tempDate.setMonth(this.startDate.getMonth() + 1);
     tempDate.setDate(0);
     this.endDateOfCalendar = tempDate.getDate();
+    this._checkDisabledNextPrevArrow();
+    this._updateMonthRange();
     this.updateShadowDom();
   }
 
@@ -152,8 +156,26 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     }
   }
   closeDropDowns() {
-    this.openMonthList = false;
-    this.openYearList = false;
+    // this.openMonthList = false;
+    // this.openYearList = false;
+    // this.updateShadowDom();
+  }
+  _checkDisabledNextPrevArrow() {
+    let tempDate = new Date();
+    tempDate.setYear(this.startDate.getFullYear());
+    this.disableNextMonth = this.disablePrevMonth = false;
+    // check for prev mon
+    tempDate.setDate(this.minDateTime.getDate());
+    let previousMon = new Date(tempDate.setMonth(this.startDate.getMonth() - 1));
+    if (previousMon < this.minDateTime) {
+      this.disablePrevMonth = true;
+    }
+    // check for next mon
+    tempDate.setDate(this.maxDateTime.getDate());
+    let nextMon = new Date(tempDate.setMonth(this.startDate.getMonth() + 1));
+    if (nextMon > this.maxDateTime) {
+      this.disableNextMonth = true;
+    }
   }
 }
 

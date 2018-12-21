@@ -27,6 +27,10 @@
       height: 12px;
       width: 12px;
       transform: rotate(45deg);
+      &.disabled {
+        pointer-events: none;
+        border-color: #cecece;
+      }
     }
     .change-month, .change-year{
       position: relative;
