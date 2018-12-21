@@ -85,6 +85,9 @@
     }
     .dates {
       padding: 10px 0;
+      .date-cell {
+        cursor: pointer;
+      }
     }
   }
   .divider {

@@ -17,6 +17,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.monthRangeVal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     this.yearRangeVal = [2018];
+
     // bind this in all functions
     this.updateShadowDom = this.updateShadowDom.bind(this);
     this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
@@ -24,10 +25,12 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this._flipPage = this._flipPage.bind(this);
     this.setNextMonth = this.setNextMonth.bind(this);
     this.setPrevMonth = this.setPrevMonth.bind(this);
+    this._updateMonthRange = this._updateMonthRange.bind(this);
+    this.closeDropDowns = this.closeDropDowns.bind(this);
 
     //initialize Calendar
-    this.selectedMonth = 4;
-    this.selectedYear = 2018;
+    this.startDate = new Date();
+    this.endDate = null;
     this._flipPage();    
   }
 
@@ -81,7 +84,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   selectMonth(month) {
     return () => {
-      this.selectedMonth = month;
+      this.startDate.setMonth(month);
       this.openMonthList = false;
       this._flipPage();
     }
@@ -89,45 +92,68 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   selectYear(year) {
     return () => {
-      this.selectedYear = year;
+      this.startDate.setYear(year);
       this.openYearList = false;
+      this._updateMonthRange();
       this._flipPage();
     }
   }
   
   _updateCalendarRange() {
-    const maxDate = new Date(this.maxDateTime);
-    const minDate = new Date(this.minDateTime);
-    const maxYear = maxDate.getFullYear();
-    const minYear = minDate.getFullYear();
+    const maxYear = this.maxDateTime.getFullYear();
+    const minYear = this.minDateTime.getFullYear();
     this.yearRangeVal = Array.apply(null, { length: maxYear - minYear + 1 }).map((x, i) => i + minYear);
     if (maxYear - minYear < 1) {
-      const maxMonth = maxDate.getMonth();
-      const minMonth = minDate.getMonth();
+      const maxMonth = this.maxDateTime.getMonth();
+      const minMonth = this.minDateTime.getMonth();
       this.monthRangeVal = Array.apply(null, { length: maxMonth - minMonth + 1 }).map((x, i) => i + minMonth);
     }
   }
 
 
   setNextMonth() {
-    this.selectedMonth++;
+    const currentMonth = this.startDate.getMonth();
+    this.startDate.setMonth(currentMonth + 1);
     this._flipPage();
   }
   setPrevMonth() {
-    this.selectedMonth--;
+    const currentMonth = this.startDate.getMonth();
+    this.startDate.setMonth(currentMonth - 1);
     this._flipPage();
   }
 
   _flipPage() {
-    var tempDate = new Date();
-    tempDate.setYear(this.selectedYear);
-    tempDate.setMonth(this.selectedMonth);
+    let tempDate = new Date();
     tempDate.setDate(1);
+    tempDate.setMonth(this.startDate.getMonth());
+    tempDate.setYear(this.startDate.getFullYear());
     this.startDateOfCalendar = 1 - tempDate.getDay();
-    tempDate.setMonth(this.selectedMonth - 1);
+    tempDate.setMonth(this.startDate.getMonth() + 1);
     tempDate.setDate(0);
     this.endDateOfCalendar = tempDate.getDate();
     this.updateShadowDom();
+  }
+
+  _updateMonthRange() {
+    this.monthRangeVal = Array.apply(null, { length: 12 }).map((x, i) => i);
+    if (this.startDate.getFullYear() == this.minDateTime.getFullYear()) {
+      const minMonth = this.minDateTime.getMonth();
+      if (this.startDate.getMonth() < minMonth) {
+        this.startDate.setMonth(minMonth);
+      }
+      this.monthRangeVal = Array.apply(null, { length: 11 - minMonth + 1 }).map((x, i) => i + minMonth);
+    }
+    if (this.startDate.getFullYear() == this.maxDateTime.getFullYear()) {
+      const maxMonth = this.maxDateTime.getMonth();
+      if (this.startDate.getMonth() > maxMonth) {
+        this.startDate.setMonth(maxMonth);
+      }
+      this.monthRangeVal = Array.apply(null, { length: maxMonth + 1 }).map((x, i) => i);
+    }
+  }
+  closeDropDowns() {
+    this.openMonthList = false;
+    this.openYearList = false;
   }
 }
 

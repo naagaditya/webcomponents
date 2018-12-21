@@ -1,9 +1,9 @@
-<div class="zcui-wc-date-time-picker d-f">
+<div class="zcui-wc-date-time-picker d-f" on-click=${this.closeDropDowns}>
   <div class="flip-month-page d-f">
     <span class="arrow left-arrow" on-click="${this.setPrevMonth}"></span>
     <span class="change-month d-f">
       <div class="d-f" on-click=${this.toggleOpenMonthList}>
-        <span class="month name">${this.monthNames[this.selectedMonth]}</span>
+        <span class="month name">${this.monthNames[this.startDate.getMonth()]}</span>
         <div class="down-arrow"></div>
       </div>
       <div
@@ -15,7 +15,7 @@
     </span>
     <span class="change-year d-f">
       <div class="d-f" on-click=${this.toggleOpenYearList}>
-        <span class="year-name">${this.selectedYear}</span>
+        <span class="year-name">${this.startDate.getFullYear()}</span>
         <div class="down-arrow"></div>
       </div>
       <div class$="${this.openYearList ? 'year-list' : 'hide'}">
@@ -44,6 +44,19 @@
       ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
         <span class="date-cell">${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}</span>
       `)}
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="starts">
+      <div>From</div>
+      <div class="date"></div>
+      <div>
+        <div class="month"></div>
+        <div class="year"></div>
+      </div>
+      <div class="time-circle"></div>
+      <div class="time"></div>
     </div>
   </div>
 </div>

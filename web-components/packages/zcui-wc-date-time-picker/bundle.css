@@ -72,6 +72,8 @@
       padding-top: 10px; }
     .zcui-wc-date-time-picker .calendar .dates {
       padding: 10px 0; }
+      .zcui-wc-date-time-picker .calendar .dates .date-cell {
+        cursor: pointer; }
   .zcui-wc-date-time-picker .divider {
     border-bottom: solid 1.5px #e5e8e9bf; }
   .zcui-wc-date-time-picker .date-cell {
