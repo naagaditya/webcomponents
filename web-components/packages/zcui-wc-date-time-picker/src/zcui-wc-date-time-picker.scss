@@ -15,11 +15,13 @@
       border-left: solid 1.5px #6b46bc;
       border-bottom: solid 1.5px #6b46bc;
       margin-right: 10px;
+      cursor: pointer;
     }
     .right-arrow {
       border-right: solid 1.5px #6b46bc;
       border-top: solid 1.5px #6b46bc;
       margin-left: 10px;
+      cursor: pointer;
     }
     .arrow {
       height: 12px;
@@ -55,6 +57,7 @@
         border-top: none;
         overflow: scroll;
         padding-top: 5px;
+        background: #fff;
         span {
           box-sizing: border-box;
           padding: 5px 10px;

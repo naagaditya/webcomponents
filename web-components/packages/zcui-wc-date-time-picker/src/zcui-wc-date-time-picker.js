@@ -22,6 +22,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
     this.toggleOpenYearList = this.toggleOpenYearList.bind(this);
     this._flipPage = this._flipPage.bind(this);
+    this.setNextMonth = this.setNextMonth.bind(this);
+    this.setPrevMonth = this.setPrevMonth.bind(this);
 
     //initialize Calendar
     this.selectedMonth = 4;
@@ -81,7 +83,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     return () => {
       this.selectedMonth = month;
       this.openMonthList = false;
-      this.updateShadowDom();
+      this._flipPage();
     }
   }
 
@@ -89,7 +91,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     return () => {
       this.selectedYear = year;
       this.openYearList = false;
-      this.updateShadowDom();
+      this._flipPage();
     }
   }
   
@@ -104,6 +106,16 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       const minMonth = minDate.getMonth();
       this.monthRangeVal = Array.apply(null, { length: maxMonth - minMonth + 1 }).map((x, i) => i + minMonth);
     }
+  }
+
+
+  setNextMonth() {
+    this.selectedMonth++;
+    this._flipPage();
+  }
+  setPrevMonth() {
+    this.selectedMonth--;
+    this._flipPage();
   }
 
   _flipPage() {

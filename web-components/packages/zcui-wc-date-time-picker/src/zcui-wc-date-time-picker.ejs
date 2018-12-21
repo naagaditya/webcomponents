@@ -1,6 +1,6 @@
 <div class="zcui-wc-date-time-picker d-f">
   <div class="flip-month-page d-f">
-    <span class="arrow left-arrow"></span>
+    <span class="arrow left-arrow" on-click="${this.setPrevMonth}"></span>
     <span class="change-month d-f">
       <div class="d-f" on-click=${this.toggleOpenMonthList}>
         <span class="month name">${this.monthNames[this.selectedMonth]}</span>
@@ -24,7 +24,7 @@
         `)}
       </div>
     </span>
-    <span class="arrow right-arrow"></span>
+    <span class="arrow right-arrow" on-click="${this.setNextMonth}"></span>
   </div>
   <div class="calendar">
     <div class="day-name">

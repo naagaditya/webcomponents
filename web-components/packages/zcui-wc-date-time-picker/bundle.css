@@ -13,11 +13,13 @@
     .zcui-wc-date-time-picker .flip-month-page .left-arrow {
       border-left: solid 1.5px #6b46bc;
       border-bottom: solid 1.5px #6b46bc;
-      margin-right: 10px; }
+      margin-right: 10px;
+      cursor: pointer; }
     .zcui-wc-date-time-picker .flip-month-page .right-arrow {
       border-right: solid 1.5px #6b46bc;
       border-top: solid 1.5px #6b46bc;
-      margin-left: 10px; }
+      margin-left: 10px;
+      cursor: pointer; }
     .zcui-wc-date-time-picker .flip-month-page .arrow {
       height: 12px;
       width: 12px;
@@ -49,7 +51,8 @@
         border: solid 1px #e5e8e9bf;
         border-top: none;
         overflow: scroll;
-        padding-top: 5px; }
+        padding-top: 5px;
+        background: #fff; }
         .zcui-wc-date-time-picker .flip-month-page .change-month .month-list span, .zcui-wc-date-time-picker .flip-month-page .change-month .year-list span, .zcui-wc-date-time-picker .flip-month-page .change-year .month-list span, .zcui-wc-date-time-picker .flip-month-page .change-year .year-list span {
           box-sizing: border-box;
           padding: 5px 10px;
