@@ -50,7 +50,7 @@
       ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
         <span
           on-click=${this.selectDate(this.startDateOfCalendar+i)}
-          class$="${this.getSelectedDate(this.startDateOfCalendar+i) && this.getStartDate().getTime() == this.getSelectedDate(this.startDateOfCalendar+i).getTime() ? 'selected date-cell' : 'date-cell'}">
+          class$="${this.isSelectedDate(this.startDateOfCalendar + i) ? 'selected date-cell' : `${this.isValidDate(this.startDateOfCalendar + i) ? 'date-cell' : 'date-cell disabled'}`}">
           ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
         </span>
       `)}
@@ -62,7 +62,7 @@
       <div class="title">FROM</div>
       <div class="d-f ai-c">
         <div class="date">${this.startDate.getDate()}</div>
-        <div class="d-f fd-c jc-c">
+        <div class="d-f fd-c jc-c mon-year-day">
           <div>
             <span class="month">${this.monthNames[this.startDate.getMonth()]}</span>
             <span class="year">${this.startDate.getFullYear()}</span>

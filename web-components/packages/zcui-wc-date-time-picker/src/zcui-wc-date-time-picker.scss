@@ -113,6 +113,10 @@
     width: 38px;
     text-align: center;
     padding: 10px 0;
+    &.disabled {
+      pointer-events: none;
+      color: #cecece;
+    }
   }
   .summary {
     padding: 20px 0;
@@ -122,6 +126,9 @@
       font-size: 40px;
       padding: 0 6px;
       color: #6b46bc;
+    }
+    .mon-year-day {
+      width: 102px;
     }
     .title {
       color: #94979b;

@@ -18,14 +18,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.monthRangeVal = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     this.yearRangeVal = [2018];
     this.calendarWeekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    this.intervalInMin = 30;
-    this.timeRangeVal = Array.apply(null, { length: 24 * 60 / this.intervalInMin }).map((x, i) => {
-      const hrs = (Math.ceil((i + 1) / 2)) % 24;
-      if (i <= 12) {
-        return i % 2 == 0 ? `${hrs}:00` : `${hrs}:30`;
-      }
-      return i % 2 == 0 ? `${hrs}:00` : `${hrs}:30`;
-    })
     this.disableNextMonth = this.disablePrevMonth = false;
 
     // bind this in all functions
@@ -40,6 +32,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this._updateMonthRange = this._updateMonthRange.bind(this);
     this.closeDropDowns = this.closeDropDowns.bind(this);
     this._checkDisabledNextPrevArrow = this._checkDisabledNextPrevArrow.bind(this);
+    this.isValidDate = this.isValidDate.bind(this);
 
     //initialize Calendar
     this.startDate = new Date();
@@ -80,6 +73,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.minDateTime = new Date(this.getAttribute('min-date-time'));
     this.intervalInMin = parseInt(this.getAttribute('interval-in-min'));
     this._updateCalendarRange();
+    this._updateTimeRange();
     this._flipPage();
     
   }
@@ -130,6 +124,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
         this.startDate.setDate(date);
         this.startDate.setMonth(this.selectedMonth);
         this.startDate.setYear(this.selectedYear);
+        this._updateTimeRange();
         this.updateShadowDom();
       }
     }
@@ -137,7 +132,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   selectStartTime(time) {
     return () => {
-      console.log(time);
+      const timeArr = time.split(':');
+      this.startDate.setHours(timeArr[0], timeArr[1])
       this.openStartTimeList = false;
       this.updateShadowDom();
     }
@@ -178,7 +174,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     tempDate.setMonth(this.selectedMonth);
     tempDate.setYear(this.selectedYear);
     this.startDateOfCalendar = 1 - tempDate.getDay();
-    tempDate.setMonth(this.startDate.getMonth() + 1);
+    tempDate.setMonth(this.selectedMonth + 1);
     tempDate.setDate(0);
     this.endDateOfCalendar = tempDate.getDate();
     this._checkDisabledNextPrevArrow();
@@ -188,16 +184,16 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   _updateMonthRange() {
     this.monthRangeVal = Array.apply(null, { length: 12 }).map((x, i) => i);
-    if (this.startDate.getFullYear() == this.minDateTime.getFullYear()) {
+    if (this.selectedYear == this.minDateTime.getFullYear()) {
       const minMonth = this.minDateTime.getMonth();
-      if (this.startDate.getMonth() < minMonth) {
+      if (this.selectedMonth < minMonth) {
         this.startDate.setMonth(minMonth);
       }
       this.monthRangeVal = Array.apply(null, { length: 11 - minMonth + 1 }).map((x, i) => i + minMonth);
     }
-    if (this.startDate.getFullYear() == this.maxDateTime.getFullYear()) {
+    if (this.selectedYear == this.maxDateTime.getFullYear()) {
       const maxMonth = this.maxDateTime.getMonth();
-      if (this.startDate.getMonth() > maxMonth) {
+      if (this.selectedMonth > maxMonth) {
         this.startDate.setMonth(maxMonth);
       }
       this.monthRangeVal = Array.apply(null, { length: maxMonth + 1 }).map((x, i) => i);
@@ -209,18 +205,18 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     // this.updateShadowDom();
   }
   _checkDisabledNextPrevArrow() {
-    let tempDate = new Date();
-    tempDate.setYear(this.startDate.getFullYear());
     this.disableNextMonth = this.disablePrevMonth = false;
     // check for prev mon
-    tempDate.setDate(this.minDateTime.getDate());
-    let previousMon = new Date(tempDate.setMonth(this.startDate.getMonth() - 1));
+    let previousMon = new Date(this.minDateTime);
+    previousMon.setYear(this.selectedYear);
+    previousMon.setMonth(this.selectedMonth - 1);
     if (previousMon < this.minDateTime) {
       this.disablePrevMonth = true;
     }
     // check for next mon
-    tempDate.setDate(this.maxDateTime.getDate());
-    let nextMon = new Date(tempDate.setMonth(this.startDate.getMonth() + 1));
+    let nextMon = new Date(this.maxDateTime);
+    nextMon.setYear(this.selectedYear);
+    nextMon.setMonth(this.selectedMonth + 1);
     if (nextMon > this.maxDateTime) {
       this.disableNextMonth = true;
     }
@@ -240,6 +236,36 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     const tempDate = new Date(this.startDate.getTime());
     tempDate.setHours(0, 0, 0, 0);
     return tempDate;
+  }
+  _updateTimeRange() {
+    const divisor = 60 / this.intervalInMin;
+    const minutes = Array.apply(null, { length: divisor }).map((x, i) => this.intervalInMin * i);
+    const minDateTime = new Date(this.minDateTime).setMilliseconds(0);
+    const maxDateTime = new Date(this.maxDateTime).setMilliseconds(0);
+    this.timeRangeVal = Array.apply(null, { length: 24 * divisor }).map((x, i) => {
+      const hrs = (Math.ceil((i + 1) / divisor)) % 24;
+      const tempDate = this.getSelectedDate(this.startDate.getDate()).setHours(hrs, minutes[i % divisor], 0);
+      if (tempDate < minDateTime || tempDate > maxDateTime) {
+        return null;
+      }
+      return `${hrs}:${(i % divisor) ? minutes[i % divisor] : '00'}`;
+    }).filter(x=>x);
+  }
+
+  isSelectedDate(date) {
+    return (this.getSelectedDate(date) &&
+    this.getStartDate().getTime() == this.getSelectedDate(date).getTime());
+  }
+
+  isValidDate(date) {
+    if (date <= 0) return false;
+    const minDateTime = new Date(this.minDateTime).setHours(0, 0, 0, 0);
+    const maxDateTime = new Date(this.maxDateTime).setHours(0, 0, 0, 0);
+    const tempDate = this.getSelectedDate(date).setHours(0, 0, 0, 0);
+    if (tempDate < minDateTime || tempDate > maxDateTime) {
+      return false;
+    }
+    return true;
   }
 }
 

@@ -91,6 +91,9 @@
     width: 38px;
     text-align: center;
     padding: 10px 0; }
+    .zcui-wc-date-time-picker .date-cell.disabled {
+      pointer-events: none;
+      color: #cecece; }
   .zcui-wc-date-time-picker .summary {
     padding: 20px 0; }
     .zcui-wc-date-time-picker .summary .date {
@@ -99,6 +102,8 @@
       font-size: 40px;
       padding: 0 6px;
       color: #6b46bc; }
+    .zcui-wc-date-time-picker .summary .mon-year-day {
+      width: 102px; }
     .zcui-wc-date-time-picker .summary .title {
       color: #94979b;
       font-size: 12px; }
