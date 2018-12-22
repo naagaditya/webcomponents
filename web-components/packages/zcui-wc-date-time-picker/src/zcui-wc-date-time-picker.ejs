@@ -1,16 +1,16 @@
 <div class="zcui-wc-date-time-picker d-f" on-click=${this.closeDropDowns}>
-  <div class="flip-month-page d-f">
+  <div class="flip-month-page d-f ai-c">
     <span
       on-click="${this.setPrevMonth}"
       class$="${this.disablePrevMonth ? 'arrow left-arrow disabled' : 'arrow left-arrow'}">
     </span>
     <span class="change-month d-f">
       <div class="d-f" on-click=${this.toggleOpenMonthList}>
-        <span class="month name">${this.monthNames[this.startDate.getMonth()]}</span>
+        <span class="month name">${this.monthNames[this.selectedMonth]}</span>
         <div class="down-arrow"></div>
       </div>
       <div
-        class$="${this.openMonthList ? 'month-list' : 'hide'}">
+        class$="${this.openMonthList ? 'month-list d-f ai-c fd-c' : 'hide'}">
         ${repeat(this.monthRangeVal, month => html`
           <span on-click=${this.selectMonth(month)}>${this.monthNames[month]}</span>
         `)}
@@ -18,10 +18,10 @@
     </span>
     <span class="change-year d-f">
       <div class="d-f" on-click=${this.toggleOpenYearList}>
-        <span class="year-name">${this.startDate.getFullYear()}</span>
+        <span class="year-name">${this.selectedYear}</span>
         <div class="down-arrow"></div>
       </div>
-      <div class$="${this.openYearList ? 'year-list' : 'hide'}">
+      <div class$="${this.openYearList ? 'year-list d-f ai-c fd-c' : 'hide'}">
         ${repeat(this.yearRangeVal, year => html`
           <span on-click=${this.selectYear(year)}>${year}</span>
         `)}
@@ -48,21 +48,40 @@
 
     <div class="dates">
       ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
-        <span class="date-cell">${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}</span>
+        <span
+          on-click=${this.selectDate(this.startDateOfCalendar+i)}
+          class$="${this.getSelectedDate(this.startDateOfCalendar+i) && this.getStartDate().getTime() == this.getSelectedDate(this.startDateOfCalendar+i).getTime() ? 'selected date-cell' : 'date-cell'}">
+          ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
+        </span>
       `)}
     </div>
   </div>
-
+  <div class="divider"></div>
   <div class="summary">
-    <div class="starts">
-      <div>From</div>
-      <div class="date"></div>
-      <div>
-        <div class="month"></div>
-        <div class="year"></div>
+    <div>
+      <div class="title">FROM</div>
+      <div class="d-f ai-c">
+        <div class="date">${this.startDate.getDate()}</div>
+        <div class="d-f fd-c jc-c">
+          <div>
+            <span class="month">${this.monthNames[this.startDate.getMonth()]}</span>
+            <span class="year">${this.startDate.getFullYear()}</span>
+          </div>
+          <div class="selected-day-name">${this.calendarWeekDays[this.startDate.getDay()]}</div>
+        </div>
+        <div class="time-circle"></div>
+        <span class="change-time d-f">
+          <div class="d-f" on-click=${this.toggleOpenStartTimeList}>
+            <span class="time-name">${this.startDate.getHours()}:${this.startDate.getMinutes()}</span>
+            <div class="down-arrow"></div>
+          </div>
+          <div class$="${this.openStartTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
+            ${repeat(this.timeRangeVal, time => html`
+            <span on-click=${this.selectStartTime(time)}>${time}</span>
+            `)}
+          </div>
+        </span>
       </div>
-      <div class="time-circle"></div>
-      <div class="time"></div>
     </div>
   </div>
 </div>
