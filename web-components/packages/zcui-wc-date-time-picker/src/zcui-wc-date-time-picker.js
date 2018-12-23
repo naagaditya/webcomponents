@@ -35,7 +35,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.isValidDate = this.isValidDate.bind(this);
 
     //initialize Calendar
-    this.startDate = new Date();
+    this.startDate = new Date(new Date().setHours(0,0,0,0));
     this.selectedMonth = this.startDate.getMonth();
     this.selectedYear = this.startDate.getFullYear();
     this.endDate = null;    
@@ -132,8 +132,10 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   selectStartTime(time) {
     return () => {
-      const timeArr = time.split(':');
-      this.startDate.setHours(timeArr[0], timeArr[1])
+      const timeArr = time.split(' ')[0].split(':');
+      const ampm = time.split(' ')[1];
+      const hrs = ampm == 'PM' ? parseInt(timeArr[0]) + 12 : parseInt(timeArr[0]);
+      this.startDate.setHours(hrs, timeArr[1])
       this.openStartTimeList = false;
       this.updateShadowDom();
     }
@@ -243,12 +245,13 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     const minDateTime = new Date(this.minDateTime).setMilliseconds(0);
     const maxDateTime = new Date(this.maxDateTime).setMilliseconds(0);
     this.timeRangeVal = Array.apply(null, { length: 24 * divisor }).map((x, i) => {
-      const hrs = (Math.ceil((i + 1) / divisor)) % 24;
+      const hrs = Math.floor(i / divisor) % 24;
       const tempDate = this.getSelectedDate(this.startDate.getDate()).setHours(hrs, minutes[i % divisor], 0);
       if (tempDate < minDateTime || tempDate > maxDateTime) {
         return null;
       }
-      return `${hrs}:${(i % divisor) ? minutes[i % divisor] : '00'}`;
+      const ampm = hrs < 12 ? 'AM' : 'PM';
+      return `${hrs%12 ? hrs%12 : 12}:${(i % divisor) ? minutes[i % divisor] : '00'} ${ampm}`;
     }).filter(x=>x);
   }
 
@@ -266,6 +269,16 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       return false;
     }
     return true;
+  }
+  formatedAMPMTime(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 }
 

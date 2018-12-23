@@ -87,6 +87,7 @@
     display: none;
   }
   .calendar {
+    margin: auto;
     font-size: 14px;
     width: 288px;
     color: #94979b;
@@ -152,6 +153,12 @@
         border-left: solid 1px #6b46bc;
         border-bottom: solid 1px #6b46bc;
         margin: 4px 0 0 8px;
+      }
+    }
+    .change-time {
+      .time-name {
+        width: 63px;
+        font-size: 15px;
       }
     }
   }

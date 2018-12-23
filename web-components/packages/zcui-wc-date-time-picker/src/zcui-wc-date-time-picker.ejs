@@ -72,7 +72,7 @@
         <div class="time-circle"></div>
         <span class="change-time d-f">
           <div class="d-f" on-click=${this.toggleOpenStartTimeList}>
-            <span class="time-name">${this.startDate.getHours()}:${this.startDate.getMinutes()}</span>
+            <span class="time-name">${this.formatedAMPMTime(this.startDate)}</span>
             <div class="down-arrow"></div>
           </div>
           <div class$="${this.openStartTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
