@@ -125,6 +125,10 @@
         border-left: solid 1px #6b46bc;
         border-bottom: solid 1px #6b46bc;
         margin: 4px 0 0 8px; }
-    .zcui-wc-date-time-picker .summary .change-time .time-name {
-      width: 63px;
-      font-size: 15px; }
+    .zcui-wc-date-time-picker .summary .change-time {
+      padding: 8px 10px; }
+      .zcui-wc-date-time-picker .summary .change-time .down-arrow {
+        margin-top: 0; }
+      .zcui-wc-date-time-picker .summary .change-time .time-name {
+        width: 63px;
+        font-size: 15px; }

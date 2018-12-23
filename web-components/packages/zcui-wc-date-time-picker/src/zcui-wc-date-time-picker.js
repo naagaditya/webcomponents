@@ -134,7 +134,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     return () => {
       const timeArr = time.split(' ')[0].split(':');
       const ampm = time.split(' ')[1];
-      const hrs = ampm == 'PM' ? parseInt(timeArr[0]) + 12 : parseInt(timeArr[0]);
+      const hrs = ampm == 'PM' ? parseInt(timeArr[0]) % 12 + 12 : timeArr[0] == 12 ? 0 : timeArr[0];
       this.startDate.setHours(hrs, timeArr[1])
       this.openStartTimeList = false;
       this.updateShadowDom();

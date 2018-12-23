@@ -156,6 +156,10 @@
       }
     }
     .change-time {
+      padding: 8px 10px;
+      .down-arrow {
+        margin-top: 0;
+      }
       .time-name {
         width: 63px;
         font-size: 15px;
