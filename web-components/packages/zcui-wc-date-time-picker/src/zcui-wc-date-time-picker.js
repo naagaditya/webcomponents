@@ -240,7 +240,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     return tempDate;
   }
   _updateTimeRange() {
-    const divisor = 60 / this.intervalInMin;
+    const divisor = Math.round(60 / this.intervalInMin);
+    this.intervalInMin = 60 / divisor; //normalizing interval (making divisor of 60)
     const minutes = Array.apply(null, { length: divisor }).map((x, i) => this.intervalInMin * i);
     const minDateTime = new Date(this.minDateTime).setMilliseconds(0);
     const maxDateTime = new Date(this.maxDateTime).setMilliseconds(0);

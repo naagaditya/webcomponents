@@ -8,11 +8,12 @@
   <script type="module" src="../web-components/packages/zcui-wc-date-time-picker/dist/bundle.min.js"></script>
 </head>
 <body>
-  <!-- date time props are in iso string example new Date().toISOString() -->
+  <!-- min max date time props are in iso string example new Date().toISOString() -->
+  <!-- interval-in-min props should be divisor of 60 -->
   <zcui-wc-date-time-picker
     max-date-time="2021-09-19T14:34:47.670Z"
     min-date-time="2017-05-19T14:34:47.670Z"
-    interval-in-min="30"
+    interval-in-min="29"
   />
 </body>
 </html>
