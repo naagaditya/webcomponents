@@ -144,16 +144,10 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       const pickedDate = new Date(this.selectedYear, this.selectedMonth, date).getTime();
       const starts = new Date(this.startDateTime).getTime();
       const ends = new Date(this.endDateTime).getTime();
-      if (pickedDate > starts) {
+      if (pickedDate > starts || pickedDate > ends) {
         this.selectingDate = 'ends';
       }
-      if (pickedDate < starts) {
-        this.selectingDate = 'starts';
-      }
-      if (pickedDate > ends) {
-        this.selectingDate = 'ends';
-      }
-      if (pickedDate < ends) {
+      if (pickedDate < starts || pickedDate < ends) {
         this.selectingDate = 'starts';
       }
       if (pickedDate == starts) {
