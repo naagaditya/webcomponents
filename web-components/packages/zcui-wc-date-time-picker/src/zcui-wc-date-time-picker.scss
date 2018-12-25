@@ -5,6 +5,7 @@
   border-radius: 5px;
   margin: auto;
   width: fit-content;
+  width: -moz-fit-content;
   .d-f {
     display: flex;
   }
@@ -176,6 +177,7 @@
     }
     .change-time {
       height: fit-content;
+      height: -moz-fit-content;
       padding: 8px 10px;
       .down-arrow {
         margin-top: 0;

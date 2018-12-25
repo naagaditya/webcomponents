@@ -39,6 +39,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.changeSelectingDate = this.changeSelectingDate.bind(this);
 
     //initialize Calendar
+    this.selectingDateFromSummary = null;
     this.selectingDate = 'starts'; //can be starts or ends
   }
 
@@ -93,8 +94,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.selectedMonth = this.startDateTime.getMonth();
     this.selectedYear = this.startDateTime.getFullYear();
     this.dateRange = {
-      from: this.startDateTime,
-      to: this.endDateTime
+      from: new Date(this.startDateTime),
+      to: new Date(this.endDateTime)
     }
   }
 
@@ -144,18 +145,24 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       const pickedDate = new Date(this.selectedYear, this.selectedMonth, date).getTime();
       const starts = new Date(this.startDateTime).getTime();
       const ends = new Date(this.endDateTime).getTime();
-      if (pickedDate > starts || pickedDate > ends) {
+      if (pickedDate > starts) {
         this.selectingDate = 'ends';
       }
-      if (pickedDate < starts || pickedDate < ends) {
+      if (pickedDate < starts || pickedDate == starts || pickedDate == ends) {
         this.selectingDate = 'starts';
       }
-      if (pickedDate == starts) {
-        // todo if user wants to convert starts to ends
+      
+      if (pickedDate > ends && this.selectingDateFromSummary == 'starts') {
+        this.selectingDate = 'starts';
+        this.selectingDateFromSummary = null;
+        this.endDateTime = new Date(pickedDate);
       }
-      if (pickedDate == ends) {
-      // todo if user wants to convert ends to starts
+      if (pickedDate < starts && this.selectingDateFromSummary == 'ends') {
+        this.selectingDate = 'ends';
+        this.selectingDateFromSummary = null;
+        this.startDateTime = new Date(pickedDate);
       }
+
       let dateTimeToChange;
       if (this.selectingDate == 'starts') {
         dateTimeToChange = this.startDateTime;
@@ -168,6 +175,10 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       dateTimeToChange.setDate(date);
       dateTimeToChange.setMonth(this.selectedMonth);
       dateTimeToChange.setYear(this.selectedYear);
+      this.dateRange = {
+        from: new Date(this.startDateTime),
+        to: new Date(this.endDateTime)
+      }
       this._updateTimeRange();
       this.updateShadowDom();
       
@@ -337,7 +348,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   changeSelectingDate(selectingDate) {
     return () => {
-      this.selectingDate = selectingDate;
+      this.selectingDateFromSummary = selectingDate;
       this.updateShadowDom();
     }
   }

@@ -59,7 +59,7 @@
   
   <div class$="${this.canPickTime ? 'summary d-f fd-c jc-se' : 'hide'}">
     <div
-      class$="${this.selectingDate == 'starts' ? 'from-summary selected-summary' : 'from-summary'}"
+      class$="${this.selectingDateFromSummary == 'starts' ? 'from-summary selected-summary' : 'from-summary'}"
       on-click=${this.changeSelectingDate(`starts`)}>
       <div class="title">FROM</div>
       <div class="d-f ai-c">
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div
-      class$="${this.selectingDate == 'ends' ? 'to-summary selected-summary' : 'to-summary'}"
+      class$="${this.selectingDateFromSummary == 'ends' ? 'to-summary selected-summary' : 'to-summary'}"
       on-click=${this.changeSelectingDate(`ends`)}>
       <div class="title">TO</div>
       <div class="d-f ai-c">
