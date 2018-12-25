@@ -106,6 +106,12 @@
       color: #cecece; }
   .zcui-wc-date-time-picker .summary {
     height: 160px; }
+    .zcui-wc-date-time-picker .summary .from-summary, .zcui-wc-date-time-picker .summary .to-summary {
+      cursor: pointer;
+      padding: 5px 10px; }
+      .zcui-wc-date-time-picker .summary .from-summary.selected-summary, .zcui-wc-date-time-picker .summary .to-summary.selected-summary {
+        border: solid 1px #6b46bc;
+        border-radius: 12px; }
     .zcui-wc-date-time-picker .summary .date {
       width: 40px;
       text-align: right;

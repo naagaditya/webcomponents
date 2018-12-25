@@ -36,6 +36,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this._checkDisabledNextPrevArrow = this._checkDisabledNextPrevArrow.bind(this);
     this.isValidDate = this.isValidDate.bind(this);
     this.isDateInRange = this.isDateInRange.bind(this);
+    this.changeSelectingDate = this.changeSelectingDate.bind(this);
 
     //initialize Calendar
     this.selectingDate = 'starts'; //can be starts or ends
@@ -144,19 +145,29 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       const starts = new Date(this.startDateTime).getTime();
       const ends = new Date(this.endDateTime).getTime();
       if (pickedDate > starts) {
-        
+        this.selectingDate = 'ends';
       }
       if (pickedDate < starts) {
-        
+        this.selectingDate = 'starts';
+      }
+      if (pickedDate > ends) {
+        this.selectingDate = 'ends';
+      }
+      if (pickedDate < ends) {
+        this.selectingDate = 'starts';
+      }
+      if (pickedDate == starts) {
+        // todo if user wants to convert starts to ends
+      }
+      if (pickedDate == ends) {
+      // todo if user wants to convert ends to starts
       }
       let dateTimeToChange;
       if (this.selectingDate == 'starts') {
         dateTimeToChange = this.startDateTime;
-        this.selectingDate = 'ends'; //start date is selected now select ends
       }
       else {
         dateTimeToChange = this.endDateTime;
-        this.selectingDate = 'starts'; //end date is selected now select starts
       }
 
       dateTimeToChange = dateTimeToChange;
@@ -328,6 +339,13 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     const fromDate = this.dateRange.from.setHours(0, 0, 0, 0);
     const toDate = this.dateRange.to.setHours(0, 0, 0, 0);
     return (pickingDate > fromDate && pickingDate < toDate);
+  }
+
+  changeSelectingDate(selectingDate) {
+    return () => {
+      this.selectingDate = selectingDate;
+      this.updateShadowDom();
+    }
   }
 }
 

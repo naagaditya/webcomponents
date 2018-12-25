@@ -56,9 +56,11 @@
       `)}
     </div>
   </div>
-  <div class$="${this.canPickTime ? 'divider' : 'hide'}"></div>
+  
   <div class$="${this.canPickTime ? 'summary d-f fd-c jc-se' : 'hide'}">
-    <div>
+    <div
+      class$="${this.selectingDate == 'starts' ? 'from-summary selected-summary' : 'from-summary'}"
+      on-click=${this.changeSelectingDate(`starts`)}>
       <div class="title">FROM</div>
       <div class="d-f ai-c">
         <div class="date">${this.startDateTime.getDate()}</div>
@@ -83,7 +85,9 @@
         </span>
       </div>
     </div>
-    <div>
+    <div
+      class$="${this.selectingDate == 'ends' ? 'to-summary selected-summary' : 'to-summary'}"
+      on-click=${this.changeSelectingDate(`ends`)}>
       <div class="title">TO</div>
       <div class="d-f ai-c">
         <div class="date">${this.endDateTime.getDate()}</div>
