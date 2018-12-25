@@ -11,6 +11,8 @@
     flex-direction: column; }
   .zcui-wc-date-time-picker .jc-c {
     justify-content: center; }
+  .zcui-wc-date-time-picker .jc-se {
+    justify-content: space-evenly; }
   .zcui-wc-date-time-picker .ai-c {
     align-items: center; }
   .zcui-wc-date-time-picker .flip-month-page {
@@ -48,6 +50,7 @@
       border-bottom: solid 1.5px #6b46bc;
       margin-left: 10px; }
     .zcui-wc-date-time-picker .change-month .month-list, .zcui-wc-date-time-picker .change-month .year-list, .zcui-wc-date-time-picker .change-month .time-list, .zcui-wc-date-time-picker .change-year .month-list, .zcui-wc-date-time-picker .change-year .year-list, .zcui-wc-date-time-picker .change-year .time-list, .zcui-wc-date-time-picker .change-time .month-list, .zcui-wc-date-time-picker .change-time .year-list, .zcui-wc-date-time-picker .change-time .time-list {
+      z-index: 1;
       position: absolute;
       top: 29px;
       left: 0;
@@ -76,27 +79,33 @@
     width: 288px;
     color: #94979b; }
     .zcui-wc-date-time-picker .calendar .day-name {
-      padding-top: 10px; }
+      padding-top: 10px;
+      font-size: 0; }
     .zcui-wc-date-time-picker .calendar .dates {
-      padding: 10px 0; }
+      padding: 10px 0;
+      font-size: 0; }
       .zcui-wc-date-time-picker .calendar .dates .date-cell {
         cursor: pointer;
         border-radius: 50%; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.selected {
           background: #6b46bc;
           color: #fff; }
+        .zcui-wc-date-time-picker .calendar .dates .date-cell.date-in-range {
+          background: #f2f4f7;
+          border-radius: 0; }
   .zcui-wc-date-time-picker .divider {
     border-bottom: solid 1.5px #e5e8e9bf; }
   .zcui-wc-date-time-picker .date-cell {
+    font-size: 14px;
     display: inline-block;
-    width: 38px;
+    width: 40px;
     text-align: center;
     padding: 10px 0; }
     .zcui-wc-date-time-picker .date-cell.disabled {
       pointer-events: none;
       color: #cecece; }
   .zcui-wc-date-time-picker .summary {
-    padding: 20px 0; }
+    height: 160px; }
     .zcui-wc-date-time-picker .summary .date {
       width: 40px;
       text-align: right;
@@ -126,6 +135,7 @@
         border-bottom: solid 1px #6b46bc;
         margin: 4px 0 0 8px; }
     .zcui-wc-date-time-picker .summary .change-time {
+      height: fit-content;
       padding: 8px 10px; }
       .zcui-wc-date-time-picker .summary .change-time .down-arrow {
         margin-top: 0; }

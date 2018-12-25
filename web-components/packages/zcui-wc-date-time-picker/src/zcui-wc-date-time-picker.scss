@@ -14,6 +14,9 @@
   .jc-c {
     justify-content: center;
   }
+  .jc-se {
+    justify-content: space-evenly;
+  }
   .ai-c {
     align-items: center;
   }
@@ -58,6 +61,7 @@
       margin-left: 10px;
     }
     .month-list, .year-list, .time-list {
+      z-index: 1;
       position: absolute;
       top: 29px;
       left: 0;
@@ -93,15 +97,21 @@
     color: #94979b;
     .day-name {
       padding-top: 10px;
+      font-size: 0;
     }
     .dates {
       padding: 10px 0;
+      font-size: 0;
       .date-cell {
         cursor: pointer;
         border-radius: 50%;
         &.selected {
           background: #6b46bc;
           color: #fff;
+        }
+        &.date-in-range {
+          background: #f2f4f7;
+          border-radius: 0;
         }
       }
     }
@@ -110,8 +120,9 @@
     border-bottom: solid 1.5px #e5e8e9bf;
   }
   .date-cell {
+    font-size: 14px;
     display: inline-block;
-    width: 38px;
+    width: 40px;
     text-align: center;
     padding: 10px 0;
     &.disabled {
@@ -120,7 +131,7 @@
     }
   }
   .summary {
-    padding: 20px 0;
+    height: 160px;
     .date {
       width: 40px;
       text-align: right;
@@ -156,6 +167,7 @@
       }
     }
     .change-time {
+      height: fit-content;
       padding: 8px 10px;
       .down-arrow {
         margin-top: 0;

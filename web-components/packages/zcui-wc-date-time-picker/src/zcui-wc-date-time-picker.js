@@ -27,7 +27,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.toggleOpenMonthList = this.toggleOpenMonthList.bind(this);
     this.toggleOpenYearList = this.toggleOpenYearList.bind(this);
     this.toggleOpenStartTimeList = this.toggleOpenStartTimeList.bind(this);
-    this.toggleOpenEndTimeList = this.toggleOpenYearList.bind(this);
+    this.toggleOpenEndTimeList = this.toggleOpenEndTimeList.bind(this);
     this._flipPage = this._flipPage.bind(this);
     this.setNextMonth = this.setNextMonth.bind(this);
     this.setPrevMonth = this.setPrevMonth.bind(this);
@@ -35,12 +35,9 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.closeDropDowns = this.closeDropDowns.bind(this);
     this._checkDisabledNextPrevArrow = this._checkDisabledNextPrevArrow.bind(this);
     this.isValidDate = this.isValidDate.bind(this);
+    this.isDateInRange = this.isDateInRange.bind(this);
 
     //initialize Calendar
-    this.startDateTime = new Date(new Date().setHours(0,0,0,0));
-    this.selectedMonth = this.startDateTime.getMonth();
-    this.selectedYear = this.startDateTime.getFullYear();
-    this.endDateTime = null;
     this.selectingDate = 'starts'; //can be starts or ends
   }
 
@@ -72,15 +69,32 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   }
 
   setProps() {
-    this.maxDateTime = this.getAttribute('max-date-time') ? new Date(this.getAttribute('max-date-time')) : new Date(new Date().setMonth(new Date().getMonth() + 5));
-    this.minDateTime = this.getAttribute('min-date-time') ? new Date(this.getAttribute('min-date-time')) : new Date(new Date().setMonth(new Date().getMonth() - 5));
+    const maxDateTimeProps = this.getAttribute('max-date-time');
+    const minDateTimeProps = this.getAttribute('min-date-time');
+    const defaultStartsProps = this.getAttribute('default-starts');
+    const defaultEndsProps = this.getAttribute('default-ends');
+
+    this.maxDateTime = maxDateTimeProps ? new Date(maxDateTimeProps) : new Date(new Date().setMonth(new Date().getMonth() + 5));
+    this.minDateTime = minDateTimeProps ? new Date(minDateTimeProps) : new Date(new Date().setMonth(new Date().getMonth() - 5));
     this.intervalInMin = parseInt(this.getAttribute('interval-in-min'));
     this.canPickTime = this.getAttribute('time') == 'true';
     this.canPickEnds = this.getAttribute('ends') == 'true';
+    this.startDateTime = defaultStartsProps ? new Date(defaultStartsProps) : new Date();
+    this.endDateTime = defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(new Date().getDate() + 5));
+    this._initializeCalendar();
     this._updateCalendarRange();
     this._updateTimeRange();
     this._flipPage();
     
+  }
+
+  _initializeCalendar() {
+    this.selectedMonth = this.startDateTime.getMonth();
+    this.selectedYear = this.startDateTime.getFullYear();
+    this.dateRange = {
+      from: this.startDateTime,
+      to: this.endDateTime
+    }
   }
 
   connectedCallback() {
@@ -126,28 +140,48 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   selectDate(date) {
     return () => {
       if (date <= 0) return;
+      const pickedDate = new Date(this.selectedYear, this.selectedMonth, date).getTime();
+      const starts = new Date(this.startDateTime).getTime();
+      const ends = new Date(this.endDateTime).getTime();
+      if (pickedDate > starts) {
+        
+      }
+      if (pickedDate < starts) {
+        
+      }
+      let dateTimeToChange;
       if (this.selectingDate == 'starts') {
-        this.startDateTime = new Date(this.selectedYear, this.selectedMonth, date);
+        dateTimeToChange = this.startDateTime;
         this.selectingDate = 'ends'; //start date is selected now select ends
       }
       else {
-        this.endDateTime = new Date(this.selectedYear, this.selectedMonth, date);
+        dateTimeToChange = this.endDateTime;
         this.selectingDate = 'starts'; //end date is selected now select starts
       }
+
+      dateTimeToChange = dateTimeToChange;
+      dateTimeToChange.setDate(date);
+      dateTimeToChange.setMonth(this.selectedMonth);
+      dateTimeToChange.setYear(this.selectedYear);
       this._updateTimeRange();
       this.updateShadowDom();
-      console.log(this.startDateTime ,this.endDateTime);
       
     }
   }
 
-  selectStartTime(time) {
+  selectTime(type, time) {
     return () => {
       const timeArr = time.split(' ')[0].split(':');
       const ampm = time.split(' ')[1];
       const hrs = ampm == 'PM' ? parseInt(timeArr[0]) % 12 + 12 : timeArr[0] == 12 ? 0 : timeArr[0];
-      this.startDateTime.setHours(hrs, timeArr[1])
-      this.openStartTimeList = false;
+      if (type == 'starts') {
+        this.startDateTime.setHours(hrs, timeArr[1])
+        this.openStartTimeList = false;
+      }
+      else {
+        this.endDateTime.setHours(hrs, timeArr[1])
+        this.openEndTimeList = false;
+      }
       this.updateShadowDom();
     }
   }
@@ -276,10 +310,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     const minDateTime = new Date(this.minDateTime).setHours(0, 0, 0, 0);
     const maxDateTime = new Date(this.maxDateTime).setHours(0, 0, 0, 0);
     const tempDate = this.getSelectedDate(date).setHours(0, 0, 0, 0);
-    if (tempDate < minDateTime || tempDate > maxDateTime) {
-      return false;
-    }
-    return true;
+    return !(tempDate < minDateTime || tempDate > maxDateTime);
   }
   formatedAMPMTime(date) {
     let hours = date.getHours();
@@ -290,6 +321,13 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
+  }
+
+  isDateInRange(date) {
+    const pickingDate = this.getSelectedDate(date).setHours(0, 0, 0, 0);
+    const fromDate = this.dateRange.from.setHours(0, 0, 0, 0);
+    const toDate = this.dateRange.to.setHours(0, 0, 0, 0);
+    return (pickingDate > fromDate && pickingDate < toDate);
   }
 }
 
