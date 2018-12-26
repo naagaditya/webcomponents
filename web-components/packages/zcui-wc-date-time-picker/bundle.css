@@ -1,11 +1,17 @@
+.zcui-wc-date-time-picker-wrapper {
+  width: fit-content;
+  width: -moz-fit-content;
+  outline: none; }
+
 .zcui-wc-date-time-picker {
   padding: 20px;
   border: solid 1px #cecece;
-  box-shadow: 5px 5px 50px 2px #cecece;
   border-radius: 5px;
   margin: auto;
   width: fit-content;
-  width: -moz-fit-content; }
+  width: -moz-fit-content;
+  position: absolute;
+  border-top: none; }
   .zcui-wc-date-time-picker .d-f {
     display: flex; }
   .zcui-wc-date-time-picker .fd-c {
@@ -72,8 +78,6 @@
           color: #fff; }
     .zcui-wc-date-time-picker .change-month .month, .zcui-wc-date-time-picker .change-year .month, .zcui-wc-date-time-picker .change-time .month {
       width: 70px; }
-  .zcui-wc-date-time-picker .hide {
-    display: none; }
   .zcui-wc-date-time-picker .calendar {
     margin: auto;
     font-size: 14px;
@@ -110,9 +114,6 @@
     .zcui-wc-date-time-picker .summary .from-summary, .zcui-wc-date-time-picker .summary .to-summary {
       cursor: pointer;
       padding: 5px 10px; }
-      .zcui-wc-date-time-picker .summary .from-summary.selected-summary, .zcui-wc-date-time-picker .summary .to-summary.selected-summary {
-        border: solid 1px #6b46bc;
-        border-radius: 12px; }
     .zcui-wc-date-time-picker .summary .date {
       width: 40px;
       text-align: right;
@@ -150,3 +151,21 @@
       .zcui-wc-date-time-picker .summary .change-time .time-name {
         width: 63px;
         font-size: 15px; }
+
+.zcui-wc-date-time-picker-display {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  width: -moz-fit-content;
+  position: relative;
+  cursor: pointer;
+  border: solid 2px #e5e8e9bf;
+  border-radius: 5px;
+  background: #fff; }
+  .zcui-wc-date-time-picker-display .starts, .zcui-wc-date-time-picker-display .ends {
+    padding: 10px; }
+    .zcui-wc-date-time-picker-display .starts.selected, .zcui-wc-date-time-picker-display .ends.selected {
+      border-bottom: solid 1px #6b46bc; }
+
+.hide {
+  display: none; }

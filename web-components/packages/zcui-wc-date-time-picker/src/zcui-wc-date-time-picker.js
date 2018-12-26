@@ -21,6 +21,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.yearRangeVal = [2018];
     this.calendarWeekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.disableNextMonth = this.disablePrevMonth = false;
+    this.showDateTimePicker = false;
 
     // bind this in all functions
     this.updateShadowDom = this.updateShadowDom.bind(this);
@@ -37,6 +38,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.isValidDate = this.isValidDate.bind(this);
     this.isDateInRange = this.isDateInRange.bind(this);
     this.changeSelectingDate = this.changeSelectingDate.bind(this);
+    this.toggleShowDateTimePicker = this.toggleShowDateTimePicker.bind(this);
+    this.hideShowDateTimePicker = this.hideShowDateTimePicker.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -351,6 +354,15 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       this.selectingDateFromSummary = selectingDate;
       this.updateShadowDom();
     }
+  }
+
+  toggleShowDateTimePicker() {
+    this.showDateTimePicker = !this.showDateTimePicker;
+    this.updateShadowDom();
+  }
+  hideShowDateTimePicker() {
+    this.showDateTimePicker = false;
+    this.updateShadowDom();
   }
 }
 
