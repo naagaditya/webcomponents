@@ -1,16 +1,19 @@
 .zcui-wc-date-time-picker-wrapper {
   width: fit-content;
   width: -moz-fit-content;
-  outline: none; }
+  outline: none;
+  position: relative; }
 
 .zcui-wc-date-time-picker {
   padding: 20px;
   border: solid 1px #cecece;
   border-radius: 5px;
   margin: auto;
-  width: fit-content;
-  width: -moz-fit-content;
+  min-width: fit-content;
+  min-width: -moz-fit-content;
   position: absolute;
+  left: 0;
+  right: 0;
   border-top: none; }
   .zcui-wc-date-time-picker .d-f {
     display: flex; }
@@ -91,13 +94,18 @@
       font-size: 0; }
       .zcui-wc-date-time-picker .calendar .dates .date-cell {
         cursor: pointer;
-        border-radius: 50%; }
+        border: solid 1px #fff; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.selected {
           background: #6b46bc;
-          color: #fff; }
+          color: #fff;
+          border-radius: 50%; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.date-in-range {
           background: #f2f4f7;
+          border-color: #f2f4f7;
           border-radius: 0; }
+        .zcui-wc-date-time-picker .calendar .dates .date-cell:hover {
+          border-color: #6b46bc;
+          border-radius: 50%; }
   .zcui-wc-date-time-picker .divider {
     border-bottom: solid 1.5px #e5e8e9bf; }
   .zcui-wc-date-time-picker .date-cell {
@@ -110,9 +118,11 @@
       pointer-events: none;
       color: #cecece; }
   .zcui-wc-date-time-picker .summary {
-    height: 160px; }
+    display: flex;
+    align-items: center; }
     .zcui-wc-date-time-picker .summary .from-summary, .zcui-wc-date-time-picker .summary .to-summary {
-      cursor: pointer; }
+      cursor: pointer;
+      padding: 10px 0px; }
     .zcui-wc-date-time-picker .summary .date {
       width: 40px;
       text-align: right;
@@ -156,15 +166,25 @@
   align-items: center;
   width: fit-content;
   width: -moz-fit-content;
-  position: relative;
   cursor: pointer;
   border: solid 2px #e5e8e9bf;
   border-radius: 5px;
   background: #fff; }
   .zcui-wc-date-time-picker-display .starts, .zcui-wc-date-time-picker-display .ends {
-    padding: 10px; }
+    padding: 10px;
+    border-bottom: solid 1px #fff; }
     .zcui-wc-date-time-picker-display .starts.selected, .zcui-wc-date-time-picker-display .ends.selected {
-      border-bottom: solid 1px #6b46bc; }
+      border-color: #6b46bc; }
 
 .hide {
   display: none; }
+
+.footer {
+  padding-top: 20px;
+  text-align: right; }
+  .footer .done {
+    background: #6b46bc;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    cursor: pointer; }

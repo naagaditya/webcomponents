@@ -17,5 +17,10 @@
     time="true"
     ends="true"
   />
+  <script>
+  document.getElementsByTagName('zcui-wc-date-time-picker')[0].addEventListener('done', (e) => {
+    console.log(e.detail)
+  });
+  </script>
 </body>
 </html>

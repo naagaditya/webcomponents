@@ -2,6 +2,7 @@
   width: fit-content;
   width: -moz-fit-content;
   outline: none;
+  position: relative;
 }
 
 .zcui-wc-date-time-picker {
@@ -10,9 +11,11 @@
   // box-shadow: 5px 5px 50px 2px #cecece;
   border-radius: 5px;
   margin: auto;
-  width: fit-content;
-  width: -moz-fit-content;
+  min-width: fit-content;
+  min-width: -moz-fit-content;
   position: absolute;
+  left: 0;
+  right: 0;
   border-top: none;
   .d-f {
     display: flex;
@@ -110,14 +113,20 @@
       font-size: 0;
       .date-cell {
         cursor: pointer;
-        border-radius: 50%;
+        border: solid 1px #fff;
         &.selected {
           background: #6b46bc;
           color: #fff;
+          border-radius: 50%;
         }
         &.date-in-range {
           background: #f2f4f7;
+          border-color: #f2f4f7;
           border-radius: 0;
+        }
+        &:hover {
+          border-color: #6b46bc;
+          border-radius: 50%;
         }
       }
     }
@@ -137,10 +146,11 @@
     }
   }
   .summary {
-    height: 160px;
+    display: flex;
+    align-items: center;
     .from-summary, .to-summary {
       cursor: pointer;
-      // padding: 5px 10px;
+      padding: 10px 0px;
       &.selected-summary {
         // border: solid 1px #6b46bc;
         // border-radius: 12px;
@@ -202,18 +212,29 @@
   // border: solid 1px #6b46bc;
   width: fit-content;
   width: -moz-fit-content;
-  position: relative;
   cursor: pointer;
   border: solid 2px #e5e8e9bf;
   border-radius: 5px;
   background: #fff;
   .starts, .ends {
     padding: 10px;
+    border-bottom: solid 1px #fff;
     &.selected {
-      border-bottom: solid 1px #6b46bc;
+      border-color: #6b46bc;
     }
   }
 }
 .hide {
   display: none;
+}
+.footer {
+  padding-top: 20px;
+  text-align: right;
+  .done {
+    background: #6b46bc;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
 }

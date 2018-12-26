@@ -39,6 +39,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.isDateInRange = this.isDateInRange.bind(this);
     this.changeSelectingDate = this.changeSelectingDate.bind(this);
     this.openDateTimePicker = this.openDateTimePicker.bind(this);
+    this.submit = this.submit.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -84,7 +85,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.canPickTime = this.getAttribute('time') == 'true';
     this.canPickEnds = this.getAttribute('ends') == 'true';
     this.startDateTime = defaultStartsProps ? new Date(defaultStartsProps) : new Date();
-    this.endDateTime = defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(new Date().getDate() + 5));
+    this.endDateTime = this. canPickEnds && defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(new Date().getDate() + 5));
     this._initializeCalendar();
     this._updateCalendarRange();
     this._updateTimeRange();
@@ -96,8 +97,14 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.selectedMonth = this.startDateTime.getMonth();
     this.selectedYear = this.startDateTime.getFullYear();
     this.dateRange = {
-      from: new Date(this.startDateTime),
-      to: new Date(this.endDateTime)
+      from: null,
+      to: null
+    }
+    if (this.canPickEnds) {
+      this.dateRange = {
+        from: new Date(this.startDateTime),
+        to: new Date(this.endDateTime)
+      }
     }
   }
 
@@ -148,7 +155,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       const starts = new Date(this.startDateTime).getTime();
       const ends = new Date(this.endDateTime).getTime();
       if (pickedDate > starts) {
-        this.selectingDate = 'ends';
+        this.selectingDate = this.selectingDateFromSummary || 'ends';
       }
       if (pickedDate < starts || pickedDate == starts || pickedDate == ends) {
         this.selectingDate = 'starts';
@@ -177,9 +184,11 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       dateTimeToChange.setDate(date);
       dateTimeToChange.setMonth(this.selectedMonth);
       dateTimeToChange.setYear(this.selectedYear);
-      this.dateRange = {
-        from: new Date(this.startDateTime),
-        to: new Date(this.endDateTime)
+      if (this.canPickEnds) {
+        this.dateRange = {
+          from: new Date(this.startDateTime),
+          to: new Date(this.endDateTime)
+        }
       }
       this._updateTimeRange();
       this.updateShadowDom();
@@ -322,7 +331,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   isSelectedDate(date) {
     return (this.getSelectedDate(date) &&
       this.getDateOnly(this.startDateTime).getTime() == this.getSelectedDate(date).getTime() ||
-      (this.endDateTime && this.getSelectedDate(date) &&
+      (this.endDateTime && this.getSelectedDate(date) && this.canPickEnds &&
       this.getDateOnly(this.endDateTime).getTime() == this.getSelectedDate(date).getTime())
       );
   }
@@ -346,6 +355,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   }
 
   isDateInRange(date) {
+    if (!this.dateRange.from || !this.dateRange.to) return false;
     const pickingDate = this.getSelectedDate(date).setHours(0, 0, 0, 0);
     const fromDate = this.dateRange.from.setHours(0, 0, 0, 0);
     const toDate = this.dateRange.to.setHours(0, 0, 0, 0);
@@ -363,6 +373,17 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       this.showDateTimePicker = isShow;
       this.updateShadowDom();
     }
+  }
+  submit() {
+    this.dispatchEvent(new CustomEvent('done', {
+      detail: {
+        from: this.startDateTime,
+        to: this.canPickEnds && this.endDateTime
+      },
+      bubbles: true
+    }));
+    this.showDateTimePicker = false;
+    this.updateShadowDom();
   }
 }
 
