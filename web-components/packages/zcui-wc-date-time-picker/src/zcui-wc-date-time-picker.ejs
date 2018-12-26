@@ -1,0 +1,148 @@
+
+<div on-blur=${this.openDateTimePicker(false)} tabindex="0" class="zcui-wc-date-time-picker-wrapper">
+
+  <div class="zcui-wc-date-time-picker-display" on-click=${this.openDateTimePicker(true)}>
+    <div
+      on-click=${this.changeSelectingDate(`starts`)}
+      class$="${this.selectingDateFromSummary == 'starts' ? 'starts selected' : 'starts'}">
+      <span>${this.calendarWeekDays[this.startDateTime.getDay()].substr(0,3)},</span>
+      <span>${this.monthNames[this.startDateTime.getMonth()].substr(0,3)}</span>
+      <span>${this.startDateTime.getDate()},</span>
+      <span>${this.startDateTime.getFullYear()},</span>
+      <span class$="${this.canPickTime ? '' : 'hide'}">${this.formatedAMPMTime(this.startDateTime)}</span>
+    </div>
+    <div class$="${this.canPickEnds ? '' : 'hide'}">→</div>
+    <div
+      on-click=${this.changeSelectingDate(`ends`)}
+      class$="${this.canPickEnds ? `${this.selectingDateFromSummary == 'ends' ? 'ends selected' : 'ends'}` : 'hide'}">
+      <span>${this.calendarWeekDays[this.endDateTime.getDay()].substr(0,3)},</span>
+      <span>${this.monthNames[this.endDateTime.getMonth()].substr(0,3)}</span>
+      <span>${this.endDateTime.getDate()},</span>
+      <span>${this.endDateTime.getFullYear()},</span>
+      <span class$="${this.canPickTime ? '' : 'hide'}">${this.formatedAMPMTime(this.endDateTime)}</span>
+    </div>
+  </div>
+  
+  
+  <div class$="${this.showDateTimePicker ? 'zcui-wc-date-time-picker d-f' : 'hide'}" on-click=${this.closeDropDowns(this)}>
+    <div class="flip-month-page d-f ai-c">
+      <span
+        on-click=${this.setPrevMonth}
+        class$="${this.disablePrevMonth ? 'arrow left-arrow disabled' : 'arrow left-arrow'}">
+      </span>
+      <span class="change-month d-f">
+        <div class="d-f" on-click=${this.toggleOpenMonthList}>
+          <span class="month-name">${this.monthNames[this.selectedMonth]}</span>
+          <div class="down-arrow"></div>
+        </div>
+        <div
+          class$="${this.openMonthList ? 'month-list d-f ai-c fd-c' : 'hide'}">
+          ${repeat(this.monthRangeVal, month => html`
+            <span on-click=${this.selectMonth(month)}>${this.monthNames[month]}</span>
+          `)}
+        </div>
+      </span>
+      <span class="change-year d-f">
+        <div class="d-f" on-click=${this.toggleOpenYearList}>
+          <span class="year-name">${this.selectedYear}</span>
+          <div class="down-arrow"></div>
+        </div>
+        <div class$="${this.openYearList ? 'year-list d-f ai-c fd-c' : 'hide'}">
+          ${repeat(this.yearRangeVal, year => html`
+            <span on-click=${this.selectYear(year)}>${year}</span>
+          `)}
+        </div>
+      </span>
+      <span
+        on-click="${this.setNextMonth}"
+        class$="${this.disableNextMonth ? 'arrow right-arrow disabled' : 'arrow right-arrow'}">
+      </span>
+    </div>
+    <div class="calendar">
+      <div class="day-name">
+        <span class="date-cell">SU</span>
+        <span class="date-cell">MO</span>
+        <span class="date-cell">TU</span>
+        <span class="date-cell">WE</span>
+        <span class="date-cell">TH</span>
+        <span class="date-cell">FR</span>
+        <span class="date-cell">SA</span>
+      </div>
+      <div class="divider"></div>
+      <!-- (this.endDateOfCalendar-this.startDateOfCalendar+1) will give total dates 
+      startDateOfCalendar starts with -ve val or 1 startDateOfCalendar is starts with sunday -->
+  
+      <div class="dates">
+        ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
+          <span
+            on-click=${this.selectDate(this.startDateOfCalendar+i)}
+            class$="${this.isSelectedDate(this.startDateOfCalendar + i) ? 'selected date-cell' : `${this.isValidDate(this.startDateOfCalendar + i) ? `${this.isDateInRange(this.startDateOfCalendar + i) ? 'date-cell date-in-range' : 'date-cell'}` : 'date-cell disabled'}`}">
+            ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
+          </span>
+        `)}
+      </div>
+    </div>
+    <div class$="${this.canPickTime ? 'divider' : 'hide'}"></div>
+    <div class$="${this.canPickTime ? 'summary d-f fd-c jc-se' : 'hide'}">
+      <div
+        class$="${this.selectingDateFromSummary == 'starts' ? 'from-summary selected-summary' : 'from-summary'}"
+        on-click=${this.changeSelectingDate(`starts`)}>
+        <div class$="${this.canPickEnds ? 'title' : 'hide'}">FROM</div>
+        <div class="d-f ai-c">
+          <div class="date">${this.startDateTime.getDate()}</div>
+          <div class="d-f fd-c jc-c mon-year-day">
+            <div>
+              <span class="month">${this.monthNames[this.startDateTime.getMonth()]}</span>
+              <span class="year">${this.startDateTime.getFullYear()}</span>
+            </div>
+            <div class="selected-day-name">${this.calendarWeekDays[this.startDateTime.getDay()]}</div>
+          </div>
+          <div class="time-circle"></div>
+          <span class="change-time d-f">
+            <div class="d-f" on-click=${this.toggleOpenStartTimeList}>
+              <span class="time-name">${this.formatedAMPMTime(this.startDateTime)}</span>
+              <div class="down-arrow"></div>
+            </div>
+            <div class$="${this.openStartTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
+              ${repeat(this.timeRangeVal, time => html`
+              <span on-click=${this.selectTime(`starts`, time)}>${time}</span>
+              `)}
+            </div>
+          </span>
+        </div>
+      </div>
+      <div
+        class$="${this.canPickEnds ? 'to-summary' : 'hide'}"
+        on-click=${this.changeSelectingDate(`ends`)}>
+        <div class="title">TO</div>
+        <div class="d-f ai-c">
+          <div class="date">${this.endDateTime.getDate()}</div>
+          <div class="d-f fd-c jc-c mon-year-day">
+            <div>
+              <span class="month">${this.monthNames[this.endDateTime.getMonth()]}</span>
+              <span class="year">${this.endDateTime.getFullYear()}</span>
+            </div>
+            <div class="selected-day-name">${this.calendarWeekDays[this.endDateTime.getDay()]}</div>
+          </div>
+          <div class="time-circle"></div>
+          <span class="change-time d-f">
+            <div class="d-f" on-click=${this.toggleOpenEndTimeList}>
+              <span class="time-name">${this.formatedAMPMTime(this.endDateTime)}</span>
+              <div class="down-arrow"></div>
+            </div>
+            <div class$="${this.openEndTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
+              ${repeat(this.timeRangeVal, time => html`
+              <span on-click=${this.selectTime(`ends`, time)}>${time}</span>
+              `)}
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="footer">
+      <a class="done" on-click=${this.submit}>DONE</a>
+    </div>
+  </div>
+</div>
+

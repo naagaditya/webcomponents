@@ -1,0 +1,241 @@
+.zcui-wc-date-time-picker-wrapper {
+  width: fit-content;
+  width: -moz-fit-content;
+  outline: none;
+  position: relative;
+}
+
+.zcui-wc-date-time-picker {
+  padding: 20px;
+  border: solid 1px #cecece;
+  // box-shadow: 5px 5px 50px 2px #cecece;
+  border-radius: 5px;
+  margin: auto;
+  min-width: fit-content;
+  min-width: -moz-fit-content;
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: none;
+  background: #fff;
+  .d-f {
+    display: flex;
+  }
+  .fd-c {
+    flex-direction: column;
+  }
+  .jc-c {
+    justify-content: center;
+  }
+  .jc-se {
+    justify-content: space-evenly;
+  }
+  .ai-c {
+    align-items: center;
+  }
+  .flip-month-page {
+    justify-content: space-around;
+    .left-arrow {
+      border-left: solid 1.5px #6b46bc;
+      border-bottom: solid 1.5px #6b46bc;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .right-arrow {
+      border-right: solid 1.5px #6b46bc;
+      border-top: solid 1.5px #6b46bc;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .arrow {
+      height: 12px;
+      width: 12px;
+      transform: rotate(45deg);
+      &.disabled {
+        pointer-events: none;
+        border-color: #cecece;
+      }
+    }
+  }
+  .change-month, .change-year, .change-time{
+    position: relative;
+    cursor: pointer;
+    border: solid 2px #e5e8e9bf;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 7px;
+    .down-arrow {
+      margin-top: 2px;
+      height: 8px;
+      width: 8px;
+      transform: rotate(45deg);
+      border-right: solid 1.5px #6b46bc;
+      border-bottom: solid 1.5px #6b46bc;
+      margin-left: 10px;
+    }
+    .month-list, .year-list, .time-list {
+      z-index: 1;
+      position: absolute;
+      top: 29px;
+      left: 0;
+      height: 100px;
+      right: 0;
+      border: solid 1px #e5e8e9bf;
+      border-top: none;
+      overflow: scroll;
+      padding-top: 5px;
+      background: #fff;
+      span {
+        box-sizing: border-box;
+        padding: 5px 10px;
+        width: 100%;
+        text-align: left;
+        &:hover {
+          background: #6b46bc;
+          color: #fff;
+        }
+      }
+    }
+    .month-name {
+      width: 70px;
+    }
+  }
+  .calendar {
+    margin: auto;
+    font-size: 14px;
+    width: 288px;
+    color: #94979b;
+    .day-name {
+      padding-top: 10px;
+      font-size: 0;
+    }
+    .dates {
+      padding: 10px 0;
+      font-size: 0;
+      .date-cell {
+        cursor: pointer;
+        border: solid 1px #fff;
+        &.selected {
+          background: #6b46bc;
+          color: #fff;
+          border-radius: 50%;
+        }
+        &.date-in-range {
+          background: #f2f4f7;
+          border-color: #f2f4f7;
+          border-radius: 0;
+        }
+        &:hover {
+          border-color: #6b46bc;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  .divider {
+    border-bottom: solid 1.5px #e5e8e9bf;
+  }
+  .date-cell {
+    font-size: 14px;
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    padding: 10px 0;
+    &.disabled {
+      pointer-events: none;
+      color: #cecece;
+    }
+  }
+  .summary {
+    display: flex;
+    align-items: center;
+    .from-summary, .to-summary {
+      cursor: pointer;
+      padding: 10px 0px;
+      &.selected-summary {
+        // border: solid 1px #6b46bc;
+        // border-radius: 12px;
+      }
+    }
+    .date {
+      width: 40px;
+      text-align: right;
+      font-size: 40px;
+      padding: 0 6px;
+      color: #6b46bc;
+    }
+    .mon-year-day {
+      width: 105px;
+    }
+    .title {
+      color: #94979b;
+      font-size: 12px;
+    }
+    .selected-day-name {
+      color: #94979b;
+    }
+    .time-circle {
+      height: 20px;
+      width: 20px;
+      border: solid 1px #6b46bc;
+      border-radius: 50%;
+      margin-left: 16px;
+      margin-right: 4px;
+      &::after {
+        content: '';
+        display: block;
+        height: 8px;
+        width: 5px;
+        border-left: solid 1px #6b46bc;
+        border-bottom: solid 1px #6b46bc;
+        margin: 4px 0 0 8px;
+      }
+    }
+    .change-time {
+      height: fit-content;
+      height: -moz-fit-content;
+      padding: 8px 10px;
+      .down-arrow {
+        margin-top: 0;
+      }
+      .time-name {
+        width: 65px;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+
+.zcui-wc-date-time-picker-display {
+  display: flex;
+  align-items: center;
+  // border: solid 1px #6b46bc;
+  width: fit-content;
+  width: -moz-fit-content;
+  cursor: pointer;
+  border: solid 2px #e5e8e9bf;
+  border-radius: 5px;
+  background: #fff;
+  .starts, .ends {
+    padding: 10px;
+    border-bottom: solid 1px #fff;
+    &.selected {
+      border-color: #6b46bc;
+    }
+  }
+}
+.hide {
+  display: none;
+}
+.footer {
+  padding-top: 20px;
+  text-align: right;
+  .done {
+    background: #6b46bc;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+}
