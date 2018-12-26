@@ -92,7 +92,7 @@
         }
       }
     }
-    .month {
+    .month-name {
       width: 70px;
     }
   }
@@ -140,7 +140,7 @@
     height: 160px;
     .from-summary, .to-summary {
       cursor: pointer;
-      padding: 5px 10px;
+      // padding: 5px 10px;
       &.selected-summary {
         // border: solid 1px #6b46bc;
         // border-radius: 12px;

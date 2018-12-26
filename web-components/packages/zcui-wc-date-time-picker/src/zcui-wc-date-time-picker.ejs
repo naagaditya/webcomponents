@@ -1,8 +1,10 @@
 
-<div on-blur=${this.hideShowDateTimePicker} tabindex="0" class="zcui-wc-date-time-picker-wrapper">
+<div on-blur=${this.openDateTimePicker(false)} tabindex="0" class="zcui-wc-date-time-picker-wrapper">
 
-  <div class="zcui-wc-date-time-picker-display" on-click=${this.toggleShowDateTimePicker}>
-    <div class$="${this.selectingDateFromSummary == 'starts' ? 'starts selected' : 'starts'}">
+  <div class="zcui-wc-date-time-picker-display" on-click=${this.openDateTimePicker(true)}>
+    <div
+      on-click=${this.changeSelectingDate(`starts`)}
+      class$="${this.selectingDateFromSummary == 'starts' ? 'starts selected' : 'starts'}">
       <span>${this.calendarWeekDays[this.startDateTime.getDay()].substr(0,3)},</span>
       <span>${this.monthNames[this.startDateTime.getMonth()].substr(0,3)}</span>
       <span>${this.startDateTime.getDate()},</span>
@@ -10,7 +12,9 @@
       <span>${this.formatedAMPMTime(this.startDateTime)}</span>
     </div>
     <div class$="${this.canPickTime ? '' : 'hide'}">→</div>
-    <div class$="${this.canPickTime ? `${this.selectingDateFromSummary == 'ends' ? 'ends selected' : 'ends'}` : 'hide'}">
+    <div
+      on-click=${this.changeSelectingDate(`ends`)}
+      class$="${this.canPickTime ? `${this.selectingDateFromSummary == 'ends' ? 'ends selected' : 'ends'}` : 'hide'}">
       <span>${this.calendarWeekDays[this.endDateTime.getDay()].substr(0,3)},</span>
       <span>${this.monthNames[this.endDateTime.getMonth()].substr(0,3)}</span>
       <span>${this.endDateTime.getDate()},</span>
@@ -20,7 +24,7 @@
   </div>
   
   
-  <div class$="${this.showDateTimePicker ? 'zcui-wc-date-time-picker d-f' : 'hide'}" on-click=${this.closeDropDowns}>
+  <div class$="${this.showDateTimePicker ? 'zcui-wc-date-time-picker d-f' : 'hide'}" on-click=${this.closeDropDowns(this)}>
     <div class="flip-month-page d-f ai-c">
       <span
         on-click=${this.setPrevMonth}
@@ -28,7 +32,7 @@
       </span>
       <span class="change-month d-f">
         <div class="d-f" on-click=${this.toggleOpenMonthList}>
-          <span class="month name">${this.monthNames[this.selectedMonth]}</span>
+          <span class="month-name">${this.monthNames[this.selectedMonth]}</span>
           <div class="down-arrow"></div>
         </div>
         <div

@@ -38,8 +38,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.isValidDate = this.isValidDate.bind(this);
     this.isDateInRange = this.isDateInRange.bind(this);
     this.changeSelectingDate = this.changeSelectingDate.bind(this);
-    this.toggleShowDateTimePicker = this.toggleShowDateTimePicker.bind(this);
-    this.hideShowDateTimePicker = this.hideShowDateTimePicker.bind(this);
+    this.openDateTimePicker = this.openDateTimePicker.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -266,9 +265,15 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     }
   }
   closeDropDowns() {
-    // this.openMonthList = false;
-    // this.openYearList = false;
-    // this.updateShadowDom();
+    return (e) => {
+      const skipForClasses = ['month-name', 'year-name', 'time-name', 'down-arrow'];
+      if (skipForClasses.includes(e.path[0].className)) return;
+      this.openMonthList = false;
+      this.openYearList = false;
+      this.openEndTimeList = false;
+      this.openStartTimeList = false;
+      this.updateShadowDom();
+    }
   }
   _checkDisabledNextPrevArrow() {
     this.disableNextMonth = this.disablePrevMonth = false;
@@ -356,13 +361,11 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     }
   }
 
-  toggleShowDateTimePicker() {
-    this.showDateTimePicker = !this.showDateTimePicker;
-    this.updateShadowDom();
-  }
-  hideShowDateTimePicker() {
-    this.showDateTimePicker = false;
-    this.updateShadowDom();
+  openDateTimePicker(isShow) {
+    return () => {
+      this.showDateTimePicker = isShow;
+      this.updateShadowDom();
+    }
   }
 }
 
