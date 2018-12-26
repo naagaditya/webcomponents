@@ -8,7 +8,9 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       'min-date-time',
       'interval-in-min',
       'time',
-      'ends'
+      'ends',
+      'default-starts',
+      'default-ends'
     ];
   }
 
@@ -85,7 +87,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.canPickTime = this.getAttribute('time') == 'true';
     this.canPickEnds = this.getAttribute('ends') == 'true';
     this.startDateTime = defaultStartsProps ? new Date(defaultStartsProps) : new Date();
-    this.endDateTime = this. canPickEnds && defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(new Date().getDate() + 5));
+    this.endDateTime = this.canPickEnds && (defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(this.startDateTime.getDate() + 5)));
     this._initializeCalendar();
     this._updateCalendarRange();
     this._updateTimeRange();
