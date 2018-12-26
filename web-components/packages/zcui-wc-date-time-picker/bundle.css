@@ -108,6 +108,12 @@
         .zcui-wc-date-time-picker .calendar .dates .date-cell:hover {
           border-color: #6b46bc;
           border-radius: 50%; }
+      .zcui-wc-date-time-picker .calendar .dates .right-bg-color {
+        background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
+        display: inline-block; }
+      .zcui-wc-date-time-picker .calendar .dates .left-bg-color {
+        background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);
+        display: inline-block; }
   .zcui-wc-date-time-picker .divider {
     border-bottom: solid 1.5px #e5e8e9bf; }
   .zcui-wc-date-time-picker .date-cell {

@@ -74,10 +74,12 @@
   
       <div class="dates">
         ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
-          <span
-            on-click=${this.selectDate(this.startDateOfCalendar+i)}
-            class$="${this.isSelectedDate(this.startDateOfCalendar + i) ? 'selected date-cell' : `${this.isValidDate(this.startDateOfCalendar + i) ? `${this.isDateInRange(this.startDateOfCalendar + i) ? 'date-cell date-in-range' : 'date-cell'}` : 'date-cell disabled'}`}">
-            ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
+          <span class$="${this.isSelectedDateIsStarts(this.startDateOfCalendar + i) ? 'right-bg-color' : `${this.isSelectedDateIsEnds(this.startDateOfCalendar + i) ? 'left-bg-color' : ''}`}">
+            <span
+              on-click=${this.selectDate(this.startDateOfCalendar+i)}
+              class$="${this.isSelectedDate(this.startDateOfCalendar + i) ? 'selected date-cell' : `${this.isValidDate(this.startDateOfCalendar + i) ? `${this.isDateInRange(this.startDateOfCalendar + i) ? 'date-cell date-in-range' : 'date-cell'}` : 'date-cell disabled'}`}">
+              ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
+            </span>
           </span>
         `)}
       </div>

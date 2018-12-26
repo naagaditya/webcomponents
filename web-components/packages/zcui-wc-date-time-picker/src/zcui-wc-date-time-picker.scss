@@ -131,6 +131,14 @@
           border-radius: 50%;
         }
       }
+      .right-bg-color {
+        background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
+        display: inline-block;
+      }
+      .left-bg-color {
+        background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);
+        display: inline-block;
+      }
     }
   }
   .divider {

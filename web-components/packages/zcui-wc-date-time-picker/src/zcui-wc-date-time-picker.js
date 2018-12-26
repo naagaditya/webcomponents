@@ -42,6 +42,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.changeSelectingDate = this.changeSelectingDate.bind(this);
     this.openDateTimePicker = this.openDateTimePicker.bind(this);
     this.submit = this.submit.bind(this);
+    this.isSelectedDateIsStarts = this.isSelectedDateIsStarts.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -386,6 +387,15 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     }));
     this.showDateTimePicker = false;
     this.updateShadowDom();
+  }
+
+  isSelectedDateIsStarts(date) {
+    if (date <= 0) return false;
+    return (this.getSelectedDate(date).getTime() == new Date(this.startDateTime).setHours(0,0,0,0));
+  }
+  isSelectedDateIsEnds(date) {
+    if (date <= 0) return false;
+    return (this.getSelectedDate(date).getTime() == new Date(this.endDateTime).setHours(0, 0, 0, 0));
   }
 }
 
