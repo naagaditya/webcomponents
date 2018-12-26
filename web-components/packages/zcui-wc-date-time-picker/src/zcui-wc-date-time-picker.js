@@ -200,7 +200,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
         this.endDateTime.setHours(hrs, timeArr[1])
         this.openEndTimeList = false;
       }
-      this.updateShadowDom();
     }
   }
   
@@ -238,7 +237,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.endDateOfCalendar = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate();
     this._checkDisabledNextPrevArrow();
     this._updateMonthRange();
-    this.updateShadowDom();
   }
 
   _updateMonthRange() {
@@ -272,7 +270,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       this.openYearList = false;
       this.openEndTimeList = false;
       this.openStartTimeList = false;
-      this.updateShadowDom();
+      this.updateShadowDom(); // dont delete this line because this is updating other actions also like flip page, time select, date select etc.
     }
   }
   _checkDisabledNextPrevArrow() {
@@ -357,7 +355,6 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   changeSelectingDate(selectingDate) {
     return () => {
       this.selectingDateFromSummary = selectingDate;
-      this.updateShadowDom();
     }
   }
 
