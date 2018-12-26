@@ -94,6 +94,7 @@
       padding: 10px 0;
       font-size: 0; }
       .zcui-wc-date-time-picker .calendar .dates .date-cell {
+        width: 39px;
         cursor: pointer;
         border: solid 1px #fff; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.selected {
@@ -112,7 +113,7 @@
   .zcui-wc-date-time-picker .date-cell {
     font-size: 14px;
     display: inline-block;
-    width: 40px;
+    width: 41px;
     text-align: center;
     padding: 10px 0; }
     .zcui-wc-date-time-picker .date-cell.disabled {
