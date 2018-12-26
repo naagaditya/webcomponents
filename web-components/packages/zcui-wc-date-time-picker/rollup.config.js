@@ -6,16 +6,21 @@ import html from 'rollup-plugin-html';
 import multiEntry from "rollup-plugin-multi-entry";
 import scss from 'rollup-plugin-scss';
 
-
+const production = process.env.NODE_ENV == 'production';
+const development = process.env.NODE_ENV == 'development';
+let inputfiles = ['./src/zcui-wc-date-time-picker.ejs', './src/zcui-wc-date-time-picker.js', './src/zcui-wc-date-time-picker.scss'];
+if (production) {
+  inputfiles = ['./dist/bundle.js'];
+}
 export default {
-  input: ['./src/zcui-wc-date-time-picker.ejs', './src/zcui-wc-date-time-picker.js', './src/zcui-wc-date-time-picker.scss'],
+  input: inputfiles,
   plugins: [
     multiEntry(),
     html({
       include: '**/*.ejs'
     }),
     scss(),
-    mergeFiles(),
+    development && mergeFiles(),
     babel(),
     terser(),
     babelRuntimeExternal({
