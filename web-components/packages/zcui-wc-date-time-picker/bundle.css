@@ -29,13 +29,13 @@
   .zcui-wc-date-time-picker .flip-month-page {
     justify-content: space-around; }
     .zcui-wc-date-time-picker .flip-month-page .left-arrow {
-      border-left: solid 1.5px #6b46bc;
-      border-bottom: solid 1.5px #6b46bc;
+      border-left: solid 1.5px var(--theme-color);
+      border-bottom: solid 1.5px var(--theme-color);
       margin-right: 10px;
       cursor: pointer; }
     .zcui-wc-date-time-picker .flip-month-page .right-arrow {
-      border-right: solid 1.5px #6b46bc;
-      border-top: solid 1.5px #6b46bc;
+      border-right: solid 1.5px var(--theme-color);
+      border-top: solid 1.5px var(--theme-color);
       margin-left: 10px;
       cursor: pointer; }
     .zcui-wc-date-time-picker .flip-month-page .arrow {
@@ -57,8 +57,8 @@
       height: 8px;
       width: 8px;
       transform: rotate(45deg);
-      border-right: solid 1.5px #6b46bc;
-      border-bottom: solid 1.5px #6b46bc;
+      border-right: solid 1.5px var(--theme-color);
+      border-bottom: solid 1.5px var(--theme-color);
       margin-left: 10px; }
     .zcui-wc-date-time-picker .change-month .month-list, .zcui-wc-date-time-picker .change-month .year-list, .zcui-wc-date-time-picker .change-month .time-list, .zcui-wc-date-time-picker .change-year .month-list, .zcui-wc-date-time-picker .change-year .year-list, .zcui-wc-date-time-picker .change-year .time-list, .zcui-wc-date-time-picker .change-time .month-list, .zcui-wc-date-time-picker .change-time .year-list, .zcui-wc-date-time-picker .change-time .time-list {
       z-index: 1;
@@ -78,7 +78,7 @@
         width: 100%;
         text-align: left; }
         .zcui-wc-date-time-picker .change-month .month-list span:hover, .zcui-wc-date-time-picker .change-month .year-list span:hover, .zcui-wc-date-time-picker .change-month .time-list span:hover, .zcui-wc-date-time-picker .change-year .month-list span:hover, .zcui-wc-date-time-picker .change-year .year-list span:hover, .zcui-wc-date-time-picker .change-year .time-list span:hover, .zcui-wc-date-time-picker .change-time .month-list span:hover, .zcui-wc-date-time-picker .change-time .year-list span:hover, .zcui-wc-date-time-picker .change-time .time-list span:hover {
-          background: #6b46bc;
+          background: var(--theme-color);
           color: #fff; }
     .zcui-wc-date-time-picker .change-month .month-name, .zcui-wc-date-time-picker .change-year .month-name, .zcui-wc-date-time-picker .change-time .month-name {
       width: 70px; }
@@ -98,7 +98,7 @@
         cursor: pointer;
         border: solid 1px #fff; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.selected {
-          background: #6b46bc;
+          background: var(--theme-color);
           color: #fff;
           border-radius: 50%; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell.date-in-range {
@@ -106,7 +106,7 @@
           border-color: #f2f4f7;
           border-radius: 0; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell:hover {
-          border-color: #6b46bc;
+          border-color: var(--theme-color);
           border-radius: 50%; }
       .zcui-wc-date-time-picker .calendar .dates .right-bg-color {
         background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
@@ -136,7 +136,7 @@
       text-align: right;
       font-size: 40px;
       padding: 0 6px;
-      color: #6b46bc; }
+      color: var(--theme-color); }
     .zcui-wc-date-time-picker .summary .mon-year-day {
       width: 105px; }
     .zcui-wc-date-time-picker .summary .title {
@@ -147,7 +147,7 @@
     .zcui-wc-date-time-picker .summary .time-circle {
       height: 20px;
       width: 20px;
-      border: solid 1px #6b46bc;
+      border: solid 1px var(--theme-color);
       border-radius: 50%;
       margin-left: 16px;
       margin-right: 4px; }
@@ -156,8 +156,8 @@
         display: block;
         height: 8px;
         width: 5px;
-        border-left: solid 1px #6b46bc;
-        border-bottom: solid 1px #6b46bc;
+        border-left: solid 1px var(--theme-color);
+        border-bottom: solid 1px var(--theme-color);
         margin: 4px 0 0 8px; }
     .zcui-wc-date-time-picker .summary .change-time {
       height: fit-content;
@@ -179,10 +179,15 @@
   border-radius: 5px;
   background: #fff; }
   .zcui-wc-date-time-picker-display .starts, .zcui-wc-date-time-picker-display .ends {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 10px;
     border-bottom: solid 1px #fff; }
+    .zcui-wc-date-time-picker-display .starts span, .zcui-wc-date-time-picker-display .ends span {
+      padding-right: 5px; }
     .zcui-wc-date-time-picker-display .starts.selected, .zcui-wc-date-time-picker-display .ends.selected {
-      border-color: #6b46bc; }
+      border-color: var(--theme-color); }
 
 .hide {
   display: none; }
@@ -191,7 +196,7 @@
   padding-top: 20px;
   text-align: right; }
   .footer .done {
-    background: #6b46bc;
+    background: var(--theme-color);
     color: #fff;
     padding: 5px 15px;
     border-radius: 6px;

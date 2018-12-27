@@ -10,7 +10,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       'time',
       'ends',
       'default-starts',
-      'default-ends'
+      'default-ends',
+      'theme-color'
     ];
   }
 
@@ -52,6 +53,11 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   get htmlTemplate() {
     return html`
       <style>
+        .zcui-wc-date-time-picker-wrapper {
+          --theme-color: ${this.themeColor};
+        }
+      </style>
+      <style>
         <%- style %>
       </style>
       <%- html %>
@@ -89,6 +95,9 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.canPickEnds = this.getAttribute('ends') == 'true';
     this.startDateTime = defaultStartsProps ? new Date(defaultStartsProps) : new Date();
     this.endDateTime = this.canPickEnds && (defaultEndsProps ? new Date(defaultEndsProps) : new Date(new Date().setDate(this.startDateTime.getDate() + 5)));
+    
+    this.themeColor = this.getAttribute('theme-color') || '#000';
+    
     this._initializeCalendar();
     this._updateCalendarRange();
     this._updateTimeRange();
