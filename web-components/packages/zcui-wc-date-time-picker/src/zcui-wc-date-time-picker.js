@@ -44,6 +44,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.openDateTimePicker = this.openDateTimePicker.bind(this);
     this.submit = this.submit.bind(this);
     this.isSelectedDateIsStarts = this.isSelectedDateIsStarts.bind(this);
+    this.getDateCellWrapperClass = this.getDateCellWrapperClass.bind(this);
+    this.getDateCellClass = this.getDateCellClass.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -185,7 +187,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       }
 
       let dateTimeToChange;
-      if (this.selectingDate == 'starts') {
+      if (this.selectingDate == 'starts' || !this.canPickEnds) {
         dateTimeToChange = this.startDateTime;
       }
       else {
@@ -382,7 +384,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   openDateTimePicker(isShow) {
     return () => {
-      this.showDateTimePicker = isShow;
+      this.showDateTimePicker = true;//isShow;
       this.updateShadowDom();
     }
   }
@@ -405,6 +407,18 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   isSelectedDateIsEnds(date) {
     if (date <= 0) return false;
     return (this.getSelectedDate(date).getTime() == new Date(this.endDateTime).setHours(0, 0, 0, 0));
+  }
+
+  getDateCellWrapperClass(date) {
+    return !this.canPickEnds ? 'date-cell-wrapper' :
+      this.isSelectedDateIsStarts(date) ? 'date-cell-wrapper right-bg-color' : 
+      this.isSelectedDateIsEnds(date) ? 'date-cell-wrapper left-bg-color' : 
+      this.isValidDate(date) && this.isDateInRange(date) ? 'date-cell-wrapper date-in-range' :
+      'date-cell-wrapper'
+  }
+  getDateCellClass(date) {
+    return this.isSelectedDate(date) ? 'selected date-cell' :
+    this.isValidDate(date) ? 'date-cell' : 'date-cell disabled';
   }
 }
 

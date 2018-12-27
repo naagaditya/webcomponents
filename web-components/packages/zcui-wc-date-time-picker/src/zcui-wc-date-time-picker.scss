@@ -112,6 +112,27 @@
     .dates {
       padding: 10px 0;
       font-size: 0;
+      .date-cell-wrapper {
+        display: inline-block;
+        &.date-in-range {
+          background: #f2f4f7;
+          border-color: #f2f4f7;
+          border-radius: 0;
+          .date-cell {
+            border-color: #f2f4f7;
+            &:hover {
+              border-color: var(--theme-color);
+              border-radius: 50%;
+            }
+          }
+        }
+        &.right-bg-color {
+          background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
+        }
+        &.left-bg-color {
+          background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);
+        }
+      }
       .date-cell {
         width: 39px;
         cursor: pointer;
@@ -121,23 +142,10 @@
           color: #fff;
           border-radius: 50%;
         }
-        &.date-in-range {
-          background: #f2f4f7;
-          border-color: #f2f4f7;
-          border-radius: 0;
-        }
         &:hover {
           border-color: var(--theme-color);
           border-radius: 50%;
         }
-      }
-      .right-bg-color {
-        background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
-        display: inline-block;
-      }
-      .left-bg-color {
-        background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);
-        display: inline-block;
       }
     }
   }

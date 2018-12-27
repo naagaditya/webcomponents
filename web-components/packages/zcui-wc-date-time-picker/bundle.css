@@ -93,6 +93,21 @@
     .zcui-wc-date-time-picker .calendar .dates {
       padding: 10px 0;
       font-size: 0; }
+      .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper {
+        display: inline-block; }
+        .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range {
+          background: #f2f4f7;
+          border-color: #f2f4f7;
+          border-radius: 0; }
+          .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range .date-cell {
+            border-color: #f2f4f7; }
+            .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range .date-cell:hover {
+              border-color: var(--theme-color);
+              border-radius: 50%; }
+        .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.right-bg-color {
+          background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%); }
+        .zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.left-bg-color {
+          background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%); }
       .zcui-wc-date-time-picker .calendar .dates .date-cell {
         width: 39px;
         cursor: pointer;
@@ -101,19 +116,9 @@
           background: var(--theme-color);
           color: #fff;
           border-radius: 50%; }
-        .zcui-wc-date-time-picker .calendar .dates .date-cell.date-in-range {
-          background: #f2f4f7;
-          border-color: #f2f4f7;
-          border-radius: 0; }
         .zcui-wc-date-time-picker .calendar .dates .date-cell:hover {
           border-color: var(--theme-color);
           border-radius: 50%; }
-      .zcui-wc-date-time-picker .calendar .dates .right-bg-color {
-        background: linear-gradient(90deg, #fff 50%, #f2f4f7 50%);
-        display: inline-block; }
-      .zcui-wc-date-time-picker .calendar .dates .left-bg-color {
-        background: linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);
-        display: inline-block; }
   .zcui-wc-date-time-picker .divider {
     border-bottom: solid 1.5px #e5e8e9bf; }
   .zcui-wc-date-time-picker .date-cell {
