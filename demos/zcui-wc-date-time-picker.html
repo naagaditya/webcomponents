@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/polyfills/webcomponentsjs/webcomponents-loader.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!-- <script type="module" src="../web-components/packages/zcui-wc-date-time-picker/dist/bundle.min.js"></script> -->
   <script src="https://unpkg.com/@zoomcarindia/zcui-wc-date-time-picker"></script>
+  <!-- <script type="module" src="../web-components/packages/zcui-wc-date-time-picker/dist/bundle.min.js"></script> -->
 </head>
 
 <body>
+  
   <div class="container">
     <h2>Date time picker component button demo</h2>
     <p>The Date time picker contains some props; you can change and play:</p>
@@ -42,6 +43,10 @@
         <label for="default-ends">default-ends</label>
         <input type="datetime-local" name="default-ends">
       </div>
+      <div class="form-group">
+        <label for="theme-color">theme-color</label>
+        <input type="color" name="theme-color">
+      </div>
       <button class="btn btn-primary" onclick="change(event)">Change</button>
     </form>
   </div>
@@ -51,7 +56,8 @@
     <zcui-wc-date-time-picker
       max-date-time="2021-09-19T14:34:47.670Z"
       min-date-time="2017-05-19T14:34:47.670Z"
-      interval-in-min="10" time="true" ends="true" />
+      interval-in-min="10" time="true" ends="true"
+      theme-color="#6b46bc"/>
     <span id="date-time-val" style="margin-left: 50px;">unchecked</span>
     <script>
       const setDateTimeVal = function (event) {
@@ -90,6 +96,7 @@
       const time = document.getElementsByName("time")[0].value;
       const defaultStarts = document.getElementsByName("default-starts")[0].value;
       const defaultEnds = document.getElementsByName("default-ends")[0].value;
+      const themeColor = document.getElementsByName("theme-color")[0].value;
 
 
       dateTimePicker.setAttribute("max-date-time", maxDateTime);
@@ -99,9 +106,10 @@
       dateTimePicker.setAttribute("time", time);
       dateTimePicker.setAttribute("default-starts", defaultStarts);
       dateTimePicker.setAttribute("default-ends", defaultEnds);
+      dateTimePicker.setAttribute("theme-color", themeColor);
 
       document.getElementById('zcui-wc-date-time-picker').innerHTML = `&lt;zcui-wc-date-time-picker max-date-time="${maxDateTime}" min-date-time="${minDateTime}"
-        interval-in-min="${intervalInMin}" time="${time}" ends="${ends}" /&gt;`;
+        interval-in-min="${intervalInMin}" time="${time}" ends="${ends}" default-starts="${defaultStarts}" default-ends="${defaultEnds}" theme-color="${themeColor}" /&gt;`;
     }
     document.getElementsByName("max-date-time")[0].value = dateTimePicker.getAttribute('max-date-time').split('.')[0];
     document.getElementsByName("min-date-time")[0].value = dateTimePicker.getAttribute('min-date-time').split('.')[0];
@@ -110,6 +118,7 @@
     document.getElementsByName("time")[0].value = dateTimePicker.getAttribute('time');
     document.getElementsByName("default-starts")[0].value = dateTimePicker.getAttribute('default-starts') && dateTimePicker.getAttribute('default-starts').split('.')[0];
     document.getElementsByName("default-ends")[0].value = dateTimePicker.getAttribute('default-ends') && dateTimePicker.getAttribute('default-ends').split('.')[0];
+    document.getElementsByName("theme-color")[0].value = dateTimePicker.getAttribute('theme-color');
   </script>
 </body>
 
