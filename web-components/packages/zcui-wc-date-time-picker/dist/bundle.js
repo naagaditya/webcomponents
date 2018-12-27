@@ -44,6 +44,8 @@ class ZcuiWcDateTimePicker extends HTMLElement {
     this.openDateTimePicker = this.openDateTimePicker.bind(this);
     this.submit = this.submit.bind(this);
     this.isSelectedDateIsStarts = this.isSelectedDateIsStarts.bind(this);
+    this.getDateCellWrapperClass = this.getDateCellWrapperClass.bind(this);
+    this.getDateCellClass = this.getDateCellClass.bind(this);
 
     //initialize Calendar
     this.selectingDateFromSummary = null;
@@ -58,7 +60,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
         }
       </style>
       <style>
-        .zcui-wc-date-time-picker-wrapper{width:fit-content;width:-moz-fit-content;outline:none;position:relative}.zcui-wc-date-time-picker{padding:20px;border:solid 1px #cecece;border-radius:5px;margin:auto;min-width:fit-content;min-width:-moz-fit-content;position:absolute;left:0;right:0;border-top:none;background:#fff}.zcui-wc-date-time-picker .d-f{display:flex}.zcui-wc-date-time-picker .fd-c{flex-direction:column}.zcui-wc-date-time-picker .jc-c{justify-content:center}.zcui-wc-date-time-picker .jc-se{justify-content:space-evenly}.zcui-wc-date-time-picker .ai-c{align-items:center}.zcui-wc-date-time-picker .flip-month-page{justify-content:space-around}.zcui-wc-date-time-picker .flip-month-page .left-arrow{border-left:solid 1.5px var(--theme-color);border-bottom:solid 1.5px var(--theme-color);margin-right:10px;cursor:pointer}.zcui-wc-date-time-picker .flip-month-page .right-arrow{border-right:solid 1.5px var(--theme-color);border-top:solid 1.5px var(--theme-color);margin-left:10px;cursor:pointer}.zcui-wc-date-time-picker .flip-month-page .arrow{height:12px;width:12px;transform:rotate(45deg)}.zcui-wc-date-time-picker .flip-month-page .arrow.disabled{pointer-events:none;border-color:#cecece}.zcui-wc-date-time-picker .change-month,.zcui-wc-date-time-picker .change-year,.zcui-wc-date-time-picker .change-time{position:relative;cursor:pointer;border:solid 2px #e5e8e9bf;border-radius:5px;padding:5px 10px;margin:0 7px}.zcui-wc-date-time-picker .change-month .down-arrow,.zcui-wc-date-time-picker .change-year .down-arrow,.zcui-wc-date-time-picker .change-time .down-arrow{margin-top:2px;height:8px;width:8px;transform:rotate(45deg);border-right:solid 1.5px var(--theme-color);border-bottom:solid 1.5px var(--theme-color);margin-left:10px}.zcui-wc-date-time-picker .change-month .month-list,.zcui-wc-date-time-picker .change-month .year-list,.zcui-wc-date-time-picker .change-month .time-list,.zcui-wc-date-time-picker .change-year .month-list,.zcui-wc-date-time-picker .change-year .year-list,.zcui-wc-date-time-picker .change-year .time-list,.zcui-wc-date-time-picker .change-time .month-list,.zcui-wc-date-time-picker .change-time .year-list,.zcui-wc-date-time-picker .change-time .time-list{z-index:1;position:absolute;top:29px;left:0;height:100px;right:0;border:solid 1px #e5e8e9bf;border-top:none;overflow:scroll;padding-top:5px;background:#fff}.zcui-wc-date-time-picker .change-month .month-list span,.zcui-wc-date-time-picker .change-month .year-list span,.zcui-wc-date-time-picker .change-month .time-list span,.zcui-wc-date-time-picker .change-year .month-list span,.zcui-wc-date-time-picker .change-year .year-list span,.zcui-wc-date-time-picker .change-year .time-list span,.zcui-wc-date-time-picker .change-time .month-list span,.zcui-wc-date-time-picker .change-time .year-list span,.zcui-wc-date-time-picker .change-time .time-list span{box-sizing:border-box;padding:5px 10px;width:100%;text-align:left}.zcui-wc-date-time-picker .change-month .month-list span:hover,.zcui-wc-date-time-picker .change-month .year-list span:hover,.zcui-wc-date-time-picker .change-month .time-list span:hover,.zcui-wc-date-time-picker .change-year .month-list span:hover,.zcui-wc-date-time-picker .change-year .year-list span:hover,.zcui-wc-date-time-picker .change-year .time-list span:hover,.zcui-wc-date-time-picker .change-time .month-list span:hover,.zcui-wc-date-time-picker .change-time .year-list span:hover,.zcui-wc-date-time-picker .change-time .time-list span:hover{background:var(--theme-color);color:#fff}.zcui-wc-date-time-picker .change-month .month-name,.zcui-wc-date-time-picker .change-year .month-name,.zcui-wc-date-time-picker .change-time .month-name{width:70px}.zcui-wc-date-time-picker .calendar{margin:auto;font-size:14px;width:288px;color:#94979b}.zcui-wc-date-time-picker .calendar .day-name{padding-top:10px;font-size:0}.zcui-wc-date-time-picker .calendar .dates{padding:10px 0;font-size:0}.zcui-wc-date-time-picker .calendar .dates .date-cell{width:39px;cursor:pointer;border:solid 1px #fff}.zcui-wc-date-time-picker .calendar .dates .date-cell.selected{background:var(--theme-color);color:#fff;border-radius:50%}.zcui-wc-date-time-picker .calendar .dates .date-cell.date-in-range{background:#f2f4f7;border-color:#f2f4f7;border-radius:0}.zcui-wc-date-time-picker .calendar .dates .date-cell:hover{border-color:var(--theme-color);border-radius:50%}.zcui-wc-date-time-picker .calendar .dates .right-bg-color{background:linear-gradient(90deg, #fff 50%, #f2f4f7 50%);display:inline-block}.zcui-wc-date-time-picker .calendar .dates .left-bg-color{background:linear-gradient(-90deg, #fff 50%, #f2f4f7 50%);display:inline-block}.zcui-wc-date-time-picker .divider{border-bottom:solid 1.5px #e5e8e9bf}.zcui-wc-date-time-picker .date-cell{font-size:14px;display:inline-block;width:41px;text-align:center;padding:10px 0}.zcui-wc-date-time-picker .date-cell.disabled{pointer-events:none;color:#cecece}.zcui-wc-date-time-picker .summary{display:flex;align-items:center}.zcui-wc-date-time-picker .summary .from-summary,.zcui-wc-date-time-picker .summary .to-summary{cursor:pointer;padding:10px 0px}.zcui-wc-date-time-picker .summary .date{width:40px;text-align:right;font-size:40px;padding:0 6px;color:var(--theme-color)}.zcui-wc-date-time-picker .summary .mon-year-day{width:105px}.zcui-wc-date-time-picker .summary .title{color:#94979b;font-size:12px}.zcui-wc-date-time-picker .summary .selected-day-name{color:#94979b}.zcui-wc-date-time-picker .summary .time-circle{height:20px;width:20px;border:solid 1px var(--theme-color);border-radius:50%;margin-left:16px;margin-right:4px}.zcui-wc-date-time-picker .summary .time-circle::after{content:'';display:block;height:8px;width:5px;border-left:solid 1px var(--theme-color);border-bottom:solid 1px var(--theme-color);margin:4px 0 0 8px}.zcui-wc-date-time-picker .summary .change-time{height:fit-content;height:-moz-fit-content;padding:8px 10px}.zcui-wc-date-time-picker .summary .change-time .down-arrow{margin-top:0}.zcui-wc-date-time-picker .summary .change-time .time-name{width:65px;font-size:15px}.zcui-wc-date-time-picker-display{display:flex;align-items:center;width:fit-content;width:-moz-fit-content;cursor:pointer;border:solid 2px #e5e8e9bf;border-radius:5px;background:#fff}.zcui-wc-date-time-picker-display .starts,.zcui-wc-date-time-picker-display .ends{display:flex;flex-wrap:wrap;justify-content:center;padding:10px;border-bottom:solid 1px #fff}.zcui-wc-date-time-picker-display .starts span,.zcui-wc-date-time-picker-display .ends span{padding-right:5px}.zcui-wc-date-time-picker-display .starts.selected,.zcui-wc-date-time-picker-display .ends.selected{border-color:var(--theme-color)}.hide{display:none}.footer{padding-top:20px;text-align:right}.footer .done{background:var(--theme-color);color:#fff;padding:5px 15px;border-radius:6px;cursor:pointer}
+        .zcui-wc-date-time-picker-wrapper{width:fit-content;width:-moz-fit-content;outline:none;position:relative}.zcui-wc-date-time-picker{padding:20px;border:solid 1px #cecece;border-radius:5px;margin:auto;min-width:fit-content;min-width:-moz-fit-content;position:absolute;left:0;right:0;border-top:none;background:#fff}.zcui-wc-date-time-picker .d-f{display:flex}.zcui-wc-date-time-picker .fd-c{flex-direction:column}.zcui-wc-date-time-picker .jc-c{justify-content:center}.zcui-wc-date-time-picker .jc-se{justify-content:space-evenly}.zcui-wc-date-time-picker .ai-c{align-items:center}.zcui-wc-date-time-picker .flip-month-page{justify-content:space-around}.zcui-wc-date-time-picker .flip-month-page .left-arrow{border-left:solid 1.5px var(--theme-color);border-bottom:solid 1.5px var(--theme-color);margin-right:10px;cursor:pointer}.zcui-wc-date-time-picker .flip-month-page .right-arrow{border-right:solid 1.5px var(--theme-color);border-top:solid 1.5px var(--theme-color);margin-left:10px;cursor:pointer}.zcui-wc-date-time-picker .flip-month-page .arrow{height:12px;width:12px;transform:rotate(45deg)}.zcui-wc-date-time-picker .flip-month-page .arrow.disabled{pointer-events:none;border-color:#cecece}.zcui-wc-date-time-picker .change-month,.zcui-wc-date-time-picker .change-year,.zcui-wc-date-time-picker .change-time{position:relative;cursor:pointer;border:solid 2px #e5e8e9bf;border-radius:5px;padding:5px 10px;margin:0 7px}.zcui-wc-date-time-picker .change-month .down-arrow,.zcui-wc-date-time-picker .change-year .down-arrow,.zcui-wc-date-time-picker .change-time .down-arrow{margin-top:2px;height:8px;width:8px;transform:rotate(45deg);border-right:solid 1.5px var(--theme-color);border-bottom:solid 1.5px var(--theme-color);margin-left:10px}.zcui-wc-date-time-picker .change-month .month-list,.zcui-wc-date-time-picker .change-month .year-list,.zcui-wc-date-time-picker .change-month .time-list,.zcui-wc-date-time-picker .change-year .month-list,.zcui-wc-date-time-picker .change-year .year-list,.zcui-wc-date-time-picker .change-year .time-list,.zcui-wc-date-time-picker .change-time .month-list,.zcui-wc-date-time-picker .change-time .year-list,.zcui-wc-date-time-picker .change-time .time-list{z-index:1;position:absolute;top:29px;left:0;height:100px;right:0;border:solid 1px #e5e8e9bf;border-top:none;overflow:scroll;padding-top:5px;background:#fff}.zcui-wc-date-time-picker .change-month .month-list span,.zcui-wc-date-time-picker .change-month .year-list span,.zcui-wc-date-time-picker .change-month .time-list span,.zcui-wc-date-time-picker .change-year .month-list span,.zcui-wc-date-time-picker .change-year .year-list span,.zcui-wc-date-time-picker .change-year .time-list span,.zcui-wc-date-time-picker .change-time .month-list span,.zcui-wc-date-time-picker .change-time .year-list span,.zcui-wc-date-time-picker .change-time .time-list span{box-sizing:border-box;padding:5px 10px;width:100%;text-align:left}.zcui-wc-date-time-picker .change-month .month-list span:hover,.zcui-wc-date-time-picker .change-month .year-list span:hover,.zcui-wc-date-time-picker .change-month .time-list span:hover,.zcui-wc-date-time-picker .change-year .month-list span:hover,.zcui-wc-date-time-picker .change-year .year-list span:hover,.zcui-wc-date-time-picker .change-year .time-list span:hover,.zcui-wc-date-time-picker .change-time .month-list span:hover,.zcui-wc-date-time-picker .change-time .year-list span:hover,.zcui-wc-date-time-picker .change-time .time-list span:hover{background:var(--theme-color);color:#fff}.zcui-wc-date-time-picker .change-month .month-name,.zcui-wc-date-time-picker .change-year .month-name,.zcui-wc-date-time-picker .change-time .month-name{width:70px}.zcui-wc-date-time-picker .calendar{margin:auto;font-size:14px;width:288px;color:#94979b}.zcui-wc-date-time-picker .calendar .day-name{padding-top:10px;font-size:0}.zcui-wc-date-time-picker .calendar .dates{padding:10px 0;font-size:0}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper{display:inline-block}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range{background:#f2f4f7;border-color:#f2f4f7;border-radius:0}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range .date-cell{border-color:#f2f4f7}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.date-in-range .date-cell:hover{border-color:var(--theme-color);border-radius:50%}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.right-bg-color{background:linear-gradient(90deg, #fff 50%, #f2f4f7 50%)}.zcui-wc-date-time-picker .calendar .dates .date-cell-wrapper.left-bg-color{background:linear-gradient(-90deg, #fff 50%, #f2f4f7 50%)}.zcui-wc-date-time-picker .calendar .dates .date-cell{width:39px;cursor:pointer;border:solid 1px #fff}.zcui-wc-date-time-picker .calendar .dates .date-cell.selected{background:var(--theme-color);color:#fff;border-radius:50%}.zcui-wc-date-time-picker .calendar .dates .date-cell:hover{border-color:var(--theme-color);border-radius:50%}.zcui-wc-date-time-picker .divider{border-bottom:solid 1.5px #e5e8e9bf}.zcui-wc-date-time-picker .date-cell{font-size:14px;display:inline-block;width:41px;text-align:center;padding:10px 0}.zcui-wc-date-time-picker .date-cell.disabled{pointer-events:none;color:#cecece}.zcui-wc-date-time-picker .summary{display:flex;align-items:center}.zcui-wc-date-time-picker .summary .from-summary,.zcui-wc-date-time-picker .summary .to-summary{cursor:pointer;padding:10px 0px}.zcui-wc-date-time-picker .summary .date{width:40px;text-align:right;font-size:40px;padding:0 6px;color:var(--theme-color)}.zcui-wc-date-time-picker .summary .mon-year-day{width:105px}.zcui-wc-date-time-picker .summary .title{color:#94979b;font-size:12px}.zcui-wc-date-time-picker .summary .selected-day-name{color:#94979b}.zcui-wc-date-time-picker .summary .time-circle{height:20px;width:20px;border:solid 1px var(--theme-color);border-radius:50%;margin-left:16px;margin-right:4px}.zcui-wc-date-time-picker .summary .time-circle::after{content:'';display:block;height:8px;width:5px;border-left:solid 1px var(--theme-color);border-bottom:solid 1px var(--theme-color);margin:4px 0 0 8px}.zcui-wc-date-time-picker .summary .change-time{height:fit-content;height:-moz-fit-content;padding:8px 10px}.zcui-wc-date-time-picker .summary .change-time .down-arrow{margin-top:0}.zcui-wc-date-time-picker .summary .change-time .time-name{width:65px;font-size:15px}.zcui-wc-date-time-picker-display{display:flex;align-items:center;width:fit-content;width:-moz-fit-content;cursor:pointer;border:solid 2px #e5e8e9bf;border-radius:5px;background:#fff}.zcui-wc-date-time-picker-display .starts,.zcui-wc-date-time-picker-display .ends{display:flex;flex-wrap:wrap;justify-content:center;padding:10px;border-bottom:solid 1px #fff}.zcui-wc-date-time-picker-display .starts span,.zcui-wc-date-time-picker-display .ends span{padding-right:5px}.zcui-wc-date-time-picker-display .starts.selected,.zcui-wc-date-time-picker-display .ends.selected{border-color:var(--theme-color)}.hide{display:none}.footer{padding-top:20px;text-align:right}.footer .done{background:var(--theme-color);color:#fff;padding:5px 15px;border-radius:6px;cursor:pointer}
 
       </style>
       <div on-blur=${this.openDateTimePicker(false)} tabindex="0" class="zcui-wc-date-time-picker-wrapper">
@@ -70,19 +72,20 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       <span>${this.calendarWeekDays[this.startDateTime.getDay()].substr(0,3)},</span>
       <span>${this.monthNames[this.startDateTime.getMonth()].substr(0,3)}</span>
       <span>${this.startDateTime.getDate()},</span>
-      <span>${this.startDateTime.getFullYear()},</span>
-      <span class$="${this.canPickTime ? '' : 'hide'}">${this.formatedAMPMTime(this.startDateTime)}</span>
+      <span>${this.startDateTime.getFullYear()}</span>
+      <span class$="${this.canPickTime ? '' : 'hide'}">,${this.formatedAMPMTime(this.startDateTime)}</span>
     </div>
     <div class$="${this.canPickEnds ? '' : 'hide'}">→</div>
-    <div
-      on-click=${this.changeSelectingDate(`ends`)}
-      class$="${this.canPickEnds ? `${this.selectingDateFromSummary == 'ends' ? 'ends selected' : 'ends'}` : 'hide'}">
-      <span>${this.calendarWeekDays[this.endDateTime.getDay()].substr(0,3)},</span>
-      <span>${this.monthNames[this.endDateTime.getMonth()].substr(0,3)}</span>
-      <span>${this.endDateTime.getDate()},</span>
-      <span>${this.endDateTime.getFullYear()},</span>
-      <span class$="${this.canPickTime ? '' : 'hide'}">${this.formatedAMPMTime(this.endDateTime)}</span>
-    </div>
+    ${this.canPickEnds ? html`
+      <div
+        on-click=${this.changeSelectingDate(`ends`)}
+        class$="${this.canPickEnds ? `${this.selectingDateFromSummary == 'ends' ? 'ends selected' : 'ends'}` : 'hide'}">
+        <span>${this.calendarWeekDays[this.endDateTime.getDay()].substr(0,3)},</span>
+        <span>${this.monthNames[this.endDateTime.getMonth()].substr(0,3)}</span>
+        <span>${this.endDateTime.getDate()},</span>
+        <span>${this.endDateTime.getFullYear()}</span>
+        <span class$="${this.canPickTime ? '' : 'hide'}">,${this.formatedAMPMTime(this.endDateTime)}</span>
+      </div>` : ''}
   </div>
   
   
@@ -136,10 +139,11 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   
       <div class="dates">
         ${repeat(Array(this.endDateOfCalendar-this.startDateOfCalendar+1).fill(), (date, i) => html`
-          <span class$="${this.isSelectedDateIsStarts(this.startDateOfCalendar + i) ? 'right-bg-color' : `${this.isSelectedDateIsEnds(this.startDateOfCalendar + i) ? 'left-bg-color' : ''}`}">
+          <span
+            class$="${this.getDateCellWrapperClass(this.startDateOfCalendar+i)}">
             <span
               on-click=${this.selectDate(this.startDateOfCalendar+i)}
-              class$="${this.isSelectedDate(this.startDateOfCalendar + i) ? 'selected date-cell' : `${this.isValidDate(this.startDateOfCalendar + i) ? `${this.isDateInRange(this.startDateOfCalendar + i) ? 'date-cell date-in-range' : 'date-cell'}` : 'date-cell disabled'}`}">
+              class$="${this.getDateCellClass(this.startDateOfCalendar+i)}">
               ${this.startDateOfCalendar+i > 0 ? this.startDateOfCalendar+i : ''}
             </span>
           </span>
@@ -175,33 +179,35 @@ class ZcuiWcDateTimePicker extends HTMLElement {
           </span>
         </div>
       </div>
-      <div
-        class$="${this.canPickEnds ? 'to-summary' : 'hide'}"
-        on-click=${this.changeSelectingDate(`ends`)}>
-        <div class="title">TO</div>
-        <div class="d-f ai-c">
-          <div class="date">${this.endDateTime.getDate()}</div>
-          <div class="d-f fd-c jc-c mon-year-day">
-            <div>
-              <span class="month">${this.monthNames[this.endDateTime.getMonth()]}</span>
-              <span class="year">${this.endDateTime.getFullYear()}</span>
+      ${
+        this.canPickEnds ? html`
+        <div class$="${this.canPickEnds ? 'to-summary' : 'hide'}" on-click=${this.changeSelectingDate(`ends`)}>
+          <div class="title">TO</div>
+          <div class="d-f ai-c">
+            <div class="date">${this.endDateTime.getDate()}</div>
+            <div class="d-f fd-c jc-c mon-year-day">
+              <div>
+                <span class="month">${this.monthNames[this.endDateTime.getMonth()]}</span>
+                <span class="year">${this.endDateTime.getFullYear()}</span>
+              </div>
+              <div class="selected-day-name">${this.calendarWeekDays[this.endDateTime.getDay()]}</div>
             </div>
-            <div class="selected-day-name">${this.calendarWeekDays[this.endDateTime.getDay()]}</div>
+            <div class="time-circle"></div>
+            <span class="change-time d-f">
+              <div class="d-f" on-click=${this.toggleOpenEndTimeList}>
+                <span class="time-name">${this.formatedAMPMTime(this.endDateTime)}</span>
+                <div class="down-arrow"></div>
+              </div>
+              <div class$="${this.openEndTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
+                ${repeat(this.timeRangeVal, time => html`
+                <span on-click=${this.selectTime(`ends`, time)}>${time}</span>
+                `)}
+              </div>
+            </span>
           </div>
-          <div class="time-circle"></div>
-          <span class="change-time d-f">
-            <div class="d-f" on-click=${this.toggleOpenEndTimeList}>
-              <span class="time-name">${this.formatedAMPMTime(this.endDateTime)}</span>
-              <div class="down-arrow"></div>
-            </div>
-            <div class$="${this.openEndTimeList ? 'time-list d-f ai-c fd-c' : 'hide'}">
-              ${repeat(this.timeRangeVal, time => html`
-              <span on-click=${this.selectTime(`ends`, time)}>${time}</span>
-              `)}
-            </div>
-          </span>
         </div>
-      </div>
+        ` : ''
+      }
     </div>
     <div class="divider"></div>
     <div class="footer">
@@ -333,7 +339,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
       }
 
       let dateTimeToChange;
-      if (this.selectingDate == 'starts') {
+      if (this.selectingDate == 'starts' || !this.canPickEnds) {
         dateTimeToChange = this.startDateTime;
       }
       else {
@@ -530,7 +536,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   openDateTimePicker(isShow) {
     return () => {
-      this.showDateTimePicker = isShow;
+      this.showDateTimePicker = true;//isShow;
       this.updateShadowDom();
     }
   }
@@ -553,6 +559,18 @@ class ZcuiWcDateTimePicker extends HTMLElement {
   isSelectedDateIsEnds(date) {
     if (date <= 0) return false;
     return (this.getSelectedDate(date).getTime() == new Date(this.endDateTime).setHours(0, 0, 0, 0));
+  }
+
+  getDateCellWrapperClass(date) {
+    return !this.canPickEnds ? 'date-cell-wrapper' :
+      this.isSelectedDateIsStarts(date) ? 'date-cell-wrapper right-bg-color' : 
+      this.isSelectedDateIsEnds(date) ? 'date-cell-wrapper left-bg-color' : 
+      this.isValidDate(date) && this.isDateInRange(date) ? 'date-cell-wrapper date-in-range' :
+      'date-cell-wrapper'
+  }
+  getDateCellClass(date) {
+    return this.isSelectedDate(date) ? 'selected date-cell' :
+    this.isValidDate(date) ? 'date-cell' : 'date-cell disabled';
   }
 }
 
