@@ -384,7 +384,7 @@ class ZcuiWcDateTimePicker extends HTMLElement {
 
   openDateTimePicker(isShow) {
     return () => {
-      this.showDateTimePicker = true;//isShow;
+      this.showDateTimePicker = isShow;
       this.updateShadowDom();
     }
   }

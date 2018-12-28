@@ -1,6 +1,5 @@
 .zcui-wc-date-time-picker-wrapper {
-  width: fit-content;
-  width: -moz-fit-content;
+  width: 100%;
   outline: none;
   position: relative;
 }
@@ -228,8 +227,7 @@
   display: flex;
   align-items: center;
   // border: solid 1px var(--theme-color);
-  width: fit-content;
-  width: -moz-fit-content;
+  width: 100%;
   cursor: pointer;
   border: solid 2px #e5e8e9bf;
   border-radius: 5px;
