@@ -1,0 +1,101 @@
+<div class="zcui-wc-search-widget main" on-click=${this.onOutSideClick}>
+  <div class="background-overlay"></div>
+  <header>
+    <div class="logo-container">
+      <img alt="logo" src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/logo.svg" class="logo"/>
+    </div>
+    <i class="title">
+       Enjoy Self Drive Cars Starting <b>Rs 60/Hr*</b>
+    </i>
+    
+  </header>
+  <div class$="${this.apiErrorMsg.length ? 'error-msg' : 'hide'}">${this.apiErrorMsg}</div>
+  <div class="search-input">
+    <div class="location-selection">
+      <div class="input-wrapper">
+          <label>Pick-up & Drop-off location</label>
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <div class="input city">
+              <span>
+                ${this.searchParams.cityName ? this.searchParams.cityName : 'Select City'}
+              </span>
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/arrow.svg" alt="">
+              <select on-change=${this.changeCity}>
+                <option class$="${this.cities.length ? 'hide' : ''}">Please wait</option>
+                  ${repeat( this.cities,
+                  city => html`
+                  <option selected="${city.link_name==this.searchParams.cityLinkName ? 'selected' : ''}" value="${city.link_name}">${city.name}</option>
+                ` )}
+              </select>
+            </div>
+            <div class="input area">
+              <img src="https://s3.ap-south-1.amazonaws.com/zcui-web-components/images/location.svg" alt="">
+              <input class="area-text-input" type="text" placeholder="Area" on-click=${this.filterLocations} on-keyup=${this.filterLocations} value=${this.searchParams.locationName}>
+              <div class$="${this.filteredLocation.length ? 'location-list' : 'hide'}">
+                ${repeat(this.filteredLocation, loc => html`
+                  <div on-click=${e => {this.changeLocation(loc)}}>${loc.name}</div>
+                `)}
+              </div>
+            </div>
+          </div>
+          
+          <div class$="${this.pickupErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+            ${this.errorMessages[this.selectedErrorMessage].message}
+          </div>
+        </div>
+    </div>
+
+    <div class="date-time">
+      <div class="input-wrapper">
+        <label class="date-label">Start Date & Time</label>
+        <div 
+        on-click=${this.toggleStartCalender}
+        class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}" >
+          <p class="datetime"> ${this.formatDate(this.startDate)} - ${this.formatTime(this.startTime)} </p>
+        </div>
+        <zc-calendar
+        class$="${this.isStartCalenderVisible ? 'zc-calendar' : 'zc-calender hide'}"
+        id="start-calendar"
+        visible-months="6" 
+        min-time="00:00"
+        max-time="23:30"
+        selected-date$='${this.startDate}'
+        selected-time$='${this.startTime}'
+        min-date$="${this._defaultStartDate}"
+        max-date="10/15/2019"
+        on-datetime-change=${(data) => this.handleStartDateTimeChange(data)}
+        ></zc-calendar>
+        <div class$="${this.startsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">
+          ${this.errorMessages[this.selectedErrorMessage].message}
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label class="date-label">End Date & Time</label>
+        <div
+        on-click=${this.toggleEndCalender}
+        class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'input-box error-border' : 'input-box'}">
+            <p class="datetime"> ${this.formatDate(this.endDate)} - ${this.formatTime(this.endTime)} </p>
+        </div>
+        <zc-calendar
+        class$="${this.isEndCalenderVisible ? 'zc-calendar' : 'zc-calendar hide'}"
+        id="end-calendar"
+        visible-months="6" 
+        min-time$="00:00" 
+        max-time="23:30"
+        selected-date$="${this.endDate}"
+        selected-time$="${this.endTime}"
+        min-date$="${this.startDate}"
+        max-date="10/15/2019"
+        on-datetime-change=${(data) => this.handleEndDateTimeChange(data)}
+        ></zc-calendar>
+        <div class$="${this.endsErrors.includes(this.selectedErrorMessage) ? 'error' : 'hide'}">${this.errorMessages[this.selectedErrorMessage].message}</div>
+      </div>
+    </div>
+    <div class="search-car-button">
+      <label for="" ></label>
+      <div class="input-box button"><button on-click=${this.searchCar}> Search Cars</button></div>
+    </div>
+    
+  </div>
+</div>

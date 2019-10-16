@@ -1,0 +1,53 @@
+{
+  "name": "@zoomcarindia/zcui-wc-calendar",
+  "version": "0.0.4",
+  "description": "zoomcar search calendar component",
+  "main": "dist/bundle-datetime-picker.min.js",
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ejs,js,scss",
+      "ignore": "./dist/*.js",
+      "quiet": false
+    }
+  },
+  "unpkg": "dist/bundle-datetime-picker.min.js",
+  "files": [
+    "/dist/"
+  ],
+  "keywords": [],
+  "author": "Aditya Naag",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-babel": "babel index.js --watch -o dist/bundle.js",
+    "watch-rollup": "rollup -c -w",
+    "build": "node ./build.js && rollup -c",
+    "watch": "npm-watch"
+  },
+  "dependencies": {
+    "babel-plugin-transform-custom-element-classes": "^0.1.0",
+    "ejs": "^2.6.1",
+    "lit-html": "^0.11.4",
+    "node-sass": "^4.9.2",
+    "npm-watch": "^0.4.0",
+    "rollup": "^0.66.2",
+    "rollup-plugin-multi-entry": "^2.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "http-server": "^0.11.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-babel-runtime-external": "^2.0.0",
+    "rollup-plugin-livereload": "^0.6.0",
+    "rollup-plugin-serve": "^0.6.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  }
+}

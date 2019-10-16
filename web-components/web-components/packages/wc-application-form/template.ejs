@@ -1,0 +1,109 @@
+
+<div class="overlay" on-drop=${this.fileChange} on-dragover=${(e) => { e.preventDefault(); }}>
+  <div class$="${this.openSuccess ? 'success-modal' : 'hide'}">
+    <header>
+      <div class="icon">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 496.158 496.158" style="enable-background:new 0 0 496.158 496.158;" xml:space="preserve">
+          <path style="fill:#32BEA6;" d="M496.158,248.085c0-137.021-111.07-248.082-248.076-248.082C111.07,0.003,0,111.063,0,248.085
+        	c0,137.002,111.07,248.07,248.082,248.07C385.088,496.155,496.158,385.087,496.158,248.085z" />
+          <path style="fill:#FFFFFF;" d="M384.673,164.968c-5.84-15.059-17.74-12.682-30.635-10.127c-7.701,1.605-41.953,11.631-96.148,68.777
+        	c-22.49,23.717-37.326,42.625-47.094,57.045c-5.967-7.326-12.803-15.164-19.982-22.346c-22.078-22.072-46.699-37.23-47.734-37.867
+        	c-10.332-6.316-23.82-3.066-30.154,7.258c-6.326,10.324-3.086,23.834,7.23,30.174c0.211,0.133,21.354,13.205,39.619,31.475
+        	c18.627,18.629,35.504,43.822,35.67,44.066c4.109,6.178,11.008,9.783,18.266,9.783c1.246,0,2.504-0.105,3.756-0.322
+        	c8.566-1.488,15.447-7.893,17.545-16.332c0.053-0.203,8.756-24.256,54.73-72.727c37.029-39.053,61.723-51.465,70.279-54.908
+        	c0.082-0.014,0.141-0.02,0.252-0.043c-0.041,0.01,0.277-0.137,0.793-0.369c1.469-0.551,2.256-0.762,2.301-0.773
+        	c-0.422,0.105-0.641,0.131-0.641,0.131l-0.014-0.076c3.959-1.727,11.371-4.916,11.533-4.984
+        	C385.405,188.218,389.034,176.214,384.673,164.968z" />
+          <g>
+        </svg>
+      </div>
+       Awesome!
+    </header>
+    <div class="modal-body">
+      You have successfully applied for ${this.role} role.
+    </div>
+    <button on-click=${this.success}>OK</button>
+  </div>
+  <div class$="${this.openSuccess ? 'hide' : 'application-form'}">
+    <header class="flex-box">
+      APPLY FOR
+      <span class="close-btn" on-click=${this.close}>&times;</span>
+    </header>
+    <div class="title">${this.role}</div>
+    <div class="basic-details flex-box">
+      <span
+        class$="${this.errorResponseMsg ? '' : 'hide'}"
+        style="color: #f0506e;padding: 10px 30px;">
+        ${this.errorResponseMsg}
+      </span>
+      <div
+        style="width:100%;"
+        class$="${this.invalidName && this.animateFeilds ? 'animated pulse' : ''}">
+        <label class$="${this.invalidName ? 'invalid-label feild-container' : 'feild-container'}">
+          <input
+            class$="${this.invalidName ? 'invalid-field' : ''}"
+            class="name"
+            type="text"
+            required
+            on-input=${this.changeName}>
+          <span class="placeholder">NAME</span>
+        </label>
+      </div>
+      <div
+        style="width:100%;"
+        class$="${this.invalidEmail && this.animateFeilds ? 'animated pulse' : ''}">
+        <label class$="${this.invalidEmail ? 'invalid-label feild-container' : 'feild-container'}">
+          <input
+            class$="${this.invalidEmail ? 'invalid-field' : ''}"
+            class="email"
+            type="text"
+            required
+            on-input=${this.changeEmail}>
+          <span class="placeholder">EMAIL</span>
+        </label>
+      </div>
+      <div
+        style="width:100%;"
+        class$="${this.invalidPhone && this.animateFeilds ? 'animated pulse' : ''}">
+        <label class$="${this.invalidPhone ? 'invalid-label feild-container' : 'feild-container'}">
+          <input
+            class$="${this.invalidPhone ? 'invalid-field' : ''}"
+            class="phone"
+            type="text"
+            required
+            on-input=${this.changePhone}>
+          <span class="placeholder">PHONE</span>
+        </label>
+      </div>
+
+    </div>
+    <div class="file-container flex-box" on-click=${e => { e.currentTarget.firstElementChild.click();}}>
+      <input class="file" type="file" on-change=${this.fileChange}>
+      <div class$="${this.invalidFile && this.animateFeilds ? 'animated big-pulse' : ''}">
+        <svg class$="${this.invalidFile ? 'invalid-file-svg' : 'file-svg'}" height="63px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 333.324 333.324" style="enable-background:new 0 0 333.324 333.324;" xml:space="preserve">
+          <g>
+            <path d="M125.255,59.513l33.907-33.907v149.451c0,4.143,3.358,7.5,7.5,7.5s7.5-3.357,7.5-7.5V25.606
+              l33.907,33.907c1.464,1.464,3.384,2.196,5.303,2.196s3.839-0.732,5.303-2.196c2.929-2.93,2.929-7.678,0-10.607l-46.71-46.71
+              c-2.929-2.928-7.678-2.928-10.606,0l-46.71,46.71c-2.929,2.93-2.929,7.678,0,10.607C117.577,62.441,122.326,62.441,125.255,59.513z
+              " />
+            <path d="M263.328,87.557h-61.645c-4.142,0-7.5,3.357-7.5,7.5s3.358,7.5,7.5,7.5h54.145v215.767H77.495
+              V102.557h54.145c4.142,0,7.5-3.357,7.5-7.5s-3.358-7.5-7.5-7.5H69.995c-4.142,0-7.5,3.357-7.5,7.5v230.767
+              c0,4.143,3.358,7.5,7.5,7.5h193.333c4.142,0,7.5-3.357,7.5-7.5V95.057C270.828,90.915,267.47,87.557,263.328,87.557z" />
+          </g>
+        </svg>
+      </div>
+      <div class="file-upload-msg">
+        ${this.fileName
+          ? html `<p>${this.fileName}</p><p>Change File</p>`
+          : html `<p>Drag and drop your cv here or browse for a document to upload</p>`
+        }
+      </div>
+    </div>
+    <button on-click=${this.apply}>APPLY</button>
+    <div class$="${this.openLoader ? 'loader' : 'hide'}">
+      <wc-loader height="200px" width="200px" circle-radius="10" color="#cecece" distance="30"></wc-loader>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+{
+  "name": "webcomponent-docs",
+  "version": "1.0.0",
+  "description": "demo and docs for webcomponent",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --history-api-fallback",
+    "prod": "webpack --mode production"
+  },
+  "author": "Aditya Naag",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naagaditya/webcomponents.git"
+  },
+  "bugs": {
+    "url": "https://github.com/naagaditya/webcomponents/issues"
+  },
+  "homepage": "https://github.com/naagaditya/webcomponents#readme",
+  "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.3.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.2.3"
+  }
+}

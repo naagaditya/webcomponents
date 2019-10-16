@@ -1,0 +1,15 @@
+{
+  "name": "@zoomcarindia/wc-loader",
+  "version": "1.0.6",
+  "description": "loader",
+  "unpkg": "wc-loader.js",
+  "files": [
+    "/"
+  ],
+  "keywords": [],
+  "author": "Adity Naag",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

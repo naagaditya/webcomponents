@@ -1,0 +1,72 @@
+.cal-wrapper {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    z-index: 2;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px #888;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    width: 93%;
+    height: 325px;
+    max-width: 340px;
+    min-width: 270px;
+    .date-wrapper {
+        width: 75%;
+        display: inline-block;
+        overflow-y: scroll;
+        height: 325px;
+        scroll-behavior: smooth;
+    }
+    .done{
+    position: absolute;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 500;
+    top: 10px;
+    margin: 0;
+    margin-top: 6px;
+    color: #6fbe45;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    padding:0;
+    width: 22%;
+    background: transparent;
+    }
+    .time-wrapper {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        height: 260px;
+        margin-top: 60px;
+        overflow-y: scroll;
+        width: 23%;
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 360px) {
+    .cal-wrapper {
+        width: 120%;
+        .date-wrapper {
+            width: 70%;
+        }
+    }   
+}
+@media screen and (min-width: 360px) and (max-width: 425px) {
+    .cal-wrapper {
+    width: 93.5%;
+    .date-wrapper {
+        width: 75%;
+    }
+    .done{
+        width: 23%;
+        text-align: center;
+        background: transparent;
+    }
+    .time-wrapper {
+        width: 23%;
+        font-size: 14px;
+    }
+  }
+}

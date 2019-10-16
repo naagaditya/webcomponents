@@ -1,0 +1,76 @@
+.month{
+    width:100%;
+    user-select: none;
+    h2 {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: #2e2e2e;
+    }
+    .month-grid {
+        padding: 10px;
+        border-right: 1px solid #ccc;
+    }
+    .weekdays-container{
+        .weekdays{
+            .weekday{
+                line-height: 32px;
+                width: 14.2%;
+                height: 35px;
+                text-align: center;
+                display: inline-block;
+            }
+        }
+    }
+    .days-containers{
+        .day{
+            // background-color: antiquewhite;
+            // width: 32px;
+            width: 12.2%;
+            height:27px;
+            line-height: 27px;
+            display: inline-block;
+            text-align:center;
+            transition: 0.2s;
+            &:hover{
+                color: white;
+                transition: 0.2s;
+                background: #B4D3A2;
+                cursor: pointer;
+                border-radius: 50px;
+            }
+            &.selected{
+                color: white;
+                transition: 0.2s;
+                background: #B4D3A2;
+                cursor: pointer;
+                border-radius: 50px;            
+            }
+            &.disabled{
+                color: #b9b9b9;
+                font-weight: 300;
+                cursor:not-allowed;
+                &:hover{
+                    background:white;
+                    color: #b9b9b9;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .month {
+    width: 100%;
+    .month-grid {
+      padding: 0;
+    }
+    .days-containers .day {
+        height: 30px;
+        line-height: 29px;
+    }
+    .weekdays-container .weekdays .weekday {
+      height: 31px;
+    }
+  }
+}

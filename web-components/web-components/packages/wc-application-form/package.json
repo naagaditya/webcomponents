@@ -1,0 +1,24 @@
+{
+  "name": "@zoomcarindia/wc-application-form",
+  "version": "1.0.11",
+  "description": "",
+  "main": "wc-aplication-form.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./build.js"
+  },
+  "unpkg": "dist/bundle.js",
+  "files": [
+    "/dist/"
+  ],
+  "keywords": [],
+  "author": "Aditya Naag",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "node-sass": "^4.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
